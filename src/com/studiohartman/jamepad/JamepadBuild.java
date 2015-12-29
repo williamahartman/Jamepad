@@ -19,10 +19,10 @@ public class JamepadBuild {
 				win32, win64, lin32, lin64, mac32, mac64);
 		BuildExecutor.executeAnt("jni/build-windows32.xml", "-v -Dhas-compiler=true clean postcompile");
 		BuildExecutor.executeAnt("jni/build-windows64.xml", "-v -Dhas-compiler=true clean postcompile");
-//		BuildExecutor.executeAnt("jni/build-linux32.xml", "-v -Dhas-compiler=true clean postcompile");
-//		BuildExecutor.executeAnt("jni/build-linux64.xml", "-v -Dhas-compiler=true clean postcompile");
-//		BuildExecutor.executeAnt("jni/build-macosx32.xml", "-v -Dhas-compiler=true  clean postcompile");
-//		BuildExecutor.executeAnt("jni/build-macosx64.xml", "-v -Dhas-compiler=true  clean postcompile");
+		BuildExecutor.executeAnt("jni/build-linux32.xml", "-v -Dhas-compiler=true clean postcompile");
+		BuildExecutor.executeAnt("jni/build-linux64.xml", "-v -Dhas-compiler=true clean postcompile");
+		BuildExecutor.executeAnt("jni/build-macosx32.xml", "-v -Dhas-compiler=true  clean postcompile");
+		BuildExecutor.executeAnt("jni/build-macosx64.xml", "-v -Dhas-compiler=true  clean postcompile");
 		BuildExecutor.executeAnt("jni/build.xml", "-v pack-natives");
 	}
 }
