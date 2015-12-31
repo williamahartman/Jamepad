@@ -8,7 +8,7 @@ public class Main {
     */
 
     public static void main (String[] args) throws Exception {
-        //JamepadBuild.main(new String[0]);
+        JamepadBuild.main(new String[0]);
 
         new JniGenSharedLibraryLoader("libs/jamepad-natives.jar");
         new JniGenSharedLibraryLoader().load("jamepad");
