@@ -11,3 +11,24 @@ Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](http
 
         ./configure --disable-audio --disable-video --disable-render --disable-power --disable-filesystem --disable-file --disable-loadso --disable-cpuinfo
 I'm sure there's a nice way I could work this into the build scripts, but I haven't figured that out yet.
+
+- On Linux, dependencies are:
+  - libdbus
+  - libibus
+  - libevdev
+  - libudev
+
+#### Building Jamepad on Ubuntu
+The following packages are needed:
+
+        build-essentials 
+        libc6-i386 
+        libc6-dev-i386 
+        g++-multilib
+        g++-mingw-w64-i686 
+        g++-mingw-w64-x86-64
+        ant
+       
+If you've build C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all: 
+        
+        sudo apt-get isntall build-essentials libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64 ant
