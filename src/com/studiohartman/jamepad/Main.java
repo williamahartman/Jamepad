@@ -22,9 +22,6 @@ public class Main {
     */
 
     public static void main (String[] args) throws Exception {
-        JamepadBuild.main(new String[0]);
-
-        new JniGenSharedLibraryLoader("libs/jamepad-natives.jar");
         new JniGenSharedLibraryLoader().load("jamepad");
 
         System.out.println("Basic test JNI Test: " + add(1, 2));

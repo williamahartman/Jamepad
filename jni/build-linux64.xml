@@ -20,20 +20,20 @@
 	<fileset id="gcc-files" dir="./">
 		<exclude name="target/"/>		
 				<include name="memcpy_wrap.c"/>
-		<include name="*"/>
-		<include name="SDL2-2.0.4/src/*"/>
-		<include name="SDL2-2.0.4/src/atomic/*"/>
-		<include name="SDL2-2.0.4/src/core/linux/*"/>
-		<include name="SDL2-2.0.4/src/events/*"/>
-		<include name="SDL2-2.0.4/src/haptic/*"/>
-		<include name="SDL2-2.0.4/src/haptic/linux/*"/>
-		<include name="SDL2-2.0.4/src/joystick/*"/>
-		<include name="SDL2-2.0.4/src/joystick/linux/*"/>
-		<include name="SDL2-2.0.4/src/stdlib/*"/>
-		<include name="SDL2-2.0.4/src/thread/*"/>
-		<include name="SDL2-2.0.4/src/thread/pthread/*"/>
-		<include name="SDL2-2.0.4/src/timer/*"/>
-		<include name="SDL2-2.0.4/src/timer/unix/*"/>
+		<include name="*.*"/>
+		<include name="SDL2-2.0.4/src/*.*"/>
+		<include name="SDL2-2.0.4/src/atomic/*.*"/>
+		<include name="SDL2-2.0.4/src/events/*.*"/>
+		<include name="SDL2-2.0.4/src/haptic/*.*"/>
+		<include name="SDL2-2.0.4/src/joystick/*.*"/>
+		<include name="SDL2-2.0.4/src/stdlib/*.*"/>
+		<include name="SDL2-2.0.4/src/thread/*.*"/>
+		<include name="SDL2-2.0.4/src/timer/*.*"/>
+		<include name="SDL2-2.0.4/src/core/linux/*.*"/>
+		<include name="SDL2-2.0.4/src/haptic/linux/*.*"/>
+		<include name="SDL2-2.0.4/src/joystick/linux/*.*"/>
+		<include name="SDL2-2.0.4/src/thread/pthread/*.*"/>
+		<include name="SDL2-2.0.4/src/timer/unix/*.*"/>
 
 		
 	</fileset>
@@ -107,6 +107,7 @@
 			<arg value="-I."/>
 						<arg value="-Iinclude"/>
 			<arg value="-ISDL2-2.0.4/include"/>
+			<arg value="-ISDL2-2.0.4/src"/>
 
 			<srcfile/>
 			<arg value="-o"/>
@@ -124,6 +125,7 @@
 			<arg value="-I."/>
 						<arg value="-Iinclude"/>
 			<arg value="-ISDL2-2.0.4/include"/>
+			<arg value="-ISDL2-2.0.4/src"/>
 
 			<srcfile/>
 			<arg value="-o"/>
