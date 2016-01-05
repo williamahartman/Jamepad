@@ -16,11 +16,24 @@
 	
 	<!-- define gcc compiler, options and files to compile -->
 	<property name="gcc" value="${compilerPrefix}gcc${compilerSuffix}"/>	
-	<property name="gcc-opts" value="-c -Wall -O2 -mfpmath=sse -msse -fmessage-length=0 -m64 -fPIC"/>
+	<property name="gcc-opts" value="-c -Wall -O2 -mfpmath=sse -msse -fmessage-length=0 -m64 -fPIC -DUSING_GENERATED_CONFIG_H"/>
 	<fileset id="gcc-files" dir="./">
 		<exclude name="target/"/>		
 				<include name="memcpy_wrap.c"/>
-		<include name="**/*.c"/>
+		<include name="*"/>
+		<include name="SDL2-2.0.4/src/*"/>
+		<include name="SDL2-2.0.4/src/atomic/*"/>
+		<include name="SDL2-2.0.4/src/core/linux/*"/>
+		<include name="SDL2-2.0.4/src/events/*"/>
+		<include name="SDL2-2.0.4/src/haptic/*"/>
+		<include name="SDL2-2.0.4/src/haptic/linux/*"/>
+		<include name="SDL2-2.0.4/src/joystick/*"/>
+		<include name="SDL2-2.0.4/src/joystick/linux/*"/>
+		<include name="SDL2-2.0.4/src/stdlib/*"/>
+		<include name="SDL2-2.0.4/src/thread/*"/>
+		<include name="SDL2-2.0.4/src/thread/pthread/*"/>
+		<include name="SDL2-2.0.4/src/timer/*"/>
+		<include name="SDL2-2.0.4/src/timer/unix/*"/>
 
 		
 	</fileset>
@@ -32,13 +45,14 @@
 		<exclude name="target/"/>
 				<include name="**/*.cpp"/>
 
-		
+				<exclude name="SDL2-2.0.4/**/*.cpp"/>
+
 	</fileset>
 
 	<!-- define linker and options -->
 	<property name="linker" value="${compilerPrefix}g++${compilerSuffix}"/>
 	<property name="linker-opts" value="-shared -m64 -Wl,-wrap,memcpy"/>
-	<property name="libraries" value=""/>
+	<property name="libraries" value="-lm -ldl -lpthread -lrt"/>
 	
 	<!-- cleans the build directory, removes all object files and shared libs -->
 	<target name="clean">
@@ -91,7 +105,9 @@
 			<arg value="-Ijni-headers"/>
 			<arg value="-Ijni-headers/${jniPlatform}"/>
 			<arg value="-I."/>
-			
+						<arg value="-Iinclude"/>
+			<arg value="-ISDL2-2.0.4/include"/>
+
 			<srcfile/>
 			<arg value="-o"/>
 			<targetfile/>
@@ -106,7 +122,9 @@
 			<arg value="-Ijni-headers"/>
 			<arg value="-Ijni-headers/${jniPlatform}"/>
 			<arg value="-I."/>
-			
+						<arg value="-Iinclude"/>
+			<arg value="-ISDL2-2.0.4/include"/>
+
 			<srcfile/>
 			<arg value="-o"/>
 			<targetfile/>

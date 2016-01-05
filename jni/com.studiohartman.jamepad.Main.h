@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jint JNICALL Java_com_studiohartman_jamepad_Main_add
   (JNIEnv *, jclass, jint, jint);
 
+/*
+ * Class:     com_studiohartman_jamepad_Main
+ * Method:    getNumRollers
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_com_studiohartman_jamepad_Main_getNumRollers
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif
