@@ -24,6 +24,7 @@
 		<include name="SDL2-2.0.4/src/*.*"/>
 		<include name="SDL2-2.0.4/src/atomic/*.*"/>
 		<include name="SDL2-2.0.4/src/events/*.*"/>
+		<include name="SDL2-2.0.4/src/file/*.*"/>
 		<include name="SDL2-2.0.4/src/haptic/*.*"/>
 		<include name="SDL2-2.0.4/src/joystick/*.*"/>
 		<include name="SDL2-2.0.4/src/stdlib/*.*"/>

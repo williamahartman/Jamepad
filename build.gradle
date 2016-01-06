@@ -2,7 +2,7 @@ apply plugin: "java"
 
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = [ ]
+sourceSets.main.resources.srcDirs = [ "res/" ]
 sourceSets.test.java.srcDirs = [ ]
 sourceSets.test.resources.srcDirs = [ ]
 
@@ -12,8 +12,6 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    }
-    dependencies {
     }
 }
 

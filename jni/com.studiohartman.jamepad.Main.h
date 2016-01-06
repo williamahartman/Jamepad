@@ -9,11 +9,11 @@ extern "C" {
 #endif
 /*
  * Class:     com_studiohartman_jamepad_Main
- * Method:    add
- * Signature: (II)I
+ * Method:    nativeInitSDLGamepad
+ * Signature: (Ljava/lang/String;)Z
  */
-JNIEXPORT jint JNICALL Java_com_studiohartman_jamepad_Main_add
-  (JNIEnv *, jclass, jint, jint);
+JNIEXPORT jboolean JNICALL Java_com_studiohartman_jamepad_Main_nativeInitSDLGamepad
+  (JNIEnv *, jclass, jstring);
 
 /*
  * Class:     com_studiohartman_jamepad_Main

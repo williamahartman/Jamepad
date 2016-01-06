@@ -16,7 +16,7 @@ public class JamepadBuild {
         PRE BUILD:
 
         run:
-        ./configure --disable-audio --disable-video --disable-render --disable-power --disable-filesystem --disable-file --disable-loadso --disable-cpuinfo
+        ./configure --disable-audio --disable-video --disable-render --disable-power --disable-filesystem --disable-loadso --disable-cpuinfo
          */
 
         //Listing needed source files for each platform
@@ -25,6 +25,7 @@ public class JamepadBuild {
                 "SDL2-2.0.4/src/*.*",
                 "SDL2-2.0.4/src/atomic/*.*",
                 "SDL2-2.0.4/src/events/*.*",
+                "SDL2-2.0.4/src/file/*.*",
                 "SDL2-2.0.4/src/haptic/*.*",
                 "SDL2-2.0.4/src/joystick/*.*",
                 "SDL2-2.0.4/src/stdlib/*.*",

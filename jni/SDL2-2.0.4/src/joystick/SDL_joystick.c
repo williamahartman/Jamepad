@@ -642,6 +642,9 @@ SDL_PrivateJoystickButton(SDL_Joystick * joystick, Uint8 button, Uint8 state)
         return 0;
     }
 
+    /* Update internal joystick state */
+    joystick->buttons[button] = state;
+
     /* We ignore events if we don't have keyboard focus, except for button
      * release. */
     if (SDL_PrivateJoystickShouldIgnoreEvent()) {
@@ -649,9 +652,6 @@ SDL_PrivateJoystickButton(SDL_Joystick * joystick, Uint8 button, Uint8 state)
             return 0;
         }
     }
-
-    /* Update internal joystick state */
-    joystick->buttons[button] = state;
 
     /* Post the event, if desired */
     posted = 0;

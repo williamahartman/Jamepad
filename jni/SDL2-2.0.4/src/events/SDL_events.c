@@ -394,12 +394,12 @@ SDL_FlushEvents(Uint32 minType, Uint32 maxType)
 void
 SDL_PumpEvents(void)
 {
-    SDL_VideoDevice *_this = SDL_GetVideoDevice();
-
-    /* Get events from the video subsystem */
-    if (_this) {
-        _this->PumpEvents(_this);
-    }
+//    SDL_VideoDevice *_this = SDL_GetVideoDevice();
+//
+//    /* Get events from the video subsystem */
+//    if (_this) {
+//        _this->PumpEvents(_this);
+//    }
 #if !SDL_JOYSTICK_DISABLED
     /* Check for joystick state change */
     if ((!SDL_disabled_events[SDL_JOYAXISMOTION >> 8] || SDL_JoystickEventState(SDL_QUERY))) {
