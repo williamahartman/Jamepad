@@ -44,7 +44,7 @@ task run(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
 }
 
-task dist(type: Jar) {
+task dist(dependsOn: classes, type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
@@ -53,8 +53,6 @@ task dist(type: Jar) {
         attributes 'Main-Class': project.mainClassName
     }
 }
-
-dist.dependsOn classes
 
 tasks.eclipse.doLast {
     delete ".project"
