@@ -1,7 +1,7 @@
 # Jamepad
 #### A better way to use gamepads in Java
 
-Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). When this library sucks less, its gonna use [this](https://github.com/gabomdq/SDL_GameControllerDB) database of gamepad mappings.
+Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
 #### Stuff You Should Know About Jamepad
 
@@ -9,7 +9,7 @@ Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](http
 
 - Before you run the build method, run this in the directory with the right executable:
 
-        ./configure --disable-audio --disable-video --disable-render --disable-power --disable-filesystem --disable-file --disable-loadso --disable-cpuinfo
+        ./configure --disable-audio --disable-video --disable-render --disable-power --disable-filesystem --disable-loadso --disable-cpuinfo
 I'm sure there's a nice way I could work this into the build scripts, but I haven't figured that out yet.
 
 - On Linux, dependencies are:
@@ -18,7 +18,7 @@ I'm sure there's a nice way I could work this into the build scripts, but I have
   - libevdev
   - libudev
 
-#### Building Jamepad on Ubuntu
+#### Building Jamepad on Linux
 The following packages are needed:
 
         build-essentials 
@@ -29,6 +29,6 @@ The following packages are needed:
         g++-mingw-w64-x86-64
         ant
        
-If you've build C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all: 
+If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. Something like this if you're on Ubuntu or Debian or whatever: 
         
         sudo apt-get isntall build-essentials libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64 ant
