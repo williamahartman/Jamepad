@@ -7,7 +7,7 @@ Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](http
 
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work right with JNI with it.
 
-- Before you run the build method, run this in the directory with the right executable:
+- Before you run the build method, run this in the directory with the right executable (jni/SDL2-2.0.4):
 
         ./configure --disable-audio --disable-video --disable-render --disable-power --disable-filesystem --disable-loadso --disable-cpuinfo
 I'm sure there's a nice way I could work this into the build scripts, but I haven't figured that out yet.
@@ -19,15 +19,17 @@ I'm sure there's a nice way I could work this into the build scripts, but I have
   - libudev
 
 #### Building Jamepad on Linux
-The following packages are needed:
+The following packages (or equivalents) are needed:
 
+        gradle
+        ant
         build-essentials 
         libc6-i386 
         libc6-dev-i386 
         g++-multilib
         g++-mingw-w64-i686 
         g++-mingw-w64-x86-64
-        ant
+        
        
 If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. Something like this if you're on Ubuntu or Debian or whatever: 
         
