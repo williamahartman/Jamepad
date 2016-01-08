@@ -1,24 +1,31 @@
 package com.studiohartman.jamepad;
 
 /**
- * Created by will on 1/7/16.
+ * This is an enumerated type for controller buttons.
+ *
+ * Things are a bit gross here because it needs to correspond with the
+ * enum SDL_GameControllerButton in SDL_gamecontroller.h.
+ *
+ * We skip the invalid button one and the max one (Who would ever want to check those anyway?).
+ * This means that we start with an index 0 instead of -1, so that's nice at least.
+ *
+ * Make sure that the indices of the included buttons matches with the values in the
+ * enum in native code. (i.e. that A is 0 in both, B is 1 in both, etc.).
  */
 public enum ControllerButton {
-    BUTTON_INVALID,
-    BUTTON_A,
-    BUTTON_B,
-    BUTTON_X,
-    BUTTON_Y,
-    BUTTON_BACK,
-    BUTTON_GUIDE,
-    BUTTON_START,
-    BUTTON_LEFTSTICK,
-    BUTTON_RIGHTSTICK,
-    BUTTON_LEFTSHOULDER,
-    BUTTON_RIGHTSHOULDER,
-    BUTTON_DPAD_UP,
-    BUTTON_DPAD_DOWN,
-    BUTTON_DPAD_LEFT,
-    BUTTON_DPAD_RIGHT,
-    BUTTON_MAX,
+    A,
+    B,
+    X,
+    Y,
+    BACK,
+    GUIDE,
+    START,
+    LEFTSTICK,
+    RIGHTSTICK,
+    LEFTSHOULDER,
+    RIGHTSHOULDER,
+    DPAD_UP,
+    DPAD_DOWN,
+    DPAD_LEFT,
+    DPAD_RIGHT,
 }

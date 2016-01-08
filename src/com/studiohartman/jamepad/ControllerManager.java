@@ -17,40 +17,6 @@ public class ControllerManager {
     #include "SDL.h"
     */
 
-    private native boolean nativeInitSDLGamepad(); /*
-        if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) != 0) {
-            printf("NATIVE METHOD: SDL_Init failed: %s\n", SDL_GetError());
-            return JNI_FALSE;
-        }
-
-        return JNI_TRUE;
-    */
-
-    private native boolean nativeAddMappingsFromFile(String path); /*
-        if(SDL_GameControllerAddMappingsFromFile(path) < 0) {
-            printf("NATIVE METHOD: Failed to load mappings from \"%s\"\n", path);
-            printf("               %s\n", SDL_GetError());
-            return JNI_FALSE;
-        }
-
-        return JNI_TRUE;
-    */
-
-    private native int nativeGetNumRollers(); /*
-        int numJoysticks = SDL_NumJoysticks();
-
-        int numGamepads = 0;
-
-        for(int i = 0; i < numJoysticks; i++) {
-            if(SDL_IsGameController(i)) {
-                numGamepads++;
-            }
-        }
-
-        return numGamepads;
-    */
-
-
     private boolean isInitialized;
 
     /**
@@ -75,6 +41,14 @@ public class ControllerManager {
             isInitialized = true;
         }
     }
+    private native boolean nativeInitSDLGamepad(); /*
+        if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) != 0) {
+            printf("NATIVE METHOD: SDL_Init failed: %s\n", SDL_GetError());
+            return JNI_FALSE;
+        }
+
+        return JNI_TRUE;
+    */
 
     /**
      * Initialize the Controller library. This initialized loads the native library and initializes SDL
@@ -111,6 +85,15 @@ public class ControllerManager {
             throw new JamepadException("Failed to set SDL controller mappings!");
         }
     }
+    private native boolean nativeAddMappingsFromFile(String path); /*
+        if(SDL_GameControllerAddMappingsFromFile(path) < 0) {
+            printf("NATIVE METHOD: Failed to load mappings from \"%s\"\n", path);
+            printf("               %s\n", SDL_GetError());
+            return JNI_FALSE;
+        }
+
+        return JNI_TRUE;
+    */
 
     /**
      * Return the number of controllers that are connected.
@@ -120,8 +103,22 @@ public class ControllerManager {
      */
     public int getNumControllers() {
         verifyInitialized();
+
         return nativeGetNumRollers();
     }
+    private native int nativeGetNumRollers(); /*
+        int numJoysticks = SDL_NumJoysticks();
+
+        int numGamepads = 0;
+
+        for(int i = 0; i < numJoysticks; i++) {
+            if(SDL_IsGameController(i)) {
+                numGamepads++;
+            }
+        }
+
+        return numGamepads;
+    */
 
     /**
      * Returns a Controller object for each currently connected SDL Gamepad

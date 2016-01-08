@@ -14,7 +14,10 @@ public class Main {
             Thread.sleep(1000);
 
             for(ControllerButton button: ControllerButton.values()) {
-                System.out.println(button.toString() + " pressed? " + (p1.checkButton(button) ? "YES" : "NO"));
+                System.out.println(button.toString() + " pressed? " + (p1.getButtonState(button) ? "YES" : "NO"));
+            }
+            for(ControllerAxis axis: ControllerAxis.values()) {
+                System.out.println(axis.toString() + " state: ? " + p1.getAxisState(axis));
             }
             System.out.println();
         }
