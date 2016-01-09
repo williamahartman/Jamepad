@@ -21,37 +21,45 @@ public class Main {
             System.out.print(" ");
         }
     }
+    private static void printButtonsAndAxes(ControllerManager manager) {
+        System.out.println(manager.getControllers()[0].getControllerName());
+        for (ControllerButton button : ControllerButton.values()) {
+            printWithWhitespace(button.toString(), 20);
+            System.out.println(manager.getControllers()[0].isButtonPressed(button) ? "[#]" : "[ ]");
+        }
+        for (ControllerAxis axis : ControllerAxis.values()) {
+            float axisState = (manager.getControllers()[0].getAxisState(axis) + 1) / 2f;
+            int numTicks = (int) (axisState * 15);
 
-    public static void main (String[] args) throws Exception {
+            printWithWhitespace(axis.toString(), 20);
+            System.out.print("[");
+            for (int i = 0; i < 15; i++) {
+                if (i <= numTicks) {
+                    System.out.print("#");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println("]");
+        }
+        System.out.println();
+    }
+
+    public static void main (String[] args) throws InterruptedException {
         ControllerManager manager = new ControllerManager();
-        manager.initSDLGamepad("gamecontrollerdb.txt");
-        Controller p1 = manager.getControllers()[0];
+        manager.initSDLGamepad();
 
         while (true) {
             Thread.sleep(30);
             clearConsole();
 
-            System.out.println(p1.getControllerName());
-            for(ControllerButton button: ControllerButton.values()) {
-                printWithWhitespace(button.toString(), 20);
-                System.out.println(p1.isButtonPressed(button) ? "[#]" : "[ ]");
+            if(manager.getControllers().length > 0) {
+                printButtonsAndAxes(manager);
+            } else {
+                System.err.println("Controller 1 is not connected!");
             }
-            for(ControllerAxis axis: ControllerAxis.values()) {
-                float axisState = (p1.getAxisState(axis) + 1) / 2f;
-                int numTicks = (int)(axisState * 15);
 
-                printWithWhitespace(axis.toString(), 20);
-                System.out.print("[");
-                for(int i = 0; i < 15; i++) {
-                    if(i <= numTicks) {
-                        System.out.print("#");
-                    } else {
-                        System.out.print(" ");
-                    }
-                }
-                System.out.println("]");
-            }
-            System.out.println();
+            manager.refreshSDLGamepad();
         }
     }
 }

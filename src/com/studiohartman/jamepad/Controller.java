@@ -16,6 +16,7 @@ public class Controller {
 
     private static final float AXIS_MAX_VAL = 32767;
     private int index;
+    private boolean connected;
 
     /**
      * Constructor
@@ -26,7 +27,8 @@ public class Controller {
     public Controller(int index) {
         this.index = index;
 
-        if(!nativeConnectController(index)) {
+        connected = nativeConnectController(index);
+        if(!connected) {
             throw new JamepadRuntimeException("Controller at index " + index + " failed to connect!");
         }
     }
@@ -38,6 +40,19 @@ public class Controller {
         } else {
             return 0;
         }
+    */
+
+    /**
+     * Close the connection to this controller.
+     */
+    public void closeController() {
+        nativeCloseController();
+    }
+    private native void nativeCloseController(); /*
+        if(pad && SDL_GameControllerGetAttached(pad)) {
+            SDL_GameControllerClose(pad);
+        }
+        pad = NULL;
     */
 
     /**
@@ -102,11 +117,17 @@ public class Controller {
     */
 
     private void ensureConnected() {
-        if(!nativeEnsureConnected()) {
+        if(!connected || !nativeEnsureConnected()) {
             throw new JamepadRuntimeException("Controller at index " + index + " is not connected!");
         }
     }
     private native boolean nativeEnsureConnected(); /*
-        return SDL_GameControllerGetAttached(pad);
+        if (pad &&
+            SDL_GameControllerGetAttached(pad) &&
+            SDL_WasInit(SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC))) {
+
+            return JNI_TRUE;
+        }
+        return JNI_FALSE;
     */
 }

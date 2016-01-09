@@ -17,28 +17,57 @@ public class ControllerManager {
     #include "SDL.h"
     */
 
+    private String mappingsPath;
     private boolean isInitialized;
+    private Controller[] controllers;
 
     /**
      * Constructor.
      */
     public ControllerManager() {
+        this("gamecontrollerdb.txt");
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param mappingsPath The path to a file containing SDL controller mappings.
+     */
+    public ControllerManager(String mappingsPath) {
+        this.mappingsPath = mappingsPath;
         isInitialized = false;
+        controllers = new Controller[0];
+
+        new JniGenSharedLibraryLoader().load("jamepad");
     }
 
     /**
      * Initialize the Controller library. This initialized loads the native library and initializes SDL
      * in the native code.
      *
-     * @throws JamepadException
+     * @throws JamepadRuntimeException
      */
-    public void initSDLGamepad() throws JamepadException {
-        new JniGenSharedLibraryLoader().load("jamepad");
-
+    public void initSDLGamepad() throws JamepadRuntimeException {
+        //Initialize SDL
         if (!nativeInitSDLGamepad()) {
-            throw new JamepadException("Failed to initialize SDL in native method!");
+            throw new JamepadRuntimeException("Failed to initialize SDL in native method!");
         } else {
             isInitialized = true;
+        }
+
+        //Set controller mappings. The possible exception is caught, since stuff will still work ok
+        //for most people if mapping aren't set.
+        try {
+            addMappingsFromFile(mappingsPath);
+        } catch (IOException e) {
+            System.err.println("Failed to load mapping with original location \"" + mappingsPath + "\"");
+            e.printStackTrace();
+        }
+
+        //Connect and keep track of the controllers
+        controllers = new Controller[getNumControllers()];
+        for(int i = 0; i < controllers.length; i++) {
+            controllers[i] = new Controller(i);
         }
     }
     private native boolean nativeInitSDLGamepad(); /*
@@ -51,28 +80,14 @@ public class ControllerManager {
     */
 
     /**
-     * Initialize the Controller library. This initialized loads the native library and initializes SDL
-     * in the native code.
-     *
-     * This method also sets controller mappings.
+     * This method adds mappings held in the specified file. The file is copied to the temp folder so
+     * that it can be read by the native code (if running from a .jar for instance)
      *
      * @param path The path to the file containing controller mappings.
      * @throws IOException
-     * @throws JamepadException
+     * @throws JamepadRuntimeException
      */
-    public void initSDLGamepad(String path) throws IOException, JamepadException {
-        initSDLGamepad();
-        addMappingsFromFile(path);
-    }
-
-    /**
-     * This method adds mappings held in the specified file.
-     *
-     * @param path The path to the file containing controller mappings.
-     * @throws IOException
-     * @throws JamepadException
-     */
-    public void addMappingsFromFile(String path) throws IOException, JamepadException {
+    public void addMappingsFromFile(String path) throws IOException, JamepadRuntimeException {
         /*
         Copy the file to a temp folder. SDL can't read files held in .jars, and that's probably how
         most people would use this library.
@@ -82,7 +97,7 @@ public class ControllerManager {
                 StandardCopyOption.REPLACE_EXISTING);
 
         if(!nativeAddMappingsFromFile(extractedLoc.toString())) {
-            throw new JamepadException("Failed to set SDL controller mappings!");
+            throw new JamepadRuntimeException("Failed to set SDL controller mappings!");
         }
     }
     private native boolean nativeAddMappingsFromFile(String path); /*
@@ -94,6 +109,33 @@ public class ControllerManager {
 
         return JNI_TRUE;
     */
+
+    /**
+     * This method quits all the native stuff. Call it when you're done with Jamepad.
+     */
+    public void quitSDLGamepad() {
+        for(Controller c: controllers) {
+            c.closeController();
+        }
+        nativeCloseSDLGamepad();
+        controllers = new Controller[0];
+        isInitialized = false;
+    }
+    private native void nativeCloseSDLGamepad(); /*
+        SDL_Quit();
+    */
+
+    /**
+     * Quit SDL and restart. Useful for detecting new controllers.
+     *
+     * @throws JamepadRuntimeException
+     */
+    public void refreshSDLGamepad() throws JamepadRuntimeException {
+        if(isInitialized) {
+            quitSDLGamepad();
+        }
+        initSDLGamepad();
+    }
 
     /**
      * Return the number of controllers that are connected.
@@ -128,18 +170,12 @@ public class ControllerManager {
      */
     public Controller[] getControllers() {
         verifyInitialized();
-
-        Controller[] result = new Controller[getNumControllers()];
-        for(int i = 0; i < result.length; i++) {
-            result[i] = new Controller(i);
-        }
-
-        return result;
+        return controllers;
     }
 
     private boolean verifyInitialized() {
         if(!isInitialized) {
-            throw new JamepadRuntimeException("Controller has not been successfully initialized!");
+            throw new JamepadRuntimeException("SDL_GameController is not initialized!");
         }
         return true;
     }
