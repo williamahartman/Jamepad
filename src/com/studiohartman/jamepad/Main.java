@@ -31,9 +31,10 @@ public class Main {
             Thread.sleep(30);
             clearConsole();
 
+            System.out.println(p1.getControllerName());
             for(ControllerButton button: ControllerButton.values()) {
                 printWithWhitespace(button.toString(), 20);
-                System.out.println(p1.getButtonState(button) ? "[#]" : "[ ]");
+                System.out.println(p1.isButtonPressed(button) ? "[#]" : "[ ]");
             }
             for(ControllerAxis axis: ControllerAxis.values()) {
                 float axisState = (p1.getAxisState(axis) + 1) / 2f;
