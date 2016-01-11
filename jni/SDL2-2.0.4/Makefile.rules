@@ -317,6 +317,9 @@ $(objects)/SDL_syshaptic.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/h
 $(objects)/SDL_systimer.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/timer/unix/SDL_systimer.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
+$(objects)/SDL_udev.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/core/linux/SDL_udev.c
+	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
+
 $(objects)/SDL_evdev.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/core/linux/SDL_evdev.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 

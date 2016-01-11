@@ -80,7 +80,7 @@
 #define HAVE_SIGNAL_H 1
 /* #undef HAVE_ALTIVEC_H */
 /* #undef HAVE_PTHREAD_NP_H */
-/* #undef HAVE_LIBUDEV_H */
+#define HAVE_LIBUDEV_H 1
 /* #undef HAVE_DBUS_DBUS_H */
 /* #undef HAVE_IBUS_IBUS_H */
 
@@ -191,7 +191,7 @@
 /* #undef SDL_FILE_DISABLED */
 /* #undef SDL_JOYSTICK_DISABLED */
 /* #undef SDL_HAPTIC_DISABLED */
-#define SDL_LOADSO_DISABLED 1
+/* #undef SDL_LOADSO_DISABLED */
 #define SDL_RENDER_DISABLED 1
 /* #undef SDL_THREADS_DISABLED */
 /* #undef SDL_TIMERS_DISABLED */
@@ -354,7 +354,7 @@
 /* #undef SDL_FILESYSTEM_EMSCRIPTEN */
 
 /* Enable assembly routines */
-#define SDL_ASSEMBLY_ROUTINES 1
+/* #undef SDL_ASSEMBLY_ROUTINES */
 /* #undef SDL_ALTIVEC_BLITTERS */
 
 #endif /* _SDL_config_h */
