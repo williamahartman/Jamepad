@@ -22,13 +22,13 @@ public class Main {
         }
     }
     private static void printButtonsAndAxes(ControllerManager manager) {
-        System.out.println(manager.getControllers()[0].getControllerName());
+        System.out.println(manager.getController(0).getControllerName());
         for (ControllerButton button : ControllerButton.values()) {
             printWithWhitespace(button.toString(), 20);
-            System.out.println(manager.getControllers()[0].isButtonPressed(button) ? "[#]" : "[ ]");
+            System.out.println(manager.getController(0).isButtonPressed(button) ? "[#]" : "[ ]");
         }
         for (ControllerAxis axis : ControllerAxis.values()) {
-            float axisState = (manager.getControllers()[0].getAxisState(axis) + 1) / 2f;
+            float axisState = (manager.getController(0).getAxisState(axis) + 1) / 2f;
             int numTicks = (int) (axisState * 15);
 
             printWithWhitespace(axis.toString(), 20);
@@ -59,7 +59,7 @@ public class Main {
                 System.err.println("Controller 1 is not connected!");
             }
 
-            manager.refreshSDLGamepad();
+            manager.updateConnectedControllers();
         }
     }
 }

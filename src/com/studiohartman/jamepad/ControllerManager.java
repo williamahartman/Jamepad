@@ -15,6 +15,8 @@ public class ControllerManager {
     /*JNI
 
     #include "SDL.h"
+
+    SDL_Event event;
     */
 
     private String mappingsPath;
@@ -75,6 +77,11 @@ public class ControllerManager {
             printf("NATIVE METHOD: SDL_Init failed: %s\n", SDL_GetError());
             return JNI_FALSE;
         }
+        SDL_JoystickEventState(SDL_ENABLE);
+
+        //We don't want any controller connections events (which are automatically generated at init)
+        //since they interfere with us detecting new controllers, so we go through all events and clear them.
+        while (SDL_PollEvent(&event));
 
         return JNI_TRUE;
     */
@@ -163,6 +170,26 @@ public class ControllerManager {
     */
 
     /**
+     * Automatically refresh the controller list if a controller was connected or disconnected
+     * since the last call to this method.
+     */
+    public void updateConnectedControllers() {
+        if(nativeControllerConnectedOrDisconnected()) {
+            System.out.println("Controller attached or disconnected. Restarting SDL.");
+            refreshSDLGamepad();
+        }
+    }
+    private native boolean nativeControllerConnectedOrDisconnected(); /*
+        SDL_JoystickUpdate();
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_JOYDEVICEADDED || event.type == SDL_JOYDEVICEREMOVED) {
+                return JNI_TRUE;
+            }
+        }
+        return JNI_FALSE;
+    */
+
+    /**
      * Returns a Controller object for each currently connected SDL Gamepad
      *
      * @return The list of connected Jamepads
@@ -171,6 +198,18 @@ public class ControllerManager {
     public Controller[] getControllers() {
         verifyInitialized();
         return controllers;
+    }
+
+    /**
+     * Returns a the Controller object with the passed index (0 for p1, 1 for p2, etc.)
+     *
+     * @param index The index of the desired controller
+     * @return The list of connected Jamepads
+     * @throws JamepadRuntimeException
+     */
+    public Controller getController(int index) {
+        verifyInitialized();
+        return controllers[index];
     }
 
     private boolean verifyInitialized() {
