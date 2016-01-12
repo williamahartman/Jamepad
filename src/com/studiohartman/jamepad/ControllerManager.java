@@ -164,8 +164,6 @@ public class ControllerManager {
      */
     public void updateConnectedControllers() {
         if(nativeControllerConnectedOrDisconnected()) {
-            System.out.println("Controller attached or disconnected. Restarting SDL.");
-
             if(isInitialized) {
                 quitSDLGamepad();
             }

@@ -50,19 +50,15 @@ public class Main {
 
         while (true) {
             Thread.sleep(30);
-            clearConsole();
 
-            try {
-                if (controllers.getNumControllers() > 0) {
-                    printButtonsAndAxes(controllers);
-                } else {
-                    System.err.println("Controller 1 is not connected!");
-                }
-            } catch (JamepadRuntimeException e) {
-                System.err.println("Controller 1 was disconnected while reading it!");
+            if (controllers.getNumControllers() > 0) {
+                printButtonsAndAxes(controllers);
+            } else {
+                System.err.println("Controller 1 is not connected!");
             }
-
             controllers.updateConnectedControllers();
+
+            clearConsole();
         }
     }
 }

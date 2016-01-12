@@ -64,14 +64,20 @@ public class Controller {
     }
 
     /**
-     * Returns whether or not a given button has been pressed.
+     * Returns whether or not a given button has been pressed. Returns false if the gamepad is disconnected.
+     * This is both to avoid extra try/catch blocks in your code and to hopefully have less annoying behavior
+     * for the user on controller disconnections (hopefully nothing will happen, but that could depend on
+     * your application).
      *
      * @param toCheck The ControllerButton to check the state of
      * @return Whether or not the button is pressed.
-     * @throws JamepadRuntimeException
      */
     public boolean isButtonPressed(ControllerButton toCheck) {
-        ensureConnected();
+        try {
+            ensureConnected();
+        } catch (JamepadRuntimeException e) {
+            return false;
+        }
         return nativeCheckButton(toCheck.ordinal());
     }
     private native boolean nativeCheckButton(int index); /*
@@ -80,14 +86,20 @@ public class Controller {
     */
 
     /**
-     * Returns the current state of a passed axis.
+     * Returns the current state of a passed axis. Returns 0 if the gamepad is disconnected.
+     * This is both to avoid extra try/catch blocks in your code and to hopefully have less
+     * annoying behavior for the user on controller disconnections (hopefully nothing will
+     * happen, but that could depend on your application).
      *
      * @param toCheck The ControllerAxis to check the state of
      * @return The current state of the requested axis.
-     * @throws JamepadRuntimeException
      */
     public float getAxisState(ControllerAxis toCheck) {
-        ensureConnected();
+        try {
+            ensureConnected();
+        } catch (JamepadRuntimeException e) {
+            return 0;
+        }
         return nativeCheckAxis(toCheck.ordinal()) / AXIS_MAX_VAL;
     }
     private native int nativeCheckAxis(int index); /*
@@ -122,10 +134,7 @@ public class Controller {
         }
     }
     private native boolean nativeEnsureConnected(); /*
-        if (pad &&
-            SDL_GameControllerGetAttached(pad) &&
-            SDL_WasInit(SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC))) {
-
+        if (pad && SDL_GameControllerGetAttached(pad)) {
             return JNI_TRUE;
         }
         return JNI_FALSE;
