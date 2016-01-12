@@ -5,18 +5,23 @@ Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](http
 
 #### Stuff You Should Know About Jamepad
 
-- For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work right with JNI with it.
+- Jamepad is based on SDL. Since SDL is a bit overkill for just gamepad stuff, we build a smaller version that only contains the SDL_GameController subsystem and its dependencies.
 
-- Before you run the build method, run this in the directory with the right executable (jni/SDL2-2.0.4):
+- For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
 
-        ./configure --disable-audio --disable-video --disable-render --disable-power --disable-filesystem --disable-loadso --disable-cpuinfo
-I'm sure there's a nice way I could work this into the build scripts, but I haven't figured that out yet.
-
-- On Linux, dependencies are:
-  - libdbus
-  - libibus
+- On Linux, runtime dependencies are:
   - libevdev
   - libudev
+
+#### Building Jamepad
+1.  Run `JamepadBuild.java` with the desired arguments. 
+The possible arguments are:
+  - system-SDL2 - Use the version of SDL2 supplied with your system instead of building our own minimal version of SDL2.
+  - build-windows - Build natives for the Windows platform.
+  - build-linux - Build natives for the Linux platform.
+  - build-osx - Build natives for the Mac OS X platform.
+2.  run `gradle dist` to generate a .jar file with all the dependices bundles.
+3.  Use Jamepad for something cool.
 
 #### Building Jamepad on Linux
 The following packages (or equivalents) are needed:
@@ -33,4 +38,4 @@ The following packages (or equivalents) are needed:
        
 If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. Something like this if you're on Ubuntu or Debian or whatever: 
         
-        sudo apt-get isntall build-essentials libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64 ant
+        sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
