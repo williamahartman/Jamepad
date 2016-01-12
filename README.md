@@ -20,7 +20,7 @@ The possible arguments are:
   - build-windows - Build natives for the Windows platform.
   - build-linux - Build natives for the Linux platform.
   - build-osx - Build natives for the Mac OS X platform.
-2.  run `gradle dist` to generate a .jar file with all the dependices bundles.
+2.  run `gradle dist` to generate a .jar file with all the dependencies bundles.
 3.  Use Jamepad for something cool.
 
 #### Building Jamepad on Linux
@@ -36,6 +36,6 @@ The following packages (or equivalents) are needed:
         g++-mingw-w64-x86-64
         
        
-If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. Something like this if you're on Ubuntu or Debian or whatever: 
+If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. It should be something like this if you're on Ubuntu or Debian or whatever: 
         
         sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
