@@ -30,14 +30,14 @@ RANLIB	= ranlib
 WINDRES	= :
 
 TARGET  = libSDL2.la
-OBJECTS = $(objects)/SDL.lo $(objects)/SDL_assert.lo $(objects)/SDL_error.lo $(objects)/SDL_hints.lo $(objects)/SDL_log.lo $(objects)/SDL_atomic.lo $(objects)/SDL_spinlock.lo $(objects)/SDL_audio.lo $(objects)/SDL_audiocvt.lo $(objects)/SDL_audiodev.lo $(objects)/SDL_audiotypecvt.lo $(objects)/SDL_mixer.lo $(objects)/SDL_wave.lo $(objects)/SDL_cpuinfo.lo $(objects)/SDL_dynapi.lo $(objects)/SDL_clipboardevents.lo $(objects)/SDL_dropevents.lo $(objects)/SDL_events.lo $(objects)/SDL_gesture.lo $(objects)/SDL_keyboard.lo $(objects)/SDL_mouse.lo $(objects)/SDL_quit.lo $(objects)/SDL_touch.lo $(objects)/SDL_windowevents.lo $(objects)/SDL_rwops.lo $(objects)/SDL_haptic.lo $(objects)/SDL_gamecontroller.lo $(objects)/SDL_joystick.lo $(objects)/e_atan2.lo $(objects)/e_log.lo $(objects)/e_pow.lo $(objects)/e_rem_pio2.lo $(objects)/e_sqrt.lo $(objects)/k_cos.lo $(objects)/k_rem_pio2.lo $(objects)/k_sin.lo $(objects)/k_tan.lo $(objects)/s_atan.lo $(objects)/s_copysign.lo $(objects)/s_cos.lo $(objects)/s_fabs.lo $(objects)/s_floor.lo $(objects)/s_scalbn.lo $(objects)/s_sin.lo $(objects)/s_tan.lo $(objects)/SDL_power.lo $(objects)/SDL_d3dmath.lo $(objects)/SDL_render.lo $(objects)/SDL_yuv_mmx.lo $(objects)/SDL_yuv_sw.lo $(objects)/SDL_render_d3d.lo $(objects)/SDL_render_d3d11.lo $(objects)/SDL_render_gl.lo $(objects)/SDL_shaders_gl.lo $(objects)/SDL_render_gles.lo $(objects)/SDL_render_gles2.lo $(objects)/SDL_shaders_gles2.lo $(objects)/SDL_render_psp.lo $(objects)/SDL_blendfillrect.lo $(objects)/SDL_blendline.lo $(objects)/SDL_blendpoint.lo $(objects)/SDL_drawline.lo $(objects)/SDL_drawpoint.lo $(objects)/SDL_render_sw.lo $(objects)/SDL_rotate.lo $(objects)/SDL_getenv.lo $(objects)/SDL_iconv.lo $(objects)/SDL_malloc.lo $(objects)/SDL_qsort.lo $(objects)/SDL_stdlib.lo $(objects)/SDL_string.lo $(objects)/SDL_thread.lo $(objects)/SDL_timer.lo $(objects)/SDL_RLEaccel.lo $(objects)/SDL_blit.lo $(objects)/SDL_blit_0.lo $(objects)/SDL_blit_1.lo $(objects)/SDL_blit_A.lo $(objects)/SDL_blit_N.lo $(objects)/SDL_blit_auto.lo $(objects)/SDL_blit_copy.lo $(objects)/SDL_blit_slow.lo $(objects)/SDL_bmp.lo $(objects)/SDL_clipboard.lo $(objects)/SDL_egl.lo $(objects)/SDL_fillrect.lo $(objects)/SDL_pixels.lo $(objects)/SDL_rect.lo $(objects)/SDL_shape.lo $(objects)/SDL_stretch.lo $(objects)/SDL_surface.lo $(objects)/SDL_video.lo $(objects)/SDL_nullevents.lo $(objects)/SDL_nullframebuffer.lo $(objects)/SDL_nullvideo.lo $(objects)/SDL_sysloadso.lo $(objects)/SDL_systhread.lo $(objects)/SDL_syssem.lo $(objects)/SDL_sysmutex.lo $(objects)/SDL_syscond.lo $(objects)/SDL_systls.lo $(objects)/SDL_sysjoystick.lo $(objects)/SDL_syshaptic.lo $(objects)/SDL_systimer.lo $(objects)/SDL_udev.lo $(objects)/SDL_evdev.lo $(objects)/SDL_sysfilesystem.lo
+OBJECTS = $(objects)/SDL.lo $(objects)/SDL_assert.lo $(objects)/SDL_error.lo $(objects)/SDL_hints.lo $(objects)/SDL_log.lo $(objects)/SDL_atomic.lo $(objects)/SDL_spinlock.lo $(objects)/*.lo $(objects)/*.lo $(objects)/*.lo $(objects)/SDL_clipboardevents.lo $(objects)/SDL_dropevents.lo $(objects)/SDL_events.lo $(objects)/SDL_gesture.lo $(objects)/SDL_keyboard.lo $(objects)/SDL_mouse.lo $(objects)/SDL_quit.lo $(objects)/SDL_touch.lo $(objects)/SDL_windowevents.lo $(objects)/SDL_rwops.lo $(objects)/SDL_haptic.lo $(objects)/SDL_gamecontroller.lo $(objects)/SDL_joystick.lo $(objects)/e_atan2.lo $(objects)/e_log.lo $(objects)/e_pow.lo $(objects)/e_rem_pio2.lo $(objects)/e_sqrt.lo $(objects)/k_cos.lo $(objects)/k_rem_pio2.lo $(objects)/k_sin.lo $(objects)/k_tan.lo $(objects)/s_atan.lo $(objects)/s_copysign.lo $(objects)/s_cos.lo $(objects)/s_fabs.lo $(objects)/s_floor.lo $(objects)/s_scalbn.lo $(objects)/s_sin.lo $(objects)/s_tan.lo $(objects)/*.lo $(objects)/*.lo $(objects)/*.lo $(objects)/SDL_getenv.lo $(objects)/SDL_iconv.lo $(objects)/SDL_malloc.lo $(objects)/SDL_qsort.lo $(objects)/SDL_stdlib.lo $(objects)/SDL_string.lo $(objects)/SDL_thread.lo $(objects)/SDL_timer.lo $(objects)/SDL_RLEaccel.lo $(objects)/SDL_blit.lo $(objects)/SDL_blit_0.lo $(objects)/SDL_blit_1.lo $(objects)/SDL_blit_A.lo $(objects)/SDL_blit_N.lo $(objects)/SDL_blit_auto.lo $(objects)/SDL_blit_copy.lo $(objects)/SDL_blit_slow.lo $(objects)/SDL_bmp.lo $(objects)/SDL_clipboard.lo $(objects)/SDL_egl.lo $(objects)/SDL_fillrect.lo $(objects)/SDL_pixels.lo $(objects)/SDL_rect.lo $(objects)/SDL_shape.lo $(objects)/SDL_stretch.lo $(objects)/SDL_surface.lo $(objects)/SDL_video.lo $(objects)/SDL_nullevents.lo $(objects)/SDL_nullframebuffer.lo $(objects)/SDL_nullvideo.lo $(objects)/SDL_sysloadso.lo $(objects)/SDL_systhread.lo $(objects)/SDL_syssem.lo $(objects)/SDL_sysmutex.lo $(objects)/SDL_syscond.lo $(objects)/SDL_systls.lo $(objects)/SDL_sysjoystick.lo $(objects)/SDL_syshaptic.lo $(objects)/SDL_systimer.lo $(objects)/SDL_udev.lo $(objects)/SDL_evdev.lo $(objects)/SDL_sysfilesystem.lo
 VERSION_OBJECTS = 
 
 SDLMAIN_TARGET = libSDL2main.a
 SDLMAIN_OBJECTS = $(objects)/SDL_dummy_main.o
 
 SDLTEST_TARGET = libSDL2_test.a
-SDLTEST_OBJECTS = $(objects)/SDL_test_assert.o $(objects)/SDL_test_common.o $(objects)/SDL_test_compare.o $(objects)/SDL_test_crc32.o $(objects)/SDL_test_font.o $(objects)/SDL_test_fuzzer.o $(objects)/SDL_test_harness.o $(objects)/SDL_test_imageBlit.o $(objects)/SDL_test_imageBlitBlend.o $(objects)/SDL_test_imageFace.o $(objects)/SDL_test_imagePrimitives.o $(objects)/SDL_test_imagePrimitivesBlend.o $(objects)/SDL_test_log.o $(objects)/SDL_test_md5.o $(objects)/SDL_test_random.o
+SDLTEST_OBJECTS = $(objects)/*.o
 
 SRC_DIST = *.txt acinclude Android.mk autogen.sh android-project build-scripts cmake cmake_uninstall.cmake.in configure configure.in debian docs include Makefile.* sdl2-config.cmake.in sdl2-config.in sdl2.m4 sdl2.pc.in SDL2.spec.in src test VisualC.html VisualC VisualC-WinRT Xcode Xcode-iOS
 GEN_DIST = SDL2.spec
@@ -263,28 +263,13 @@ $(objects)/SDL_atomic.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/atom
 $(objects)/SDL_spinlock.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/atomic/SDL_spinlock.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_audio.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/audio/SDL_audio.c
+$(objects)/*.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/audio/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_audiocvt.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/audio/SDL_audiocvt.c
+$(objects)/*.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/cpuinfo/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_audiodev.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/audio/SDL_audiodev.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_audiotypecvt.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/audio/SDL_audiotypecvt.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_mixer.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/audio/SDL_mixer.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_wave.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/audio/SDL_wave.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_cpuinfo.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/cpuinfo/SDL_cpuinfo.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_dynapi.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/dynapi/SDL_dynapi.c
+$(objects)/*.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/dynapi/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
 $(objects)/SDL_clipboardevents.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/events/SDL_clipboardevents.c
@@ -377,64 +362,13 @@ $(objects)/s_sin.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/libm/s_si
 $(objects)/s_tan.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/libm/s_tan.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_power.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/power/SDL_power.c
+$(objects)/*.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/power/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_d3dmath.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/SDL_d3dmath.c
+$(objects)/*.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_render.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/SDL_render.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_yuv_mmx.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/SDL_yuv_mmx.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_yuv_sw.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/SDL_yuv_sw.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_d3d.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/direct3d/SDL_render_d3d.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_d3d11.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/direct3d11/SDL_render_d3d11.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_gl.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/opengl/SDL_render_gl.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_shaders_gl.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/opengl/SDL_shaders_gl.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_gles.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/opengles/SDL_render_gles.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_gles2.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/opengles2/SDL_render_gles2.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_shaders_gles2.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/opengles2/SDL_shaders_gles2.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_psp.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/psp/SDL_render_psp.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_blendfillrect.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/software/SDL_blendfillrect.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_blendline.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/software/SDL_blendline.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_blendpoint.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/software/SDL_blendpoint.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_drawline.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/software/SDL_drawline.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_drawpoint.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/software/SDL_drawpoint.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_sw.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/software/SDL_render_sw.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_rotate.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/software/SDL_rotate.c
+$(objects)/*.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/render/*/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
 $(objects)/SDL_getenv.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/stdlib/SDL_getenv.c
@@ -567,33 +501,5 @@ $(objects)/SDL_sysfilesystem.lo: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/s
 $(objects)/SDL_dummy_main.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/main/dummy/SDL_dummy_main.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_test_assert.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_assert.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_common.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_common.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_compare.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_compare.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_crc32.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_crc32.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_font.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_font.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_fuzzer.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_fuzzer.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_harness.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_harness.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_imageBlit.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_imageBlit.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_imageBlitBlend.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_imageBlitBlend.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_imageFace.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_imageFace.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_imagePrimitives.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_imagePrimitives.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_imagePrimitivesBlend.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_imagePrimitivesBlend.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_log.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_log.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_md5.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_md5.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@ 
-$(objects)/SDL_test_random.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/SDL_test_random.c
+$(objects)/*.o: /home/will/Programming/Jamepad/jni/SDL2-2.0.4/src/test/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@

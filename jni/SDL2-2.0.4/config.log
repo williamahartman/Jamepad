@@ -808,7 +808,7 @@ configure:16611: $? = 0
 configure:16611: result: yes
 configure:16611: checking for strlcpy
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccDVt8sI.o: In function `main':
+/tmp/ccW2s1ED.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:93: undefined reference to `strlcpy'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -912,7 +912,7 @@ configure: failed program was:
 configure:16611: result: no
 configure:16611: checking for strlcat
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccQKp12K.o: In function `main':
+/tmp/ccymwoeG.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:93: undefined reference to `strlcat'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1023,7 +1023,7 @@ configure:16611: $? = 0
 configure:16611: result: yes
 configure:16611: checking for _strrev
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/cc9sY2DJ.o: In function `main':
+/tmp/ccobgY1K.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:94: undefined reference to `_strrev'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1128,7 +1128,7 @@ configure: failed program was:
 configure:16611: result: no
 configure:16611: checking for _strupr
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccgtu3DK.o: In function `main':
+/tmp/ccQfW73N.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:94: undefined reference to `_strupr'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1233,7 +1233,7 @@ configure: failed program was:
 configure:16611: result: no
 configure:16611: checking for _strlwr
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccrKmsXM.o: In function `main':
+/tmp/ccUH0Y5T.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:94: undefined reference to `_strlwr'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1359,7 +1359,7 @@ configure:16611: $? = 0
 configure:16611: result: yes
 configure:16611: checking for itoa
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/cciftASX.o: In function `main':
+/tmp/ccDvhr3V.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:97: undefined reference to `itoa'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1467,7 +1467,7 @@ configure: failed program was:
 configure:16611: result: no
 configure:16611: checking for _ltoa
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccbN16x3.o: In function `main':
+/tmp/ccnvPpaY.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:97: undefined reference to `_ltoa'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1575,7 +1575,7 @@ configure: failed program was:
 configure:16611: result: no
 configure:16611: checking for _uitoa
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccLhAXe6.o: In function `main':
+/tmp/ccHiZFT1.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:97: undefined reference to `_uitoa'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1683,7 +1683,7 @@ configure: failed program was:
 configure:16611: result: no
 configure:16611: checking for _ultoa
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccWd9Vs8.o: In function `main':
+/tmp/ccXSVLZ3.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:97: undefined reference to `_ultoa'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1799,7 +1799,7 @@ configure:16611: $? = 0
 configure:16611: result: yes
 configure:16611: checking for _i64toa
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/cc9vMC0g.o: In function `main':
+/tmp/ccUniaTa.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:99: undefined reference to `_i64toa'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -1909,7 +1909,7 @@ configure: failed program was:
 configure:16611: result: no
 configure:16611: checking for _ui64toa
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccSMlElj.o: In function `main':
+/tmp/cccrfmDd.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:99: undefined reference to `_ui64toa'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -2049,7 +2049,7 @@ configure:16611: $? = 0
 configure:16611: result: yes
 configure:16611: checking for _stricmp
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccra5yuA.o: In function `main':
+/tmp/ccoIquGy.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:105: undefined reference to `_stricmp'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -2172,7 +2172,7 @@ configure:16611: $? = 0
 configure:16611: result: yes
 configure:16611: checking for _strnicmp
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccC3GEuI.o: In function `main':
+/tmp/ccCIYxyC.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:106: undefined reference to `_strnicmp'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -2334,7 +2334,7 @@ configure:16611: $? = 0
 configure:16611: result: yes
 configure:16611: checking for sysctlbyname
 configure:16611: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  >&5
-/tmp/ccpBllA0.o: In function `main':
+/tmp/cc20OukU.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:115: undefined reference to `sysctlbyname'
 collect2: error: ld returned 1 exit status
 configure:16611: $? = 1
@@ -2741,7 +2741,7 @@ configure:22320: $? = 0
 configure:22326: result: yes
 configure:22330: checking for dlopen in -lc
 configure:22355: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include   -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c -lc   -lm >&5
-/tmp/ccqV6A20.o: In function `main':
+/tmp/ccowwcs8.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:120: undefined reference to `dlopen'
 collect2: error: ld returned 1 exit status
 configure:22355: $? = 1
@@ -3329,7 +3329,7 @@ configure:22041: $? = 0
 configure:22055: result: yes
 configure:22058: checking for pthread_set_name_np
 configure:22078: gcc -o conftest -g -O2 -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include  -D_REENTRANT  -Iinclude -I/home/will/Programming/Jamepad/jni/SDL2-2.0.4/include    conftest.c  -lm -lpthread >&5
-/tmp/ccoR8tUA.o: In function `main':
+/tmp/ccaBSomI.o: In function `main':
 /home/will/Programming/Jamepad/jni/SDL2-2.0.4/conftest.c:134: undefined reference to `pthread_set_name_np'
 collect2: error: ld returned 1 exit status
 configure:22078: $? = 1
@@ -3795,16 +3795,16 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on HeliosUbuntu
 
-config.status:1282: creating Makefile
-config.status:1282: creating sdl2-config
-config.status:1282: creating sdl2-config.cmake
-config.status:1282: creating SDL2.spec
-config.status:1282: creating sdl2.pc
-config.status:1282: creating include/SDL_config.h
-config.status:1442: include/SDL_config.h is unchanged
-config.status:1456: executing libtool commands
-config.status:1456: executing sdl2_config commands
-config.status:1456: executing summary commands
+config.status:1274: creating Makefile
+config.status:1274: creating sdl2-config
+config.status:1274: creating sdl2-config.cmake
+config.status:1274: creating SDL2.spec
+config.status:1274: creating sdl2.pc
+config.status:1274: creating include/SDL_config.h
+config.status:1434: include/SDL_config.h is unchanged
+config.status:1448: executing libtool commands
+config.status:1448: executing sdl2_config commands
+config.status:1448: executing summary commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -4065,7 +4065,7 @@ MANIFEST_TOOL=':'
 NM='/usr/bin/nm -B'
 NMEDIT=''
 OBJDUMP='objdump'
-OBJECTS='$(objects)/SDL.lo $(objects)/SDL_assert.lo $(objects)/SDL_error.lo $(objects)/SDL_hints.lo $(objects)/SDL_log.lo $(objects)/SDL_atomic.lo $(objects)/SDL_spinlock.lo $(objects)/SDL_audio.lo $(objects)/SDL_audiocvt.lo $(objects)/SDL_audiodev.lo $(objects)/SDL_audiotypecvt.lo $(objects)/SDL_mixer.lo $(objects)/SDL_wave.lo $(objects)/SDL_cpuinfo.lo $(objects)/SDL_dynapi.lo $(objects)/SDL_clipboardevents.lo $(objects)/SDL_dropevents.lo $(objects)/SDL_events.lo $(objects)/SDL_gesture.lo $(objects)/SDL_keyboard.lo $(objects)/SDL_mouse.lo $(objects)/SDL_quit.lo $(objects)/SDL_touch.lo $(objects)/SDL_windowevents.lo $(objects)/SDL_rwops.lo $(objects)/SDL_haptic.lo $(objects)/SDL_gamecontroller.lo $(objects)/SDL_joystick.lo $(objects)/e_atan2.lo $(objects)/e_log.lo $(objects)/e_pow.lo $(objects)/e_rem_pio2.lo $(objects)/e_sqrt.lo $(objects)/k_cos.lo $(objects)/k_rem_pio2.lo $(objects)/k_sin.lo $(objects)/k_tan.lo $(objects)/s_atan.lo $(objects)/s_copysign.lo $(objects)/s_cos.lo $(objects)/s_fabs.lo $(objects)/s_floor.lo $(objects)/s_scalbn.lo $(objects)/s_sin.lo $(objects)/s_tan.lo $(objects)/SDL_power.lo $(objects)/SDL_d3dmath.lo $(objects)/SDL_render.lo $(objects)/SDL_yuv_mmx.lo $(objects)/SDL_yuv_sw.lo $(objects)/SDL_render_d3d.lo $(objects)/SDL_render_d3d11.lo $(objects)/SDL_render_gl.lo $(objects)/SDL_shaders_gl.lo $(objects)/SDL_render_gles.lo $(objects)/SDL_render_gles2.lo $(objects)/SDL_shaders_gles2.lo $(objects)/SDL_render_psp.lo $(objects)/SDL_blendfillrect.lo $(objects)/SDL_blendline.lo $(objects)/SDL_blendpoint.lo $(objects)/SDL_drawline.lo $(objects)/SDL_drawpoint.lo $(objects)/SDL_render_sw.lo $(objects)/SDL_rotate.lo $(objects)/SDL_getenv.lo $(objects)/SDL_iconv.lo $(objects)/SDL_malloc.lo $(objects)/SDL_qsort.lo $(objects)/SDL_stdlib.lo $(objects)/SDL_string.lo $(objects)/SDL_thread.lo $(objects)/SDL_timer.lo $(objects)/SDL_RLEaccel.lo $(objects)/SDL_blit.lo $(objects)/SDL_blit_0.lo $(objects)/SDL_blit_1.lo $(objects)/SDL_blit_A.lo $(objects)/SDL_blit_N.lo $(objects)/SDL_blit_auto.lo $(objects)/SDL_blit_copy.lo $(objects)/SDL_blit_slow.lo $(objects)/SDL_bmp.lo $(objects)/SDL_clipboard.lo $(objects)/SDL_egl.lo $(objects)/SDL_fillrect.lo $(objects)/SDL_pixels.lo $(objects)/SDL_rect.lo $(objects)/SDL_shape.lo $(objects)/SDL_stretch.lo $(objects)/SDL_surface.lo $(objects)/SDL_video.lo $(objects)/SDL_nullevents.lo $(objects)/SDL_nullframebuffer.lo $(objects)/SDL_nullvideo.lo $(objects)/SDL_sysloadso.lo $(objects)/SDL_systhread.lo $(objects)/SDL_syssem.lo $(objects)/SDL_sysmutex.lo $(objects)/SDL_syscond.lo $(objects)/SDL_systls.lo $(objects)/SDL_sysjoystick.lo $(objects)/SDL_syshaptic.lo $(objects)/SDL_systimer.lo $(objects)/SDL_udev.lo $(objects)/SDL_evdev.lo $(objects)/SDL_sysfilesystem.lo'
+OBJECTS='$(objects)/SDL.lo $(objects)/SDL_assert.lo $(objects)/SDL_error.lo $(objects)/SDL_hints.lo $(objects)/SDL_log.lo $(objects)/SDL_atomic.lo $(objects)/SDL_spinlock.lo $(objects)/*.lo $(objects)/*.lo $(objects)/*.lo $(objects)/SDL_clipboardevents.lo $(objects)/SDL_dropevents.lo $(objects)/SDL_events.lo $(objects)/SDL_gesture.lo $(objects)/SDL_keyboard.lo $(objects)/SDL_mouse.lo $(objects)/SDL_quit.lo $(objects)/SDL_touch.lo $(objects)/SDL_windowevents.lo $(objects)/SDL_rwops.lo $(objects)/SDL_haptic.lo $(objects)/SDL_gamecontroller.lo $(objects)/SDL_joystick.lo $(objects)/e_atan2.lo $(objects)/e_log.lo $(objects)/e_pow.lo $(objects)/e_rem_pio2.lo $(objects)/e_sqrt.lo $(objects)/k_cos.lo $(objects)/k_rem_pio2.lo $(objects)/k_sin.lo $(objects)/k_tan.lo $(objects)/s_atan.lo $(objects)/s_copysign.lo $(objects)/s_cos.lo $(objects)/s_fabs.lo $(objects)/s_floor.lo $(objects)/s_scalbn.lo $(objects)/s_sin.lo $(objects)/s_tan.lo $(objects)/*.lo $(objects)/*.lo $(objects)/*.lo $(objects)/SDL_getenv.lo $(objects)/SDL_iconv.lo $(objects)/SDL_malloc.lo $(objects)/SDL_qsort.lo $(objects)/SDL_stdlib.lo $(objects)/SDL_string.lo $(objects)/SDL_thread.lo $(objects)/SDL_timer.lo $(objects)/SDL_RLEaccel.lo $(objects)/SDL_blit.lo $(objects)/SDL_blit_0.lo $(objects)/SDL_blit_1.lo $(objects)/SDL_blit_A.lo $(objects)/SDL_blit_N.lo $(objects)/SDL_blit_auto.lo $(objects)/SDL_blit_copy.lo $(objects)/SDL_blit_slow.lo $(objects)/SDL_bmp.lo $(objects)/SDL_clipboard.lo $(objects)/SDL_egl.lo $(objects)/SDL_fillrect.lo $(objects)/SDL_pixels.lo $(objects)/SDL_rect.lo $(objects)/SDL_shape.lo $(objects)/SDL_stretch.lo $(objects)/SDL_surface.lo $(objects)/SDL_video.lo $(objects)/SDL_nullevents.lo $(objects)/SDL_nullframebuffer.lo $(objects)/SDL_nullvideo.lo $(objects)/SDL_sysloadso.lo $(objects)/SDL_systhread.lo $(objects)/SDL_syssem.lo $(objects)/SDL_sysmutex.lo $(objects)/SDL_syscond.lo $(objects)/SDL_systls.lo $(objects)/SDL_sysjoystick.lo $(objects)/SDL_syshaptic.lo $(objects)/SDL_systimer.lo $(objects)/SDL_udev.lo $(objects)/SDL_evdev.lo $(objects)/SDL_sysfilesystem.lo'
 OBJEXT='o'
 OTOOL64=''
 OTOOL=''
@@ -4080,7 +4080,7 @@ PKG_CONFIG=''
 POW_LIB=''
 RANLIB='ranlib'
 SDLMAIN_OBJECTS='$(objects)/SDL_dummy_main.o'
-SDLTEST_OBJECTS='$(objects)/SDL_test_assert.o $(objects)/SDL_test_common.o $(objects)/SDL_test_compare.o $(objects)/SDL_test_crc32.o $(objects)/SDL_test_font.o $(objects)/SDL_test_fuzzer.o $(objects)/SDL_test_harness.o $(objects)/SDL_test_imageBlit.o $(objects)/SDL_test_imageBlitBlend.o $(objects)/SDL_test_imageFace.o $(objects)/SDL_test_imagePrimitives.o $(objects)/SDL_test_imagePrimitivesBlend.o $(objects)/SDL_test_log.o $(objects)/SDL_test_md5.o $(objects)/SDL_test_random.o'
+SDLTEST_OBJECTS='$(objects)/*.o'
 SDL_BINARY_AGE='4'
 SDL_CFLAGS=' -D_REENTRANT'
 SDL_INTERFACE_AGE='0'
