@@ -10,8 +10,7 @@ public class Main {
             else {
                 Runtime.getRuntime().exec("clear");
             }
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }
@@ -53,10 +52,14 @@ public class Main {
             Thread.sleep(30);
             clearConsole();
 
-            if(controllers.getNumControllers() > 0) {
-                printButtonsAndAxes(controllers);
-            } else {
-                System.err.println("Controller 1 is not connected!");
+            try {
+                if (controllers.getNumControllers() > 0) {
+                    printButtonsAndAxes(controllers);
+                } else {
+                    System.err.println("Controller 1 is not connected!");
+                }
+            } catch (JamepadRuntimeException e) {
+                System.err.println("Controller 1 was disconnected while reading it!");
             }
 
             controllers.updateConnectedControllers();

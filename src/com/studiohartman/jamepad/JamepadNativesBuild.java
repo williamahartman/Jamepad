@@ -18,6 +18,8 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/stdlib/*.*",
             "SDL2-2.0.4/src/thread/*.*",
             "SDL2-2.0.4/src/timer/*.*",
+            "SDL2-2.0.4/src/video/*.*",
+            "SDL2-2.0.4/src/video/dummy/*.*",
     };
     private static String[] WINDOWS_SRC = {
             "SDL2-2.0.4/src/core/windows/*.*",
@@ -35,6 +37,9 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/thread/pthread/*.*",
             "SDL2-2.0.4/src/timer/unix/*.*",
     };
+    private static String LINUX_CONFIG_COMMAND = "./configure";
+    private static String LINUX_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem --disable-cpuinfo " +
+            "--disable-assembly --disable-dbus --disable-ibus --disable-video-x11 --disable-video-wayland --disable-video-mir";
     private static String[] MAC_SRC = {
             "SDL2-2.0.4/src/haptic/darwin/*.*",
             "SDL2-2.0.4/src/joystick/darwin/*.*",
@@ -142,10 +147,9 @@ public class JamepadNativesBuild {
             if(!useSystemSDL) {
                 //Configure for linux
                 System.out.println("Configuring SDL for linux build...");
+                System.out.println("args: " + LINUX_CONFIG_ARGS);
                 Runtime.getRuntime()
-                        .exec("./configure --disable-audio --disable-video --disable-render --disable-power " +
-                              "--disable-filesystem --disable-cpuinfo --disable-assembly --disable-dbus --disable-ibus",
-                                null, f)
+                        .exec(LINUX_CONFIG_COMMAND + LINUX_CONFIG_ARGS, null, f)
                         .waitFor();
             }
 
