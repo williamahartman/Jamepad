@@ -24,7 +24,7 @@ public class ControllerManager {
     private Controller[] controllers;
 
     /**
-     * Constructor.
+     * Constructor. Uses built-in mappings from here: https://github.com/gabomdq/SDL_GameControllerDB
      */
     public ControllerManager() {
         this("gamecontrollerdb.txt");
@@ -95,6 +95,8 @@ public class ControllerManager {
      * @throws JamepadRuntimeException
      */
     public void addMappingsFromFile(String path) throws IOException, JamepadRuntimeException {
+        mappingsPath = path;
+
         /*
         Copy the file to a temp folder. SDL can't read files held in .jars, and that's probably how
         most people would use this library.
@@ -133,18 +135,6 @@ public class ControllerManager {
     */
 
     /**
-     * Quit SDL and restart. Useful for detecting new controllers.
-     *
-     * @throws JamepadRuntimeException
-     */
-    public void refreshSDLGamepad() throws JamepadRuntimeException {
-        if(isInitialized) {
-            quitSDLGamepad();
-        }
-        initSDLGamepad();
-    }
-
-    /**
      * Return the number of controllers that are connected.
      *
      * @return the number of connected controllers.
@@ -176,7 +166,11 @@ public class ControllerManager {
     public void updateConnectedControllers() {
         if(nativeControllerConnectedOrDisconnected()) {
             System.out.println("Controller attached or disconnected. Restarting SDL.");
-            refreshSDLGamepad();
+
+            if(isInitialized) {
+                quitSDLGamepad();
+            }
+            initSDLGamepad();
         }
     }
     private native boolean nativeControllerConnectedOrDisconnected(); /*
@@ -188,17 +182,6 @@ public class ControllerManager {
         }
         return JNI_FALSE;
     */
-
-    /**
-     * Returns a Controller object for each currently connected SDL Gamepad
-     *
-     * @return The list of connected Jamepads
-     * @throws JamepadRuntimeException
-     */
-    public Controller[] getControllers() {
-        verifyInitialized();
-        return controllers;
-    }
 
     /**
      * Returns a the Controller object with the passed index (0 for p1, 1 for p2, etc.)

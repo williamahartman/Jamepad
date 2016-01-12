@@ -53,7 +53,7 @@ public class Main {
             Thread.sleep(30);
             clearConsole();
 
-            if(controllers.getControllers().length > 0) {
+            if(controllers.getNumControllers() > 0) {
                 printButtonsAndAxes(controllers);
             } else {
                 System.err.println("Controller 1 is not connected!");
