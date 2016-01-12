@@ -45,10 +45,10 @@ public class Controller {
     /**
      * Close the connection to this controller.
      */
-    public void closeController() {
-        nativeCloseController();
+    public void close() {
+        nativeClose();
     }
-    private native void nativeCloseController(); /*
+    private native void nativeClose(); /*
         if(pad && SDL_GameControllerGetAttached(pad)) {
             SDL_GameControllerClose(pad);
         }
@@ -101,9 +101,9 @@ public class Controller {
      * @return The the name of this controller
      * @throws JamepadRuntimeException
      */
-    public String getControllerName() {
+    public String getName() {
         ensureConnected();
-        String controllerName = nativeGetControllerName();
+        String controllerName = nativeGetName();
 
         //Return empty string instead of null if the attached controller does not have a name
         if(controllerName == null) {
@@ -112,7 +112,7 @@ public class Controller {
 
         return controllerName;
     }
-    private native String nativeGetControllerName(); /*
+    private native String nativeGetName(); /*
         return env->NewStringUTF(SDL_GameControllerName(pad));
     */
 

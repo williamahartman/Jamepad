@@ -21,14 +21,14 @@ public class Main {
             System.out.print(" ");
         }
     }
-    private static void printButtonsAndAxes(ControllerManager manager) {
-        System.out.println(manager.getController(0).getControllerName());
+    private static void printButtonsAndAxes(ControllerManager controllers) {
+        System.out.println(controllers.get(0).getName());
         for (ControllerButton button : ControllerButton.values()) {
             printWithWhitespace(button.toString(), 20);
-            System.out.println(manager.getController(0).isButtonPressed(button) ? "[#]" : "[ ]");
+            System.out.println(controllers.get(0).isButtonPressed(button) ? "[#]" : "[ ]");
         }
         for (ControllerAxis axis : ControllerAxis.values()) {
-            float axisState = (manager.getController(0).getAxisState(axis) + 1) / 2f;
+            float axisState = (controllers.get(0).getAxisState(axis) + 1) / 2f;
             int numTicks = (int) (axisState * 15);
 
             printWithWhitespace(axis.toString(), 20);
@@ -46,20 +46,20 @@ public class Main {
     }
 
     public static void main (String[] args) throws InterruptedException {
-        ControllerManager manager = new ControllerManager();
-        manager.initSDLGamepad();
+        ControllerManager controllers = new ControllerManager();
+        controllers.initSDLGamepad();
 
         while (true) {
             Thread.sleep(30);
             clearConsole();
 
-            if(manager.getControllers().length > 0) {
-                printButtonsAndAxes(manager);
+            if(controllers.getControllers().length > 0) {
+                printButtonsAndAxes(controllers);
             } else {
                 System.err.println("Controller 1 is not connected!");
             }
 
-            manager.updateConnectedControllers();
+            controllers.updateConnectedControllers();
         }
     }
 }

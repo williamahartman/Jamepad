@@ -14,14 +14,14 @@ Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](http
   - libudev
 
 #### Building Jamepad
-1.  Run `JamepadBuild.java` with the desired arguments. 
+1.  Run `JamepadNativesBuild.java` with the desired arguments.
 The possible arguments are:
   - system-SDL2 - Use the version of SDL2 supplied with your system instead of building our own minimal version of SDL2.
   - build-windows - Build natives for the Windows platform.
   - build-linux - Build natives for the Linux platform.
   - build-osx - Build natives for the Mac OS X platform.
-2.  run `gradle dist` to generate a .jar file with all the dependencies bundles.
-3.  Use Jamepad for something cool.
+2.  run `gradle dist` to generate a .jar file with all the dependencies bundled.
+3.  Use the Jamepad .jar for something cool.
 
 #### Building Jamepad on Linux
 The following packages (or equivalents) are needed:

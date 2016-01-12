@@ -5,7 +5,7 @@ import com.badlogic.gdx.jnigen.BuildTarget.TargetOs;
 
 import java.io.File;
 
-public class JamepadBuild {
+public class JamepadNativesBuild {
     //Listing needed source files for each platform
     private static String[] COMMON_SRC = {
             "*.*",

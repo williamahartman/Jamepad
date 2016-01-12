@@ -122,7 +122,7 @@ public class ControllerManager {
      */
     public void quitSDLGamepad() {
         for(Controller c: controllers) {
-            c.closeController();
+            c.close();
         }
         nativeCloseSDLGamepad();
         controllers = new Controller[0];
@@ -207,7 +207,7 @@ public class ControllerManager {
      * @return The list of connected Jamepads
      * @throws JamepadRuntimeException
      */
-    public Controller getController(int index) {
+    public Controller get(int index) {
         verifyInitialized();
         return controllers[index];
     }
