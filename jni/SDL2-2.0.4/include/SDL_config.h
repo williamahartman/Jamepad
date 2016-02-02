@@ -51,18 +51,18 @@
 #define HAVE_GCC_ATOMICS 1
 /* #undef HAVE_GCC_SYNC_LOCK_TEST_AND_SET */
 
-/* #undef HAVE_DDRAW_H */
-/* #undef HAVE_DINPUT_H */
-/* #undef HAVE_DSOUND_H */
-/* #undef HAVE_DXGI_H */
-/* #undef HAVE_XINPUT_H */
+#define HAVE_DDRAW_H 1
+#define HAVE_DINPUT_H 1
+#define HAVE_DSOUND_H 1
+#define HAVE_DXGI_H 1
+#define HAVE_XINPUT_H 1
 
 /* Comment this if you want to build without any C library requirements */
 #define HAVE_LIBC 1
 #if HAVE_LIBC
 
 /* Useful headers */
-#define HAVE_ALLOCA_H 1
+/* #undef HAVE_ALLOCA_H */
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_STDIO_H 1
 #define STDC_HEADERS 1
@@ -76,11 +76,11 @@
 #define HAVE_STDINT_H 1
 #define HAVE_CTYPE_H 1
 #define HAVE_MATH_H 1
-#define HAVE_ICONV_H 1
+/* #undef HAVE_ICONV_H */
 #define HAVE_SIGNAL_H 1
 /* #undef HAVE_ALTIVEC_H */
 /* #undef HAVE_PTHREAD_NP_H */
-#define HAVE_LIBUDEV_H 1
+/* #undef HAVE_LIBUDEV_H */
 /* #undef HAVE_DBUS_DBUS_H */
 /* #undef HAVE_IBUS_IBUS_H */
 
@@ -89,50 +89,50 @@
 #define HAVE_CALLOC 1
 #define HAVE_REALLOC 1
 #define HAVE_FREE 1
-#define HAVE_ALLOCA 1
+/* #undef HAVE_ALLOCA */
 #ifndef __WIN32__ /* Don't use C runtime versions of these on Windows */
 #define HAVE_GETENV 1
-#define HAVE_SETENV 1
+/* #undef HAVE_SETENV */
 #define HAVE_PUTENV 1
-#define HAVE_UNSETENV 1
+/* #undef HAVE_UNSETENV */
 #endif
 #define HAVE_QSORT 1
 #define HAVE_ABS 1
-#define HAVE_BCOPY 1
+/* #undef HAVE_BCOPY */
 #define HAVE_MEMSET 1
 #define HAVE_MEMCPY 1
 #define HAVE_MEMMOVE 1
-#define HAVE_MEMCMP 1
+/* #undef HAVE_MEMCMP */
 #define HAVE_STRLEN 1
 /* #undef HAVE_STRLCPY */
 /* #undef HAVE_STRLCAT */
 #define HAVE_STRDUP 1
-/* #undef HAVE__STRREV */
-/* #undef HAVE__STRUPR */
-/* #undef HAVE__STRLWR */
+#define HAVE__STRREV 1
+#define HAVE__STRUPR 1
+#define HAVE__STRLWR 1
 /* #undef HAVE_INDEX */
 /* #undef HAVE_RINDEX */
 #define HAVE_STRCHR 1
 #define HAVE_STRRCHR 1
 #define HAVE_STRSTR 1
-/* #undef HAVE_ITOA */
-/* #undef HAVE__LTOA */
+#define HAVE_ITOA 1
+#define HAVE__LTOA 1
 /* #undef HAVE__UITOA */
-/* #undef HAVE__ULTOA */
+#define HAVE__ULTOA 1
 #define HAVE_STRTOL 1
 #define HAVE_STRTOUL 1
-/* #undef HAVE__I64TOA */
-/* #undef HAVE__UI64TOA */
+#define HAVE__I64TOA 1
+#define HAVE__UI64TOA 1
 #define HAVE_STRTOLL 1
 #define HAVE_STRTOULL 1
-#define HAVE_STRTOD 1
+/* #undef HAVE_STRTOD */
 #define HAVE_ATOI 1
 #define HAVE_ATOF 1
 #define HAVE_STRCMP 1
 #define HAVE_STRNCMP 1
-/* #undef HAVE__STRICMP */
+#define HAVE__STRICMP 1
 #define HAVE_STRCASECMP 1
-/* #undef HAVE__STRNICMP */
+#define HAVE__STRNICMP 1
 #define HAVE_STRNCASECMP 1
 /* #undef HAVE_SSCANF */
 #define HAVE_VSSCANF 1
@@ -160,19 +160,19 @@
 #define HAVE_TANF 1
 #define HAVE_FSEEKO 1
 #define HAVE_FSEEKO64 1
-#define HAVE_SIGACTION 1
-#define HAVE_SA_SIGACTION 1
-#define HAVE_SETJMP 1
+/* #undef HAVE_SIGACTION */
+/* #undef HAVE_SA_SIGACTION */
+/* #undef HAVE_SETJMP */
 #define HAVE_NANOSLEEP 1
-#define HAVE_SYSCONF 1
+/* #undef HAVE_SYSCONF */
 /* #undef HAVE_SYSCTLBYNAME */
-#define HAVE_CLOCK_GETTIME 1
+/* #undef HAVE_CLOCK_GETTIME */
 /* #undef HAVE_GETPAGESIZE */
-#define HAVE_MPROTECT 1
-#define HAVE_ICONV 1
-#define HAVE_PTHREAD_SETNAME_NP 1
+/* #undef HAVE_MPROTECT */
+/* #undef HAVE_ICONV */
+/* #undef HAVE_PTHREAD_SETNAME_NP */
 /* #undef HAVE_PTHREAD_SET_NAME_NP */
-#define HAVE_SEM_TIMEDWAIT 1
+/* #undef HAVE_SEM_TIMEDWAIT */
 
 #else
 #define HAVE_STDARG_H 1
@@ -232,44 +232,44 @@
 /* #undef SDL_AUDIO_DRIVER_EMSCRIPTEN */
 
 /* Enable various input drivers */
-#define SDL_INPUT_LINUXEV 1
-#define SDL_INPUT_LINUXKD 1
+/* #undef SDL_INPUT_LINUXEV */
+/* #undef SDL_INPUT_LINUXKD */
 /* #undef SDL_INPUT_TSLIB */
 /* #undef SDL_JOYSTICK_HAIKU */
-/* #undef SDL_JOYSTICK_DINPUT */
-/* #undef SDL_JOYSTICK_XINPUT */
+#define SDL_JOYSTICK_DINPUT 1
+#define SDL_JOYSTICK_XINPUT 1
 /* #undef SDL_JOYSTICK_DUMMY */
 /* #undef SDL_JOYSTICK_IOKIT */
-#define SDL_JOYSTICK_LINUX 1
+/* #undef SDL_JOYSTICK_LINUX */
 /* #undef SDL_JOYSTICK_ANDROID */
 /* #undef SDL_JOYSTICK_WINMM */
 /* #undef SDL_JOYSTICK_USBHID */
 /* #undef SDL_JOYSTICK_USBHID_MACHINE_JOYSTICK_H */
 /* #undef SDL_JOYSTICK_EMSCRIPTEN */
 /* #undef SDL_HAPTIC_DUMMY */
-#define SDL_HAPTIC_LINUX 1
+/* #undef SDL_HAPTIC_LINUX */
 /* #undef SDL_HAPTIC_IOKIT */
-/* #undef SDL_HAPTIC_DINPUT */
-/* #undef SDL_HAPTIC_XINPUT */
+#define SDL_HAPTIC_DINPUT 1
+#define SDL_HAPTIC_XINPUT 1
 
 /* Enable various shared object loading systems */
 /* #undef SDL_LOADSO_HAIKU */
-#define SDL_LOADSO_DLOPEN 1
+/* #undef SDL_LOADSO_DLOPEN */
 /* #undef SDL_LOADSO_DUMMY */
 /* #undef SDL_LOADSO_LDG */
-/* #undef SDL_LOADSO_WINDOWS */
+#define SDL_LOADSO_WINDOWS 1
 
 /* Enable various threading systems */
-#define SDL_THREAD_PTHREAD 1
-#define SDL_THREAD_PTHREAD_RECURSIVE_MUTEX 1
+/* #undef SDL_THREAD_PTHREAD */
+/* #undef SDL_THREAD_PTHREAD_RECURSIVE_MUTEX */
 /* #undef SDL_THREAD_PTHREAD_RECURSIVE_MUTEX_NP */
-/* #undef SDL_THREAD_WINDOWS */
+#define SDL_THREAD_WINDOWS 1
 
 /* Enable various timer systems */
 /* #undef SDL_TIMER_HAIKU */
 /* #undef SDL_TIMER_DUMMY */
-#define SDL_TIMER_UNIX 1
-/* #undef SDL_TIMER_WINDOWS */
+/* #undef SDL_TIMER_UNIX */
+#define SDL_TIMER_WINDOWS 1
 
 /* Enable various video drivers */
 /* #undef SDL_VIDEO_DRIVER_HAIKU */
@@ -277,7 +277,7 @@
 /* #undef SDL_VIDEO_DRIVER_DIRECTFB */
 /* #undef SDL_VIDEO_DRIVER_DIRECTFB_DYNAMIC */
 #define SDL_VIDEO_DRIVER_DUMMY 1
-/* #undef SDL_VIDEO_DRIVER_WINDOWS */
+#define SDL_VIDEO_DRIVER_WINDOWS 1
 /* #undef SDL_VIDEO_DRIVER_WAYLAND */
 /* #undef SDL_VIDEO_DRIVER_WAYLAND_QT_TOUCH */
 /* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC */
@@ -315,21 +315,21 @@
 /* #undef SDL_VIDEO_DRIVER_VIVANTE */
 /* #undef SDL_VIDEO_DRIVER_VIVANTE_VDK */
 
-/* #undef SDL_VIDEO_RENDER_D3D */
-/* #undef SDL_VIDEO_RENDER_D3D11 */
-#define SDL_VIDEO_RENDER_OGL 1
+#define SDL_VIDEO_RENDER_D3D 1
+#define SDL_VIDEO_RENDER_D3D11 1
+/* #undef SDL_VIDEO_RENDER_OGL */
 /* #undef SDL_VIDEO_RENDER_OGL_ES */
-#define SDL_VIDEO_RENDER_OGL_ES2 1
+/* #undef SDL_VIDEO_RENDER_OGL_ES2 */
 /* #undef SDL_VIDEO_RENDER_DIRECTFB */
 
 /* Enable OpenGL support */
-#define SDL_VIDEO_OPENGL 1
+/* #undef SDL_VIDEO_OPENGL */
 /* #undef SDL_VIDEO_OPENGL_ES */
-#define SDL_VIDEO_OPENGL_ES2 1
+/* #undef SDL_VIDEO_OPENGL_ES2 */
 /* #undef SDL_VIDEO_OPENGL_BGL */
 /* #undef SDL_VIDEO_OPENGL_CGL */
-#define SDL_VIDEO_OPENGL_EGL 1
-#define SDL_VIDEO_OPENGL_GLX 1
+/* #undef SDL_VIDEO_OPENGL_EGL */
+/* #undef SDL_VIDEO_OPENGL_GLX */
 /* #undef SDL_VIDEO_OPENGL_WGL */
 /* #undef SDL_VIDEO_OPENGL_OSMESA */
 /* #undef SDL_VIDEO_OPENGL_OSMESA_DYNAMIC */
