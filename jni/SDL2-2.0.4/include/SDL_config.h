@@ -186,7 +186,7 @@
 /* Allow disabling of core subsystems */
 /* #undef SDL_ATOMIC_DISABLED */
 #define SDL_AUDIO_DISABLED 1
-#define SDL_CPUINFO_DISABLED 1
+/* #undef SDL_CPUINFO_DISABLED */
 /* #undef SDL_EVENTS_DISABLED */
 /* #undef SDL_FILE_DISABLED */
 /* #undef SDL_JOYSTICK_DISABLED */
@@ -317,20 +317,20 @@
 
 #define SDL_VIDEO_RENDER_D3D 1
 #define SDL_VIDEO_RENDER_D3D11 1
-/* #undef SDL_VIDEO_RENDER_OGL */
+#define SDL_VIDEO_RENDER_OGL 1
 /* #undef SDL_VIDEO_RENDER_OGL_ES */
 /* #undef SDL_VIDEO_RENDER_OGL_ES2 */
 /* #undef SDL_VIDEO_RENDER_DIRECTFB */
 
 /* Enable OpenGL support */
-/* #undef SDL_VIDEO_OPENGL */
+#define SDL_VIDEO_OPENGL 1
 /* #undef SDL_VIDEO_OPENGL_ES */
 /* #undef SDL_VIDEO_OPENGL_ES2 */
 /* #undef SDL_VIDEO_OPENGL_BGL */
 /* #undef SDL_VIDEO_OPENGL_CGL */
 /* #undef SDL_VIDEO_OPENGL_EGL */
 /* #undef SDL_VIDEO_OPENGL_GLX */
-/* #undef SDL_VIDEO_OPENGL_WGL */
+#define SDL_VIDEO_OPENGL_WGL 1
 /* #undef SDL_VIDEO_OPENGL_OSMESA */
 /* #undef SDL_VIDEO_OPENGL_OSMESA_DYNAMIC */
 

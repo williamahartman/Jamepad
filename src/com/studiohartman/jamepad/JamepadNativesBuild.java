@@ -15,20 +15,29 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/file/*.*",
             "SDL2-2.0.4/src/haptic/*.*",
             "SDL2-2.0.4/src/joystick/*.*",
-            "SDL2-2.0.4/src/stdlib/*.*",
             "SDL2-2.0.4/src/thread/*.*",
             "SDL2-2.0.4/src/timer/*.*",
             "SDL2-2.0.4/src/video/*.*",
             "SDL2-2.0.4/src/video/dummy/*.*",
     };
     private static String[] WINDOWS_SRC = {
+            "SDL2-2.0.4/src/cpuinfo/*.*",
+            "SDL2-2.0.4/src/thread/generic/*.*",
+            "SDL2-2.0.4/src/stdlib/*.*",
+
             "SDL2-2.0.4/src/core/windows/*.*",
             "SDL2-2.0.4/src/haptic/windows/*.*",
             "SDL2-2.0.4/src/joystick/windows/*.*",
             "SDL2-2.0.4/src/loadso/windows/*.*",
-            "SDL2-2.0.4/src/thread/windows/*.*",
             "SDL2-2.0.4/src/timer/windows/*.*",
+            "SDL2-2.0.4/src/render/*.*",
+            "SDL2-2.0.4/src/render/direct3d/*.*",
+            "SDL2-2.0.4/src/video/windows/*.*",
     };
+    private static String WINDOWS_CONFIG_COMMAND = "./cross-configure.sh";
+    private static String WINDOWS_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
+            "--disable-assembly";
+
     private static String[] LINUX_SRC = {
             "SDL2-2.0.4/src/core/linux/*.*",
             "SDL2-2.0.4/src/haptic/linux/*.*",
@@ -38,8 +47,9 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/timer/unix/*.*",
     };
     private static String LINUX_CONFIG_COMMAND = "./configure";
-    private static String LINUX_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem --disable-cpuinfo " +
-            "--disable-assembly --disable-dbus --disable-ibus --disable-video-x11 --disable-video-wayland --disable-video-mir";
+    private static String LINUX_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
+            "--disable-cpuinfo --disable-assembly --disable-dbus --disable-ibus --disable-video-x11 --disable-video-wayland" +
+            " --disable-video-mir --disable-video-opengl --disable-video-opengles --disable-video-opengles1 --disable-video-opengles2";
     private static String[] MAC_SRC = {
             "SDL2-2.0.4/src/haptic/darwin/*.*",
             "SDL2-2.0.4/src/joystick/darwin/*.*",
@@ -47,7 +57,7 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/thread/pthread/*.*",
             "SDL2-2.0.4/src/timer/unix/*.*",
     };
-    private static String[] INCLUDES = new String[] {"include", "SDL2-2.0.4/include", "SDL2-2.0.4/src"};
+    private static String[] INCLUDES = new String[] {"include", "SDL2-2.0.4/include", "SDL2-2.0.4/src", "DirectXHeaders"};
     private static String[] EXCLUDES = {"SDL2-2.0.4/**/*.cpp"};
 
     private static String[] merge(String[] a, String ... b) {
@@ -81,17 +91,31 @@ public class JamepadNativesBuild {
             }
         }
 
-        System.out.println("Using system SDL (arg: system-SDL2)       " + (useSystemSDL ? "ON" : "OFF"));
+        System.out.println("Using system SDL     (arg: system-SDL2)   " + (useSystemSDL ? "ON" : "OFF"));
         System.out.println("Building for Windows (arg: build-windows) " + (buildWindows ? "ON" : "OFF"));
-        System.out.println("Building for Linux (arg: build-linux)     " + (buildLinux ? "ON" : "OFF"));
-        System.out.println("Building for OSX (arg: build-OSX)         " + (buildOSX ? "ON" : "OFF"));
+        System.out.println("Building for Linux   (arg: build-linux)   " + (buildLinux ? "ON" : "OFF"));
+        System.out.println("Building for OSX     (arg: build-OSX)     " + (buildOSX ? "ON" : "OFF"));
         System.out.println();
 
-        File f = new File("jni/SDL2-2.0.4");
+        File sdlSrcDir = new File("jni/SDL2-2.0.4");
 
         //Windows build configs
         BuildTarget win32 = BuildTarget.newDefaultTarget(TargetOs.Windows, false);
         BuildTarget win64 = BuildTarget.newDefaultTarget(TargetOs.Windows, true);
+
+        win32.cIncludes = merge(COMMON_SRC, WINDOWS_SRC);
+        win32.cppExcludes = EXCLUDES;
+        win32.headerDirs = INCLUDES;
+        win32.cFlags = "-c -Wall -O2 -mfpmath=sse -msse2 -fmessage-length=0 -m32 -g -O3 -DUSING_GENERATED_CONFIG_H";
+        win32.linkerFlags = "-Wl,--kill-at -shared -m32 -static -static-libgcc -static-libstdc++";
+        win32.libraries = "-lmingw32 -mwindows -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid -static-libgcc";
+
+        win64.cIncludes = merge(COMMON_SRC, WINDOWS_SRC);
+        win64.cppExcludes = EXCLUDES;
+        win64.headerDirs = INCLUDES;
+        win64.cFlags = "-c -Wall -O2 -fmessage-length=0 -m64 -g -O3 -DUSING_GENERATED_CONFIG_H";
+        win64.linkerFlags = "-Wl,--kill-at -shared -m64 -static -static-libgcc -static-libstdc++";
+        win64.libraries = "-lmingw32 -mwindows -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid -static-libgcc";
 
         //Linux build configs
         BuildTarget lin32 = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
@@ -137,8 +161,16 @@ public class JamepadNativesBuild {
         //Build library for all platforms and bitnesses
         if (buildWindows) {
             System.out.println("##### COMPILING NATIVES FOR WINDOWS #####");
-            BuildExecutor.executeAnt("jni/build-windows32.xml", "-v -Dhas-compiler=true clean postcompile");
-            BuildExecutor.executeAnt("jni/build-windows64.xml", "-v -Dhas-compiler=true clean postcompile");
+
+            //Configure for linux
+            System.out.println("Configuring SDL for windows build...");
+            System.out.println("Running: " + WINDOWS_CONFIG_COMMAND + WINDOWS_CONFIG_ARGS);
+            Runtime.getRuntime()
+                    .exec(WINDOWS_CONFIG_COMMAND + WINDOWS_CONFIG_ARGS, null, sdlSrcDir)
+                    .waitFor();
+
+            BuildExecutor.executeAnt("jni/build-windows32.xml", "-Dhas-compiler=true clean postcompile");
+            BuildExecutor.executeAnt("jni/build-windows64.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
         if (buildLinux) {
@@ -147,9 +179,9 @@ public class JamepadNativesBuild {
             if(!useSystemSDL) {
                 //Configure for linux
                 System.out.println("Configuring SDL for linux build...");
-                System.out.println("args: " + LINUX_CONFIG_ARGS);
+                System.out.println("Running: " + LINUX_CONFIG_COMMAND + LINUX_CONFIG_ARGS);
                 Runtime.getRuntime()
-                        .exec(LINUX_CONFIG_COMMAND + LINUX_CONFIG_ARGS, null, f)
+                        .exec(LINUX_CONFIG_COMMAND + LINUX_CONFIG_ARGS, null, sdlSrcDir)
                         .waitFor();
             }
 
