@@ -31,12 +31,10 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/loadso/windows/*.*",
             "SDL2-2.0.4/src/timer/windows/*.*",
             "SDL2-2.0.4/src/render/*.*",
-            "SDL2-2.0.4/src/render/direct3d/*.*",
-            "SDL2-2.0.4/src/video/windows/*.*",
     };
     private static String WINDOWS_CONFIG_COMMAND = "./cross-configure.sh";
     private static String WINDOWS_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
-            "--disable-assembly";
+            "--disable-assembly --disable-video";
 
     private static String[] LINUX_SRC = {
             "SDL2-2.0.4/src/core/linux/*.*",

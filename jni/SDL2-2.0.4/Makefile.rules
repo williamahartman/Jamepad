@@ -278,42 +278,6 @@ $(objects)/SDL_windows.lo: ./src/core/windows/SDL_windows.c
 $(objects)/SDL_xinput.lo: ./src/core/windows/SDL_xinput.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_windowsclipboard.lo: ./src/video/windows/SDL_windowsclipboard.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsevents.lo: ./src/video/windows/SDL_windowsevents.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsframebuffer.lo: ./src/video/windows/SDL_windowsframebuffer.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowskeyboard.lo: ./src/video/windows/SDL_windowskeyboard.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsmessagebox.lo: ./src/video/windows/SDL_windowsmessagebox.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsmodes.lo: ./src/video/windows/SDL_windowsmodes.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsmouse.lo: ./src/video/windows/SDL_windowsmouse.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsopengl.lo: ./src/video/windows/SDL_windowsopengl.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsopengles.lo: ./src/video/windows/SDL_windowsopengles.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsshape.lo: ./src/video/windows/SDL_windowsshape.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowsvideo.lo: ./src/video/windows/SDL_windowsvideo.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_windowswindow.lo: ./src/video/windows/SDL_windowswindow.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
 $(objects)/SDL_dinputjoystick.lo: ./src/joystick/windows/SDL_dinputjoystick.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 

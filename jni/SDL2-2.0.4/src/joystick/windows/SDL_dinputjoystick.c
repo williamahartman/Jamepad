@@ -38,7 +38,7 @@
 #define JOY_AXIS_THRESHOLD  (((AXIS_MAX)-(AXIS_MIN))/100)   /* 1% motion */
 
 /* external variables referenced. */
-extern HWND SDL_HelperWindow;
+//extern HWND SDL_HelperWindow;
 
 /* local variables */
 static SDL_bool coinitialized = SDL_FALSE;
@@ -568,16 +568,16 @@ SDL_DINPUT_JoystickOpen(SDL_Joystick * joystick, JoyStick_DeviceData *joystickde
         return SetDIerror("IDirectInputDevice8::QueryInterface", result);
     }
 
-    /* Acquire shared access. Exclusive access is required for forces,
-    * though. */
-    result =
-        IDirectInputDevice8_SetCooperativeLevel(joystick->hwdata->
-        InputDevice, SDL_HelperWindow,
-        DISCL_EXCLUSIVE |
-        DISCL_BACKGROUND);
-    if (FAILED(result)) {
-        return SetDIerror("IDirectInputDevice8::SetCooperativeLevel", result);
-    }
+//    /* Acquire shared access. Exclusive access is required for forces,
+//    * though. */
+//    result =
+//        IDirectInputDevice8_SetCooperativeLevel(joystick->hwdata->
+//        InputDevice, SDL_HelperWindow,
+//        DISCL_EXCLUSIVE |
+//        DISCL_BACKGROUND);
+//    if (FAILED(result)) {
+//        return SetDIerror("IDirectInputDevice8::SetCooperativeLevel", result);
+//    }
 
     /* Use the extended data structure: DIJOYSTATE2. */
     result =
