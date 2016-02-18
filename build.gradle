@@ -6,8 +6,6 @@ sourceSets.main.resources.srcDirs = [ "res/" ]
 sourceSets.test.java.srcDirs = [ ]
 sourceSets.test.resources.srcDirs = [ ]
 
-project.ext.mainClassName = "com.studiohartman.jamepad.Main"
-
 buildscript {
     repositories {
         mavenCentral()
@@ -38,10 +36,37 @@ allprojects {
 }
 
 task run(dependsOn: classes, type: JavaExec) {
-    main = project.mainClassName
+    main = 'com.studiohartman.jamepad.Main'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    ignoreExitValue = true
+}
+
+task linuxNatives(dependsOn: classes, type: JavaExec) {
+    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
+    args = ['build-linux']
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
+
+task windowsNatives(dependsOn: classes, type: JavaExec) {
+    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
+    args = ['build-windows']
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
+
+task OSXNatives(dependsOn: classes, type: JavaExec) {
+    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
+    args = ['build-OSX']
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
+
+task allNatives(dependsOn: classes, type: JavaExec) {
+    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
+    args = ['build-linux', 'build-windows', 'build-OSX']
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
 }
 
 task dist(dependsOn: classes, type: Jar) {
@@ -49,9 +74,7 @@ task dist(dependsOn: classes, type: Jar) {
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
 
-    manifest {
-        attributes 'Main-Class': project.mainClassName
-    }
+    manifest {}
 }
 
 tasks.eclipse.doLast {
