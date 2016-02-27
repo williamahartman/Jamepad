@@ -10,6 +10,7 @@ public class JamepadNativesBuild {
     private static String[] COMMON_SRC = {
             "*.*",
             "SDL2-2.0.4/src/*.*",
+            "SDL2-2.0.4/src/stdlib/*.*",
             "SDL2-2.0.4/src/atomic/*.*",
             "SDL2-2.0.4/src/events/*.*",
             "SDL2-2.0.4/src/file/*.*",
@@ -23,8 +24,6 @@ public class JamepadNativesBuild {
     private static String[] WINDOWS_SRC = {
             "SDL2-2.0.4/src/cpuinfo/*.*",
             "SDL2-2.0.4/src/thread/windows/*.*",
-            "SDL2-2.0.4/src/stdlib/*.*",
-
             "SDL2-2.0.4/src/core/windows/*.*",
             "SDL2-2.0.4/src/haptic/windows/*.*",
             "SDL2-2.0.4/src/joystick/windows/*.*",
