@@ -1,7 +1,7 @@
 # Jamepad
 #### A better way to use gamepads in Java
 
-### This is very much a work in progress! The library currently works on Linux, but not on Windows or OSX.
+### This is very much a work in progress! The library currently works on Linux and Windows, but not on OSX.
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
@@ -18,12 +18,8 @@ Other gamepad libraries are missing stuff developers need. For most libraries, X
   - libudev
 
 #### Building Jamepad
-1.  Run `JamepadNativesBuild.java` with the desired arguments.
-The possible arguments are:
-  - system-SDL2 - Use the version of SDL2 supplied with your system instead of building our own minimal version of SDL2.
-  - build-windows - Build natives for the Windows platform.
-  - build-linux - Build natives for the Linux platform.
-  - build-osx - Build natives for the Mac OS X platform.
+1.  run `gradle windowsNatives`
+2.  run `gradle linuxNatives`
 2.  run `gradle dist` to generate a .jar file with all the dependencies bundled.
 
 #### Building Jamepad on Linux
