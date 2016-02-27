@@ -1,19 +1,6 @@
 package com.studiohartman.jamepad;
 
 public class Main {
-    private static void clearConsole() {
-        try {
-            final String os = System.getProperty("os.name");
-            if (os.contains("Windows")) {
-                Runtime.getRuntime().exec("cls");
-            }
-            else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
     private static void printWithWhitespace(String str, int len) {
         System.out.print(str);
         for(int i = str.length() - 1; i < len; i ++) {
@@ -58,7 +45,7 @@ public class Main {
             }
             controllers.updateConnectedControllers();
 
-            clearConsole();
+            System.out.println("\n\n\n\n\n");
         }
     }
 }
