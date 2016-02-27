@@ -35,7 +35,7 @@
 /*
  * External stuff.
  */
-//extern HWND SDL_HelperWindow;
+extern HWND SDL_HelperWindow;
 
 
 /*
@@ -314,14 +314,14 @@ SDL_DINPUT_HapticOpenFromDevice(SDL_Haptic * haptic, LPDIRECTINPUTDEVICE8 device
 
     if (!is_joystick) {  /* if is_joystick, we already set this up elsewhere. */
         /* Grab it exclusively to use force feedback stuff. */
-//        ret = IDirectInputDevice8_SetCooperativeLevel(haptic->hwdata->device,
-//                                                      SDL_HelperWindow,
-//                                                      DISCL_EXCLUSIVE |
-//                                                      DISCL_BACKGROUND);
-//        if (FAILED(ret)) {
-//            DI_SetError("Setting cooperative level to exclusive", ret);
-//            goto acquire_err;
-//        }
+        ret = IDirectInputDevice8_SetCooperativeLevel(haptic->hwdata->device,
+                                                      SDL_HelperWindow,
+                                                      DISCL_EXCLUSIVE |
+                                                      DISCL_BACKGROUND);
+        if (FAILED(ret)) {
+            DI_SetError("Setting cooperative level to exclusive", ret);
+            goto acquire_err;
+        }
 
         /* Set data format. */
         ret = IDirectInputDevice8_SetDataFormat(haptic->hwdata->device,

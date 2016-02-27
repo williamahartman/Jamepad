@@ -22,7 +22,7 @@ public class JamepadNativesBuild {
     };
     private static String[] WINDOWS_SRC = {
             "SDL2-2.0.4/src/cpuinfo/*.*",
-            "SDL2-2.0.4/src/thread/generic/*.*",
+            "SDL2-2.0.4/src/thread/windows/*.*",
             "SDL2-2.0.4/src/stdlib/*.*",
 
             "SDL2-2.0.4/src/core/windows/*.*",
@@ -31,10 +31,12 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/loadso/windows/*.*",
             "SDL2-2.0.4/src/timer/windows/*.*",
             "SDL2-2.0.4/src/render/*.*",
+            "SDL2-2.0.4/src/render/direct3d/*.*",
+            "SDL2-2.0.4/src/video/windows/*.*",
     };
     private static String WINDOWS_CONFIG_COMMAND = "./cross-configure.sh";
     private static String WINDOWS_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
-            "--disable-assembly --disable-video";
+            "--disable-assembly";
 
     private static String[] LINUX_SRC = {
             "SDL2-2.0.4/src/core/linux/*.*",
@@ -106,14 +108,14 @@ public class JamepadNativesBuild {
         win32.headerDirs = INCLUDES;
         win32.cFlags = "-c -Wall -O2 -mfpmath=sse -msse2 -fmessage-length=0 -m32 -g -O3 -DUSING_GENERATED_CONFIG_H";
         win32.linkerFlags = "-Wl,--kill-at -shared -m32 -static -static-libgcc -static-libstdc++";
-        win32.libraries = "-lmingw32 -mwindows -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid -static-libgcc";
+        win32.libraries = "-lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid -static-libgcc";
 
         win64.cIncludes = merge(COMMON_SRC, WINDOWS_SRC);
         win64.cppExcludes = EXCLUDES;
         win64.headerDirs = INCLUDES;
         win64.cFlags = "-c -Wall -O2 -fmessage-length=0 -m64 -g -O3 -DUSING_GENERATED_CONFIG_H";
         win64.linkerFlags = "-Wl,--kill-at -shared -m64 -static -static-libgcc -static-libstdc++";
-        win64.libraries = "-lmingw32 -mwindows -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid -static-libgcc";
+        win64.libraries = "-lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid -static-libgcc";
 
         //Linux build configs
         BuildTarget lin32 = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
