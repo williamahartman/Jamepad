@@ -140,27 +140,6 @@ $(objects)/SDL_yuv_mmx.lo: ./src/render/SDL_yuv_mmx.c
 $(objects)/SDL_yuv_sw.lo: ./src/render/SDL_yuv_sw.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_render_d3d.lo: ./src/render/direct3d/SDL_render_d3d.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_d3d11.lo: ./src/render/direct3d11/SDL_render_d3d11.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_gl.lo: ./src/render/opengl/SDL_render_gl.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_shaders_gl.lo: ./src/render/opengl/SDL_shaders_gl.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_gles.lo: ./src/render/opengles/SDL_render_gles.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_render_gles2.lo: ./src/render/opengles2/SDL_render_gles2.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
-$(objects)/SDL_shaders_gles2.lo: ./src/render/opengles2/SDL_shaders_gles2.c
-	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
-
 $(objects)/SDL_blendfillrect.lo: ./src/render/software/SDL_blendfillrect.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
@@ -299,6 +278,9 @@ $(objects)/SDL_windowshaptic.lo: ./src/haptic/windows/SDL_windowshaptic.c
 $(objects)/SDL_xinputhaptic.lo: ./src/haptic/windows/SDL_xinputhaptic.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
+$(objects)/SDL_syscond.lo: ./src/thread/windows/SDL_syscond.c
+	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
+
 $(objects)/SDL_sysmutex.lo: ./src/thread/windows/SDL_sysmutex.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
@@ -320,13 +302,13 @@ $(objects)/SDL_systimer.lo: ./src/timer/windows/SDL_systimer.c
 $(objects)/SDL_sysloadso.lo: ./src/loadso/windows/SDL_sysloadso.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/SDL_sysfilesystem.lo: ./src/filesystem/dummy/SDL_sysfilesystem.c
+$(objects)/*.lo: ./src/filesystem/dummy/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
-$(objects)/version.o: ./src/main/windows/version.rc
+$(objects)/*.o: ./src/main/windows/*.rc
 	$(WINDRES) $< $@
 
-$(objects)/SDL_windows_main.o: ./src/main/windows/SDL_windows_main.c
+$(objects)/*.o: ./src/main/windows/*.c
 	$(RUN_CMD_CC)$(LIBTOOL) --tag=CC --mode=compile $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MT $@ -c $< -o $@
 
 $(objects)/*.o: ./src/test/*.c
