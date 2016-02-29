@@ -14,8 +14,6 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: "eclipse"
-    apply plugin: "idea"
     apply plugin: "java"
 
     version = '1.0'
@@ -35,8 +33,8 @@ allprojects {
     }
 }
 
-task run(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.Main'
+task runTester(dependsOn: classes, type: JavaExec) {
+    main = 'com.studiohartman.jamepad.ControllerTester'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }
@@ -75,8 +73,4 @@ task dist(dependsOn: classes, type: Jar) {
     from {configurations.compile.collect {zipTree(it)}}
 
     manifest {}
-}
-
-tasks.eclipse.doLast {
-    delete ".project"
 }
