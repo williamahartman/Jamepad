@@ -30,12 +30,10 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/loadso/windows/*.*",
             "SDL2-2.0.4/src/timer/windows/*.*",
             "SDL2-2.0.4/src/render/*.*",
-            "SDL2-2.0.4/src/render/direct3d/*.*",
-            "SDL2-2.0.4/src/video/windows/*.*",
     };
     private static String WINDOWS_CONFIG_COMMAND = "./cross-configure.sh";
-    private static String WINDOWS_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
-            "--disable-assembly";
+    private static String WINDOWS_CONFIG_ARGS = " --disable-audio --disable-render --disable-video --disable-power" +
+            " --disable-filesystem --disable-assembly";
 
     private static String[] LINUX_SRC = {
             "SDL2-2.0.4/src/core/linux/*.*",
@@ -47,8 +45,9 @@ public class JamepadNativesBuild {
     };
     private static String LINUX_CONFIG_COMMAND = "./configure";
     private static String LINUX_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
-            "--disable-cpuinfo --disable-assembly --disable-dbus --disable-ibus --disable-video-x11 --disable-video-wayland" +
-            " --disable-video-mir --disable-video-opengl --disable-video-opengles --disable-video-opengles1 --disable-video-opengles2";
+            "--disable-cpuinfo --disable-assembly --disable-dbus --disable-ibus --disable-video-x11 " +
+            "--disable-video-wayland --disable-video-mir --disable-video-opengl --disable-video-opengles " +
+            "--disable-video-opengles1 --disable-video-opengles2";
     private static String[] MAC_SRC = {
             "SDL2-2.0.4/src/haptic/darwin/*.*",
             "SDL2-2.0.4/src/joystick/darwin/*.*",
@@ -56,7 +55,7 @@ public class JamepadNativesBuild {
             "SDL2-2.0.4/src/thread/pthread/*.*",
             "SDL2-2.0.4/src/timer/unix/*.*",
     };
-    private static String[] INCLUDES = new String[] {"include", "SDL2-2.0.4/include", "SDL2-2.0.4/src", "DirectXHeaders"};
+    private static String[] INCLUDES = new String[] {"include", "SDL2-2.0.4/include", "SDL2-2.0.4/src"};
     private static String[] EXCLUDES = {"SDL2-2.0.4/**/*.cpp"};
 
     private static String[] merge(String[] a, String ... b) {
