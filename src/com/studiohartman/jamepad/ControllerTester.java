@@ -3,7 +3,12 @@ package com.studiohartman.jamepad;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A quick and dirty interface to check if a controller is working. I hope you like swing!
+ */
 public class ControllerTester {
+    public static int NUM_CONTROLLERS = 4;
+
     public static void updatePanel(JPanel p, Controller c) {
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.removeAll();
@@ -42,7 +47,9 @@ public class ControllerTester {
         p.add(buttons);
     }
 
-    public static void main (String[] args) throws InterruptedException {
+    public static void run() {
+        JTabbedPane tabbedPane = new JTabbedPane();
+
         ControllerManager controllers = new ControllerManager();
         controllers.initSDLGamepad();
 
@@ -53,27 +60,60 @@ public class ControllerTester {
         testFrame.setResizable(false);
         testFrame.setVisible(true);
 
-        JPanel p = new JPanel();
-        testFrame.setContentPane(p);
-
-        while (true) {
-            Thread.sleep(30);
-
-            if (controllers.getNumControllers() > 0) {
-                try {
-                    updatePanel(p, controllers.get(0));
-                } catch (JamepadRuntimeException e) {
-                    p.removeAll();
-                    p.add(new Label("Runtime Exception!"));
-                    e.printStackTrace();
-                }
-            } else {
-                p.removeAll();
-                p.add(new Label("Controller Not Connected!"));
-            }
-            controllers.updateConnectedControllers();
-
-            testFrame.setContentPane(p);
+        JPanel[] controllerTabs = new JPanel[NUM_CONTROLLERS];
+        for(int i = 0; i < controllerTabs.length; i++) {
+            controllerTabs[i] = new JPanel();
+            tabbedPane.add(controllerTabs[i]);
         }
+
+        testFrame.setContentPane(tabbedPane);
+
+        boolean currentControllerDisconnectedUpdated = false;
+        while (true) {
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            for(int i = 0;  i < controllerTabs.length; i++) {
+                JPanel p = controllerTabs[i];
+                if (controllers.getNumControllers() > i) {
+                    try {
+                        updatePanel(p, controllers.get(0));
+                        tabbedPane.setTitleAt(i, (i + 1) + " - Connected" );
+                    } catch (JamepadRuntimeException e) {
+                        p.removeAll();
+                        p.add(new Label("Runtime Exception!"));
+                        e.printStackTrace();
+                    }
+
+                    testFrame.setContentPane(tabbedPane);
+                    if(i == tabbedPane.getSelectedIndex() && !currentControllerDisconnectedUpdated) {
+                        currentControllerDisconnectedUpdated = false;
+                    }
+                } else {
+                    tabbedPane.setTitleAt(i, (i + 1) + " - Disconnected" );
+                    if(i == tabbedPane.getSelectedIndex() && !currentControllerDisconnectedUpdated) {
+                        p.removeAll();
+                        p.add(new Label("Controller Not Connected!"));
+                        testFrame.setContentPane(tabbedPane);
+
+                        currentControllerDisconnectedUpdated = true;
+                    }
+                }
+
+                controllers.updateConnectedControllers();
+            }
+        }
+    }
+
+    public static void main (String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        run();
     }
 }
