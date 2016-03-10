@@ -80,7 +80,7 @@ public class ControllerTester {
                 JPanel p = controllerTabs[i];
                 if (controllers.getNumControllers() > i) {
                     try {
-                        updatePanel(p, controllers.get(0));
+                        updatePanel(p, controllers.get(i));
                         tabbedPane.setTitleAt(i, (i + 1) + " - Connected" );
                     } catch (JamepadRuntimeException e) {
                         p.removeAll();
@@ -103,7 +103,7 @@ public class ControllerTester {
                     }
                 }
 
-                controllers.updateConnectedControllers();
+                controllers.update();
             }
         }
     }
