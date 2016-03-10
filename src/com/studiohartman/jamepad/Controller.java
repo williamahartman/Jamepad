@@ -11,6 +11,7 @@ public class Controller {
 
     #include "SDL.h"
 
+    int index;
     SDL_GameController* pad;
     */
 
@@ -27,6 +28,13 @@ public class Controller {
     public Controller(int index) {
         this.index = index;
 
+        connectController();
+    }
+
+    /**
+     * Safely connect to the gamepad at the index associated by this Controller object.
+     */
+    private void connectController() {
         connected = nativeConnectController(index);
         if(!connected) {
             throw new JamepadRuntimeException("Controller at index " + index + " failed to connect!");
@@ -54,6 +62,16 @@ public class Controller {
         }
         pad = NULL;
     */
+
+    /**
+     * Close and reconnect to the gamepad at the index associated with this Controller object
+     *
+     * @throws JamepadRuntimeException
+     */
+    public void reconnectController() {
+        close();
+        connectController();
+    }
 
     /**
      * Returns the index of the current controller.
@@ -100,7 +118,17 @@ public class Controller {
         } catch (JamepadRuntimeException e) {
             return 0;
         }
-        return nativeCheckAxis(toCheck.ordinal()) / AXIS_MAX_VAL;
+
+        float toReturn;
+
+        //Note: we flip the Y values so up on the stick is positive. that makes more sense.
+        if(toCheck == ControllerAxis.LEFTY || toCheck == ControllerAxis.RIGHTY) {
+            toReturn = nativeCheckAxis(toCheck.ordinal()) / -AXIS_MAX_VAL;
+        } else {
+            toReturn = nativeCheckAxis(toCheck.ordinal()) / AXIS_MAX_VAL;
+        }
+
+        return toReturn;
     }
     private native int nativeCheckAxis(int index); /*
         SDL_GameControllerUpdate();
