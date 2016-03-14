@@ -160,21 +160,15 @@ public class ControllerManager {
             if (nativeControllerConnectedOrDisconnected()) {
                 int numControllers = getNumControllers();
 
-                if (numControllers != controllers.length) {
-                    Controller[] newControllerArr = new Controller[numControllers];
-                    for (int i = 0; i < newControllerArr.length; i++) {
-                        if (i < controllers.length) {
-                            newControllerArr[i] = controllers[i];
-                        } else {
-                            newControllerArr[i] = new Controller(i);
-                        }
+                Controller[] newControllerArr = new Controller[numControllers];
+                for (int i = 0; i < newControllerArr.length; i++) {
+                    if(i < controllers.length) {
+                        newControllerArr[i] = controllers[i];
+                    } else {
+                        newControllerArr[i] = new Controller(i);
                     }
-                    controllers = newControllerArr;
                 }
-
-                System.out.println(numControllers + " are connected.");
-                System.out.println(Arrays.toString(controllers));
-                System.out.println();
+                controllers = newControllerArr;
 
                 for (int i = 0; i < controllers.length; i++) {
                     controllers[i].reconnectController();
