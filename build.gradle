@@ -34,7 +34,7 @@ allprojects {
 }
 
 task runTester(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.ControllerTester'
+    main = 'com.studiohartman.jamepad.tester.ControllerTester'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }

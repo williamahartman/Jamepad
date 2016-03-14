@@ -7,6 +7,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 
 /**
  * This class handles basic stuff with initializing SDL and getting you the controllers to play with.
@@ -86,6 +87,108 @@ public class ControllerManager {
     */
 
     /**
+     * This method quits all the native stuff. Call it when you're done with Jamepad.
+     */
+    public void quitSDLGamepad() {
+        for(Controller c: controllers) {
+            c.close();
+        }
+        nativeCloseSDLGamepad();
+        controllers = new Controller[0];
+        isInitialized = false;
+    }
+    private native void nativeCloseSDLGamepad(); /*
+        SDL_Quit();
+    */
+
+    /**
+     * Return the state of a controller at the passed index. This is nice if you don't want to deal with
+     * Controller objects and button codes and stuff.
+     *
+     * @param index The index of the controller to be checked
+     * @return The state of the controller at the passed index.
+     */
+    public ControllerState getState(int index) {
+        if(index < controllers.length) {
+            return new ControllerState(controllers[index]);
+        }
+        return new ControllerState();
+    }
+
+    /**
+     * Returns a the Controller object with the passed index (0 for p1, 1 for p2, etc.)
+     *
+     * @param index The index of the desired controller
+     * @return The list of connected Jamepads
+     * @throws JamepadRuntimeException
+     */
+    public Controller get(int index) {
+        verifyInitialized();
+        return controllers[index];
+    }
+
+    /**
+     * Return the number of controllers that are connected.
+     *
+     * @return the number of connected controllers.
+     * @throws JamepadRuntimeException
+     */
+    public int getNumControllers() {
+        verifyInitialized();
+        return nativeGetNumRollers();
+    }
+    private native int nativeGetNumRollers(); /*
+        int numJoysticks = SDL_NumJoysticks();
+
+        int numGamepads = 0;
+
+        for(int i = 0; i < numJoysticks; i++) {
+            if(SDL_IsGameController(i)) {
+                numGamepads++;
+            }
+        }
+
+        return numGamepads;
+    */
+
+    /**
+     * Automatically refresh the controller list if a controller was connected or disconnected
+     * since the last call to this method.
+     */
+    public void update() {
+        try {
+            if (nativeControllerConnectedOrDisconnected()) {
+                int numControllers = getNumControllers();
+
+                Controller[] newControllerArr = new Controller[numControllers];
+                for (int i = 0; i < newControllerArr.length; i++) {
+                    if(i < controllers.length) {
+                        newControllerArr[i] = controllers[i];
+                    } else {
+                        newControllerArr[i] = new Controller(i);
+                    }
+                }
+                controllers = newControllerArr;
+
+                for (int i = 0; i < controllers.length; i++) {
+                    controllers[i].reconnectController();
+                }
+            }
+        } catch (JamepadRuntimeException e) {
+            e.printStackTrace();
+        }
+    }
+    private native boolean nativeControllerConnectedOrDisconnected(); /*
+        SDL_JoystickUpdate();
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_JOYDEVICEADDED || event.type == SDL_JOYDEVICEREMOVED) {
+                return JNI_TRUE;
+            }
+        }
+        return JNI_FALSE;
+    */
+
+    /**
      * This method adds mappings held in the specified file. The file is copied to the temp folder so
      * that it can be read by the native code (if running from a .jar for instance)
      *
@@ -117,80 +220,6 @@ public class ControllerManager {
 
         return JNI_TRUE;
     */
-
-    /**
-     * This method quits all the native stuff. Call it when you're done with Jamepad.
-     */
-    public void quitSDLGamepad() {
-        for(Controller c: controllers) {
-            c.close();
-        }
-        nativeCloseSDLGamepad();
-        controllers = new Controller[0];
-        isInitialized = false;
-    }
-    private native void nativeCloseSDLGamepad(); /*
-        SDL_Quit();
-    */
-
-    /**
-     * Return the number of controllers that are connected.
-     *
-     * @return the number of connected controllers.
-     * @throws JamepadRuntimeException
-     */
-    public int getNumControllers() {
-        verifyInitialized();
-
-        return nativeGetNumRollers();
-    }
-    private native int nativeGetNumRollers(); /*
-        int numJoysticks = SDL_NumJoysticks();
-
-        int numGamepads = 0;
-
-        for(int i = 0; i < numJoysticks; i++) {
-            if(SDL_IsGameController(i)) {
-                numGamepads++;
-            }
-        }
-
-        return numGamepads;
-    */
-
-    /**
-     * Automatically refresh the controller list if a controller was connected or disconnected
-     * since the last call to this method.
-     */
-    public void updateConnectedControllers() {
-        if(nativeControllerConnectedOrDisconnected()) {
-            if(isInitialized) {
-                quitSDLGamepad();
-            }
-            initSDLGamepad();
-        }
-    }
-    private native boolean nativeControllerConnectedOrDisconnected(); /*
-        SDL_JoystickUpdate();
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_JOYDEVICEADDED || event.type == SDL_JOYDEVICEREMOVED) {
-                return JNI_TRUE;
-            }
-        }
-        return JNI_FALSE;
-    */
-
-    /**
-     * Returns a the Controller object with the passed index (0 for p1, 1 for p2, etc.)
-     *
-     * @param index The index of the desired controller
-     * @return The list of connected Jamepads
-     * @throws JamepadRuntimeException
-     */
-    public Controller get(int index) {
-        verifyInitialized();
-        return controllers[index];
-    }
 
     private boolean verifyInitialized() {
         if(!isInitialized) {
