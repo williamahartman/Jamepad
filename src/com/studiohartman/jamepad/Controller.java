@@ -14,7 +14,6 @@ public class Controller {
     private static final float AXIS_MAX_VAL = 32767;
     private int index;
     private long controllerPtr;
-    private boolean connected;
 
     /**
      * Constructor
@@ -27,14 +26,9 @@ public class Controller {
 
         connectController();
     }
-
-    /**
-     * Safely connect to the gamepad at the index associated by this Controller object.
-     */
     private void connectController() {
         controllerPtr = nativeConnectController(index);
-        connected = controllerPtr != 0;
-        if(!connected) {
+        if(controllerPtr == 0) {
             throw new JamepadRuntimeException("Controller at index " + index + " failed to connect!");
         }
     }
@@ -46,7 +40,7 @@ public class Controller {
      * Close the connection to this controller.
      */
     public void close() {
-        if(connected) {
+        if(controllerPtr != 0) {
             nativeClose(controllerPtr);
         }
     }
@@ -59,7 +53,7 @@ public class Controller {
     */
 
     /**
-     * Close and reconnect to the gamepad at the index associated with this Controller object
+     * Close and reconnect to the native gamepad at the index associated with this Controller object
      *
      * @throws JamepadRuntimeException
      */
@@ -67,6 +61,24 @@ public class Controller {
         close();
         connectController();
     }
+
+    /**
+     * Return whether or not the controller is currently connected. This first checks that the controller
+     * was successfully connected to our SDL backend. Then we check if the controller is currently plugged
+     * in.
+     *
+     * @return Whether or not the controller is plugged in.
+     */
+    public boolean isConnected() {
+        return controllerPtr != 0 && nativeIsConnected(controllerPtr);
+    }
+    private native boolean nativeIsConnected(long controllerPtr); /*
+        SDL_GameController* pad = (SDL_GameController*) controllerPtr;
+        if (pad && SDL_GameControllerGetAttached(pad)) {
+            return JNI_TRUE;
+        }
+        return JNI_FALSE;
+    */
 
     /**
      * Returns the index of the current controller.
@@ -87,7 +99,9 @@ public class Controller {
      */
     public boolean isButtonPressed(ControllerButton toCheck) {
         try {
-            ensureConnected();
+            if(!isConnected()) {
+                throw new JamepadRuntimeException("Controller at index " + index + " is not connected!");
+            }
         } catch (JamepadRuntimeException e) {
             return false;
         }
@@ -110,7 +124,9 @@ public class Controller {
      */
     public float getAxisState(ControllerAxis toCheck) {
         try {
-            ensureConnected();
+            if(!isConnected()) {
+                throw new JamepadRuntimeException("Controller at index " + index + " is not connected!");
+            }
         } catch (JamepadRuntimeException e) {
             return 0;
         }
@@ -139,7 +155,7 @@ public class Controller {
      * @throws JamepadRuntimeException
      */
     public String getName() {
-        if(connected) {
+        if(controllerPtr != 0) {
             String controllerName = nativeGetName(controllerPtr);
 
             //Return empty string instead of null if the attached controller does not have a name
@@ -156,20 +172,8 @@ public class Controller {
         return env->NewStringUTF(SDL_GameControllerName(pad));
     */
 
-    private void ensureConnected() {
-        if(!connected || !nativeEnsureConnected(controllerPtr)) {
-            throw new JamepadRuntimeException("Controller at index " + index + " is not connected!");
-        }
-    }
-    private native boolean nativeEnsureConnected(long controllerPtr); /*
-        SDL_GameController* pad = (SDL_GameController*) controllerPtr;
-        if (pad && SDL_GameControllerGetAttached(pad)) {
-            return JNI_TRUE;
-        }
-        return JNI_FALSE;
-    */
-
+    @Override
     public String toString() {
-        return getName() + " @ " + index;
+        return "\\" + getName() + "\\" + "@" + index;
     }
 }
