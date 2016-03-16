@@ -25,7 +25,7 @@ public class ControllerTester {
         testFrame.setVisible(true);
 
         ControllerInfoPanel[] controllerTabs = new ControllerInfoPanel[NUM_CONTROLLERS];
-        for(int i = 0; i < controllerTabs.length; i++) {
+        for(int i = 0; i < NUM_CONTROLLERS; i++) {
             controllerTabs[i] = new ControllerInfoPanel();
             tabbedPane.add("   Controller " + (i + 1) + "   ", controllerTabs[i]);
 
@@ -41,8 +41,9 @@ public class ControllerTester {
 
             controllers.update();
             for(int i = 0;  i < controllerTabs.length; i++) {
-                if(i < controllers.getNumControllers()) {
-                    controllerTabs[i].updatePanel(controllers.getController(i));
+                ControllerIndex controllerAtIndex = controllers.getAtIndex(i);
+                if(controllerAtIndex.isConnected()) {
+                    controllerTabs[i].updatePanel(controllerAtIndex);
                 } else {
                     controllerTabs[i].setAsDisconnected();
                 }

@@ -130,10 +130,10 @@ public class ControllerManager {
      * Returns a the ControllerIndex object with the passed index (0 for p1, 1 for p2, etc.)
      *
      * @param index the index of the ControllerIndex that will be returned
-     * @return The list of connected Jamepads
+     * @return The internal ControllerIndex object for the passed index.
      * @throws JamepadRuntimeException if Jamepad was not initialized
      */
-    public ControllerIndex getController(int index) {
+    public ControllerIndex getAtIndex(int index) {
         verifyInitialized();
         return controllers[index];
     }
