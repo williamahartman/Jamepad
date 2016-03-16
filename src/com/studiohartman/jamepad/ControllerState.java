@@ -4,6 +4,12 @@ package com.studiohartman.jamepad;
  * This class represents the state of a gamepad at a given moment. This includes
  * the state of the axes and the buttons.
  *
+ * This is probably how most people should deal with gamepads.
+ *
+ * The isConnected field is pretty important. This is how you determine if the controller
+ * you asked for is plugged in. If isConnected is false, all other fields will be 0 or false. For
+ * some applications, you might not need to even bother checking isConnected.
+ *
  * All fields are public, but immutable.
  */
 public class ControllerState {
@@ -15,17 +21,17 @@ public class ControllerState {
     public final boolean isConnected;
 
     /**
-     * A string describing the type of controller (i.e. "PS4 ControllerIndex" or "XInput ControllerIndex")
+     * A string describing the type of controller (i.e. "PS4 Controller" or "XInput Controller")
      */
     public final String controllerType;
 
     /**
-     * The x position of the left stick between 0 and 1
+     * The x position of the left stick between -1 and 1
      */
     public final float leftStickX;
 
     /**
-     * The y position of the left stick between 0 and 1
+     * The y position of the left stick between -1 and 1
      */
     public final float leftStickY;
 
@@ -46,7 +52,7 @@ public class ControllerState {
 
     /**
      * The amount the left stick is pushed in the current direction. This probably between 0 and 1,
-     * But this can't be guaranteed due to weird gamepads (like the square holes on a Logitech Dual Action)
+     * but this can't be guaranteed due to weird gamepads (like the square holes on a Logitech Dual Action)
      */
     public final float leftStickMagnitude;
 
@@ -57,7 +63,7 @@ public class ControllerState {
 
     /**
      * The amount the right stick is pushed in the current direction. This probably between 0 and 1,
-     * But this can't be guaranteed due to weird gamepads (like the square holes on a Logitech Dual Action)
+     * but this can't be guaranteed due to weird gamepads (like the square holes on a Logitech Dual Action)
      */
     public final float rightStickMagnitude;
 

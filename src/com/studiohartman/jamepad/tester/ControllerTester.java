@@ -41,7 +41,7 @@ public class ControllerTester {
 
             controllers.update();
             for(int i = 0;  i < controllerTabs.length; i++) {
-                ControllerIndex controllerAtIndex = controllers.getAtIndex(i);
+                ControllerIndex controllerAtIndex = controllers.getControllerIndex(i);
                 if(controllerAtIndex.isConnected()) {
                     controllerTabs[i].updatePanel(controllerAtIndex);
                 } else {

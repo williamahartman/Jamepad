@@ -4,13 +4,11 @@ package com.studiohartman.jamepad;
  * This class is the main thing you're gonna need to deal with if you want lots of
  * control over your gamepads or want to avoid lots of ControllerState allocations.
  *
+ * A Controller index cannot be made from outside the Jamepad package. You're gonna need to go
+ * through a ControllerManager to get your controllers.
+ *
  * A ControllerIndex represents the controller at a given index. There may or may not actually
  * be a controller at that index. Exceptions are thrown if the controller is not connected.
- *
- * The gamepads are defined by their index (player number, but starting at 0).
- *
- * A Controller index cannot be made from inside the Jamepad package. You're gonna need to go
- * through a ControllerManager.
  */
 public final class ControllerIndex {
     /*JNI
@@ -23,10 +21,10 @@ public final class ControllerIndex {
 
     /**
      * Constructor. Builds a controller at the given index and attempts to connect to it.
-     * This is only accessable in the Jamepad package, so people can't go messing stuff
-     * up.
+     * This is only accessible in the Jamepad package, so people can't go trying to make controllers
+     * before the native library is loaded or initialized.
      *
-     * @param index The index of the controller (player number)
+     * @param index The index of the controller
      */
     ControllerIndex(int index) {
         this.index = index;
@@ -57,7 +55,9 @@ public final class ControllerIndex {
     */
 
     /**
-     * Close and reconnect to the native gamepad at the index associated with this ControllerIndex object
+     * Close and reconnect to the native gamepad at the index associated with this ControllerIndex object.
+     * This is will refresh the gamepad represented here. This should be called if something is plugged
+     * in or unplugged.
      *
      * @return whether or not the controller could successfully reconnect.
      */

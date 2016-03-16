@@ -9,9 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 /**
- * This class handles basic stuff with initializing SDL and getting you the controllers to play with.
- *
- *
+ * This class is the most important class in Jamepad. It handles initializing the native library,
+ * connecting to controllers, and managing the list of controllers.
  */
 public class ControllerManager {
     /*JNI
@@ -60,9 +59,13 @@ public class ControllerManager {
      * Initialize the ControllerIndex library. This loads the native library and initializes SDL
      * in the native code.
      *
-     * @throws JamepadRuntimeException
+     * @throws JamepadRuntimeException If the native code fails to initialize or if SDL is already initialized
      */
     public void initSDLGamepad() throws JamepadRuntimeException {
+        if(isInitialized) {
+            throw new JamepadRuntimeException("SDL is already initialized!");
+        }
+
         //Initialize SDL
         if (!nativeInitSDLGamepad()) {
             throw new JamepadRuntimeException("Failed to initialize SDL in native method!");
@@ -75,7 +78,8 @@ public class ControllerManager {
         try {
             addMappingsFromFile(mappingsPath);
         } catch (IOException e) {
-            System.err.println("Failed to load mapping with original location \"" + mappingsPath + "\"");
+            System.err.println("Failed to load mapping with original location \"" + mappingsPath + "\", " +
+                    "Falling back of SDL's built in mappings");
             e.printStackTrace();
         }
 
@@ -113,27 +117,48 @@ public class ControllerManager {
     */
 
     /**
-     * Return the state of a controller at the passed index. This is nice if you don't want to deal with
-     * ControllerIndex objects and button codes and stuff.
+     * Return the state of a controller at the passed index. This is probably the way most people
+     * should use this library. It's simpler and less verbose, and controller connections and
+     * disconnections are automatically handled.
+     *
+     * Also, no exceptions are thrown here, so you don't need to have a million try/catches or
+     * anything.
+     *
+     * The returned state is immutable. This means an object is allocated every time you call this.
+     * This shouldn't be a big deal (even for games) if your GC is tuned well, but if this is a
+     * problem for you, you can go directly through the internal ControllerIndex objects using
+     * getControllerIndex().
      *
      * @param index The index of the controller to be checked
      * @return The state of the controller at the passed index.
      */
     public ControllerState getState(int index) {
-        if(index < controllers.length) {
+        if(isInitialized && index < controllers.length && controllers[index].isConnected()) {
+            update();
             return new ControllerState(controllers[index]);
+        } else {
+            return new ControllerState();
         }
-        return new ControllerState();
     }
 
     /**
-     * Returns a the ControllerIndex object with the passed index (0 for p1, 1 for p2, etc.)
+     * Returns a the ControllerIndex object with the passed index (0 for p1, 1 for p2, etc.).
+     *
+     * You should only use this method if you're worried about the object allocations from getState().
+     * If you decide to do things this way, your code will be a good bit more verbose and you'll
+     * need to deal with potential exceptions.
+     *
+     * It is generally safe to store objects returned from this method. They will only change internally
+     * if you call quitSDLGamepad() followed by a call to initSDLGamepad().
+     *
+     * Calling update() will run through all the controllers to check for newly plugged in or unplugged
+     * controllers. You could do this from your code, but keep that in mind.
      *
      * @param index the index of the ControllerIndex that will be returned
      * @return The internal ControllerIndex object for the passed index.
      * @throws JamepadRuntimeException if Jamepad was not initialized
      */
-    public ControllerIndex getAtIndex(int index) {
+    public ControllerIndex getControllerIndex(int index) {
         verifyInitialized();
         return controllers[index];
     }
@@ -142,7 +167,7 @@ public class ControllerManager {
      * Return the number of controllers that are actually connected.
      *
      * @return the number of connected controllers.
-     * @throws JamepadRuntimeException
+     * @throws JamepadRuntimeException if Jamepad was not initialized
      */
     public int getNumControllers() {
         verifyInitialized();
@@ -163,9 +188,15 @@ public class ControllerManager {
     */
 
     /**
-     * Refresh the connected controllers in the controller list if it needs to be refreshed.
+     * Refresh the connected controllers in the controller list if something has been connected or
+     * unplugged.
+     *
+     * If there hasn't been a change in whether controller are connected or not, nothing will happen.
+     *
+     * @throws JamepadRuntimeException if Jamepad was not initialized
      */
     public void update() {
+        verifyInitialized();
         if (nativeControllerConnectedOrDisconnected()) {
             for (int i = 0; i < controllers.length; i++) {
                 controllers[i].reconnectController();
@@ -187,8 +218,8 @@ public class ControllerManager {
      * that it can be read by the native code (if running from a .jar for instance)
      *
      * @param path The path to the file containing controller mappings.
-     * @throws IOException
-     * @throws JamepadRuntimeException
+     * @throws IOException if the file cannot be read, copied to a temp folder, or deleted.
+     * @throws JamepadRuntimeException if the mappings cannot be applied to SDL
      */
     public void addMappingsFromFile(String path) throws IOException, JamepadRuntimeException {
         mappingsPath = path;
@@ -202,7 +233,7 @@ public class ControllerManager {
                 StandardCopyOption.REPLACE_EXISTING);
 
         if(!nativeAddMappingsFromFile(extractedLoc.toString())) {
-            throw new JamepadRuntimeException("Failed to set SDL controller mappings!");
+            throw new JamepadRuntimeException("Failed to set SDL controller mappings! Falling back to build in SDL mappings.");
         }
 
         Files.delete(extractedLoc);
