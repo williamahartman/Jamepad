@@ -15,7 +15,7 @@ public class ControllerState {
     public final boolean isConnected;
 
     /**
-     * A string describing the type of controller (i.e. "PS4 Controller" or "XInput Controller")
+     * A string describing the type of controller (i.e. "PS4 ControllerIndex" or "XInput ControllerIndex")
      */
     public final String controllerType;
 
@@ -150,9 +150,9 @@ public class ControllerState {
     /**
      * Return a controller state based on the current state of the passed controller.
      *
-     * @param c The Controller object whose state should be read.
+     * @param c The ControllerIndex object whose state should be read.
      */
-    public ControllerState(Controller c) {
+    public ControllerState(ControllerIndex c) {
         isConnected = true;
         controllerType = c.getName();
         leftStickX = c.getAxisState(ControllerAxis.LEFTX);

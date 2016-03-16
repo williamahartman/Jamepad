@@ -14,7 +14,7 @@ public class ControllerTester {
     public static void run() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        ControllerManager controllers = new ControllerManager();
+        ControllerManager controllers = new ControllerManager(NUM_CONTROLLERS);
         controllers.initSDLGamepad();
 
         JFrame testFrame = new JFrame();
@@ -27,7 +27,7 @@ public class ControllerTester {
         ControllerInfoPanel[] controllerTabs = new ControllerInfoPanel[NUM_CONTROLLERS];
         for(int i = 0; i < controllerTabs.length; i++) {
             controllerTabs[i] = new ControllerInfoPanel();
-            tabbedPane.add(" Controller " + (i + 1) + " ", controllerTabs[i]);
+            tabbedPane.add("   Controller " + (i + 1) + "   ", controllerTabs[i]);
 
         }
         testFrame.setContentPane(tabbedPane);
@@ -42,7 +42,7 @@ public class ControllerTester {
             controllers.update();
             for(int i = 0;  i < controllerTabs.length; i++) {
                 if(i < controllers.getNumControllers()) {
-                    controllerTabs[i].updatePanel(controllers.get(i));
+                    controllerTabs[i].updatePanel(controllers.getController(i));
                 } else {
                     controllerTabs[i].setAsDisconnected();
                 }

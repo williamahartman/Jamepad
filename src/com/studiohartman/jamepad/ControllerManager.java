@@ -7,10 +7,11 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 
 /**
  * This class handles basic stuff with initializing SDL and getting you the controllers to play with.
+ *
+ *
  */
 public class ControllerManager {
     /*JNI
@@ -22,30 +23,41 @@ public class ControllerManager {
 
     private String mappingsPath;
     private boolean isInitialized;
-    private Controller[] controllers;
+    private ControllerIndex[] controllers;
+
+    /**
+     * Default constructor. Makes a manager for 4 controllers with the built in mappings from here:
+     * https://github.com/gabomdq/SDL_GameControllerDB
+     */
+    public ControllerManager() {
+        this(4, "gamecontrollerdb.txt");
+    }
 
     /**
      * Constructor. Uses built-in mappings from here: https://github.com/gabomdq/SDL_GameControllerDB
+     *
+     * @param maxNumControllers The number of controller this ControllerManager can deal with
      */
-    public ControllerManager() {
-        this("gamecontrollerdb.txt");
+    public ControllerManager(int maxNumControllers) {
+        this(maxNumControllers, "gamecontrollerdb.txt");
     }
 
     /**
      * Constructor.
      *
      * @param mappingsPath The path to a file containing SDL controller mappings.
+     * @param maxNumControllers The number of controller this ControllerManager can deal with
      */
-    public ControllerManager(String mappingsPath) {
+    public ControllerManager(int maxNumControllers, String mappingsPath) {
         this.mappingsPath = mappingsPath;
         isInitialized = false;
-        controllers = new Controller[0];
+        controllers = new ControllerIndex[maxNumControllers];
 
         new JniGenSharedLibraryLoader().load("jamepad");
     }
 
     /**
-     * Initialize the Controller library. This initialized loads the native library and initializes SDL
+     * Initialize the ControllerIndex library. This loads the native library and initializes SDL
      * in the native code.
      *
      * @throws JamepadRuntimeException
@@ -68,9 +80,8 @@ public class ControllerManager {
         }
 
         //Connect and keep track of the controllers
-        controllers = new Controller[getNumControllers()];
         for(int i = 0; i < controllers.length; i++) {
-            controllers[i] = new Controller(i);
+            controllers[i] = new ControllerIndex(i);
         }
     }
     private native boolean nativeInitSDLGamepad(); /*
@@ -90,11 +101,11 @@ public class ControllerManager {
      * This method quits all the native stuff. Call it when you're done with Jamepad.
      */
     public void quitSDLGamepad() {
-        for(Controller c: controllers) {
+        for(ControllerIndex c: controllers) {
             c.close();
         }
         nativeCloseSDLGamepad();
-        controllers = new Controller[0];
+        controllers = new ControllerIndex[0];
         isInitialized = false;
     }
     private native void nativeCloseSDLGamepad(); /*
@@ -103,7 +114,7 @@ public class ControllerManager {
 
     /**
      * Return the state of a controller at the passed index. This is nice if you don't want to deal with
-     * Controller objects and button codes and stuff.
+     * ControllerIndex objects and button codes and stuff.
      *
      * @param index The index of the controller to be checked
      * @return The state of the controller at the passed index.
@@ -116,19 +127,19 @@ public class ControllerManager {
     }
 
     /**
-     * Returns a the Controller object with the passed index (0 for p1, 1 for p2, etc.)
+     * Returns a the ControllerIndex object with the passed index (0 for p1, 1 for p2, etc.)
      *
-     * @param index The index of the desired controller
+     * @param index the index of the ControllerIndex that will be returned
      * @return The list of connected Jamepads
-     * @throws JamepadRuntimeException
+     * @throws JamepadRuntimeException if Jamepad was not initialized
      */
-    public Controller get(int index) {
+    public ControllerIndex getController(int index) {
         verifyInitialized();
         return controllers[index];
     }
 
     /**
-     * Return the number of controllers that are connected.
+     * Return the number of controllers that are actually connected.
      *
      * @return the number of connected controllers.
      * @throws JamepadRuntimeException
@@ -152,30 +163,13 @@ public class ControllerManager {
     */
 
     /**
-     * Automatically refresh the controller list if a controller was connected or disconnected
-     * since the last call to this method.
+     * Refresh the connected controllers in the controller list if it needs to be refreshed.
      */
     public void update() {
-        try {
-            if (nativeControllerConnectedOrDisconnected()) {
-                int numControllers = getNumControllers();
-
-                Controller[] newControllerArr = new Controller[numControllers];
-                for (int i = 0; i < newControllerArr.length; i++) {
-                    if(i < controllers.length) {
-                        newControllerArr[i] = controllers[i];
-                    } else {
-                        newControllerArr[i] = new Controller(i);
-                    }
-                }
-                controllers = newControllerArr;
-
-                for (int i = 0; i < controllers.length; i++) {
-                    controllers[i].reconnectController();
-                }
+        if (nativeControllerConnectedOrDisconnected()) {
+            for (int i = 0; i < controllers.length; i++) {
+                controllers[i].reconnectController();
             }
-        } catch (JamepadRuntimeException e) {
-            e.printStackTrace();
         }
     }
     private native boolean nativeControllerConnectedOrDisconnected(); /*
@@ -210,6 +204,8 @@ public class ControllerManager {
         if(!nativeAddMappingsFromFile(extractedLoc.toString())) {
             throw new JamepadRuntimeException("Failed to set SDL controller mappings!");
         }
+
+        Files.delete(extractedLoc);
     }
     private native boolean nativeAddMappingsFromFile(String path); /*
         if(SDL_GameControllerAddMappingsFromFile(path) < 0) {

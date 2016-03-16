@@ -1,6 +1,6 @@
 package com.studiohartman.jamepad.tester;
 
-import com.studiohartman.jamepad.Controller;
+import com.studiohartman.jamepad.ControllerIndex;
 import com.studiohartman.jamepad.ControllerAxis;
 import com.studiohartman.jamepad.ControllerButton;
 import com.studiohartman.jamepad.JamepadRuntimeException;
@@ -33,7 +33,7 @@ public class ControllerInfoPanel extends JPanel {
         add(buttons);
     }
 
-    public void updatePanel(Controller c) {
+    public void updatePanel(ControllerIndex c) {
         try {
             titleLabel.setText(c.getName());
 
