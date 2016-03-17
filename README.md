@@ -8,17 +8,14 @@ Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](http
 Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform. On some, hotplugging controllers is not supported.
 
 Jamepad has:
-
   - One library that supports all platforms (Windows, OSX, and Linux), and is easy to port to others.
   - XInput support on windows for full Xbox 360 controller support. If we're being honest that's the most important controller/platform combo.
   - Support for plugging/unplugging controllers at runtime.
   - Button/Axis mappings for popular controllers.
-        
 
 #### Stuff You Should Know About Jamepad
 
 - Jamepad is based on SDL. Since SDL is a bit overkill for just gamepad stuff, we build a smaller version that only contains the SDL_GameController subsystem and its dependencies.
-
 - On Linux, runtime dependencies are:
   - libevdev
   - libudev
@@ -27,42 +24,48 @@ Jamepad has:
 
 There are two main ways to use Jamepad. Both rely on a ControllerManager Object.
 
-        ControllerManager controllers = new ControllerManager();
-        controllers.initSDLGamepad();
-        
+```java
+ControllerManager controllers = new ControllerManager();
+controllers.initSDLGamepad();
+```
+
 For most applications, using the getState() method is simplest. This method returns an immutable ControllerState object that describes the state of the controller at the instant the method is called. Here's a simple example:
-        
-        while(true) {
-            ControllerState currState = controllers.getState(0);
-            
-            if(currState.a) {
-                System.out.println("\"A\" on \"" + currState.controllerType + "\" is pressed");
-            }
-            
-            if(currState.b || !currState.isConnected) {
-                break;
-            }
-        }
-        
+
+```java
+while(true) {
+  ControllerState currState = controllers.getState(0);
+
+  if(currState.a) {
+    System.out.println("\"A\" on \"" + currState.controllerType + "\" is pressed");
+  }
+  
+  if(currState.b || !currState.isConnected) {
+    break;
+  }
+}
+```
+
 For some applications, getState() might not be the best decision since all the object allocations can certainly add up. If this is a problem, you can access the internal representation of the controllers. This is more complicated to use, and you might need to deal with some exceptions. Here's a pretty barebones example:
 
-        ControllerIndex currController = controllers.getControllerIndex(0);
-        
-        while(true) {
-            controllers.update();
-            
-            try {
-                if(currController.isButtonPressed(ControllerButton.A)) {
-                    System.out.println("\"A\" on \"" + currController.getName() + "\" is pressed");
-                }
-                
-                if(currController.isButtonPressed(ControllerButton.B)) {
-                    break;
-                }
-            } catch (JamepadRuntimeException e) {
-                break;
-            }
-        }
+```java
+ControllerIndex currController = controllers.getControllerIndex(0);
+
+while(true) {
+  controllers.update();
+
+  try {
+    if(currController.isButtonPressed(ControllerButton.A)) {
+      System.out.println("\"A\" on \"" + currController.getName() + "\" is pressed");
+    }
+
+    if(currController.isButtonPressed(ControllerButton.B)) {
+      break;
+    }
+  } catch (JamepadRuntimeException e) {
+    break;
+  }
+}
+```
         
 When you're finished with your gamepad stuff, you should call quitSDLGamepad() to free the native library.
     
@@ -85,16 +88,19 @@ Right now, Jamepad needs to be built on Linux. The binaries for Windows are cros
 
 The following packages (or equivalents) are needed:
 
-        gradle
-        ant
-        build-essentials 
-        libc6-i386 
-        libc6-dev-i386 
-        g++-multilib
-        g++-mingw-w64-i686 
-        g++-mingw-w64-x86-64
-        
-       
+```
+gradle
+ant
+build-essentials 
+libc6-i386 
+libc6-dev-i386 
+g++-multilib
+g++-mingw-w64-i686 
+g++-mingw-w64-x86-64
+```
+
 If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. It should be something like this if you're on Ubuntu or Debian or whatever: 
-        
-        sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
+
+```
+sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
+```
