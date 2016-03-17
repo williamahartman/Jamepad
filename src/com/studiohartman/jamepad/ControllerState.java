@@ -157,8 +157,10 @@ public class ControllerState {
      * Return a controller state based on the current state of the passed controller.
      *
      * @param c The ControllerIndex object whose state should be read.
+     * @throws ControllerUnpluggedException if the controller at this index is not connected or is
+     * unexpectedly disconnected.
      */
-    public ControllerState(ControllerIndex c) {
+    public ControllerState(ControllerIndex c) throws ControllerUnpluggedException {
         isConnected = true;
         controllerType = c.getName();
         leftStickX = c.getAxisState(ControllerAxis.LEFTX);

@@ -62,13 +62,10 @@ public final class ControllerIndex {
      * @return whether or not the controller could successfully reconnect.
      */
     public boolean reconnectController() {
-        try {
-            close();
-            connectController();
-            return true;
-        } catch (JamepadRuntimeException e) {
-            return false;
-        }
+        close();
+        connectController();
+
+        return isConnected();
     }
 
     /**
@@ -102,9 +99,9 @@ public final class ControllerIndex {
      *
      * @param toCheck The ControllerButton to check the state of
      * @return Whether or not the button is pressed.
-     * @throws JamepadRuntimeException If the controller is not connected
+     * @throws ControllerUnpluggedException If the controller is not connected
      */
-    public boolean isButtonPressed(ControllerButton toCheck) {
+    public boolean isButtonPressed(ControllerButton toCheck) throws ControllerUnpluggedException {
         ensureConnected();
         return nativeCheckButton(controllerPtr, toCheck.ordinal());
     }
@@ -119,9 +116,9 @@ public final class ControllerIndex {
      *
      * @param toCheck The ControllerAxis to check the state of
      * @return The current state of the requested axis.
-     * @throws JamepadRuntimeException If the controller is not connected
+     * @throws ControllerUnpluggedException If the controller is not connected
      */
-    public float getAxisState(ControllerAxis toCheck) {
+    public float getAxisState(ControllerAxis toCheck) throws ControllerUnpluggedException {
         ensureConnected();
 
         float toReturn;
@@ -145,9 +142,9 @@ public final class ControllerIndex {
      * Returns the implementation dependent name of this controller.
      *
      * @return The the name of this controller
-     * @throws JamepadRuntimeException If the controller is not connected
+     * @throws ControllerUnpluggedException If the controller is not connected
      */
-    public String getName() {
+    public String getName() throws ControllerUnpluggedException {
         ensureConnected();
 
         String controllerName = nativeGetName(controllerPtr);
@@ -166,14 +163,9 @@ public final class ControllerIndex {
     /**
      * Convenience method to throw an exception if the controller is not connected.
      */
-    private void ensureConnected() {
+    private void ensureConnected() throws ControllerUnpluggedException {
         if(!isConnected()) {
-            throw new JamepadRuntimeException("Controller at index " + index + " is not connected!");
+            throw new ControllerUnpluggedException("Controller at index " + index + " is not connected!");
         }
-    }
-
-    @Override
-    public String toString() {
-        return "\\" + getName() + "\\" + "@" + index;
     }
 }

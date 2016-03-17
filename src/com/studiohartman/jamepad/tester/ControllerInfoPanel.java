@@ -1,9 +1,9 @@
 package com.studiohartman.jamepad.tester;
 
-import com.studiohartman.jamepad.ControllerIndex;
 import com.studiohartman.jamepad.ControllerAxis;
 import com.studiohartman.jamepad.ControllerButton;
-import com.studiohartman.jamepad.JamepadRuntimeException;
+import com.studiohartman.jamepad.ControllerIndex;
+import com.studiohartman.jamepad.ControllerUnpluggedException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +60,7 @@ public class ControllerInfoPanel extends JPanel {
                 button.setEnabled(c.isButtonPressed(b));
                 buttons.add(button);
             }
-        } catch (JamepadRuntimeException e) {
+        } catch (ControllerUnpluggedException e) {
             e.printStackTrace();
 
             titleLabel.setText("a Jamepad runtime exception occurred!");

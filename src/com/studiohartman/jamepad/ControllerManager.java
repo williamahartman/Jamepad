@@ -20,6 +20,8 @@ public class ControllerManager {
     SDL_Event event;
     */
 
+    private static final ControllerState DISCONNECTED_CONTROLLER = new ControllerState();
+
     private String mappingsPath;
     private boolean isInitialized;
     private ControllerIndex[] controllers;
@@ -35,7 +37,7 @@ public class ControllerManager {
     /**
      * Constructor. Uses built-in mappings from here: https://github.com/gabomdq/SDL_GameControllerDB
      *
-     * @param maxNumControllers The number of controller this ControllerManager can deal with
+     * @param maxNumControllers The number of controllers this ControllerManager can deal with
      */
     public ControllerManager(int maxNumControllers) {
         this(maxNumControllers, "gamecontrollerdb.txt");
@@ -121,23 +123,28 @@ public class ControllerManager {
      * should use this library. It's simpler and less verbose, and controller connections and
      * disconnections are automatically handled.
      *
-     * Also, no exceptions are thrown here, so you don't need to have a million try/catches or
-     * anything.
+     * Also, no exceptions are thrown here (unless Jamepad isn't initialized), so you don't need
+     * to have a million try/catches or anything.
      *
-     * The returned state is immutable. This means an object is allocated every time you call this.
-     * This shouldn't be a big deal (even for games) if your GC is tuned well, but if this is a
-     * problem for you, you can go directly through the internal ControllerIndex objects using
-     * getControllerIndex().
+     * The returned state is immutable. This means an object is allocated every time you call this
+     * (unless the controller is disconnected). This shouldn't be a big deal (even for games) if your
+     * GC is tuned well, but if this is a problem for you, you can go directly through the internal
+     * ControllerIndex objects using getControllerIndex().
+     *
+     * update() is called each time this method is called. This should be fine unless you are mixing
+     * and matching this method with ControllerIndex objects, which you probably shouldn't do anyway.
      *
      * @param index The index of the controller to be checked
      * @return The state of the controller at the passed index.
+     * @throws JamepadRuntimeException if Jamepad was not initialized
      */
-    public ControllerState getState(int index) {
-        if(isInitialized && index < controllers.length && controllers[index].isConnected()) {
+    public ControllerState getState(int index) throws JamepadRuntimeException {
+        verifyInitialized();
+        try {
             update();
             return new ControllerState(controllers[index]);
-        } else {
-            return new ControllerState();
+        } catch (ControllerUnpluggedException | ArrayIndexOutOfBoundsException e) {
+            return DISCONNECTED_CONTROLLER;
         }
     }
 
@@ -164,7 +171,9 @@ public class ControllerManager {
     }
 
     /**
-     * Return the number of controllers that are actually connected.
+     * Return the number of controllers that are actually connected. This may disagree with
+     * the ControllerIndex objects held in here if something has been plugged in or unplugged
+     * since update() was last called.
      *
      * @return the number of connected controllers.
      * @throws JamepadRuntimeException if Jamepad was not initialized
@@ -248,7 +257,7 @@ public class ControllerManager {
         return JNI_TRUE;
     */
 
-    private boolean verifyInitialized() {
+    private boolean verifyInitialized() throws JamepadRuntimeException {
         if(!isInitialized) {
             throw new JamepadRuntimeException("SDL_GameController is not initialized!");
         }
