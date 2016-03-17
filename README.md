@@ -44,7 +44,8 @@ If a controller is disconnected, the returned ControllerState object has the isC
 Here's a simple example:
 
 ```java
-//Print a message when the "A" button is pressed. Exit if the "B" button is pressed or the controller disconnects.
+//Print a message when the "A" button is pressed. Exit if the "B" button is pressed 
+//or the controller disconnects.
 while(true) {
   ControllerState currState = controllers.getState(0);
 
@@ -65,13 +66,13 @@ If these allocations do end up being an actual problem, you can access the inter
 Here's a pretty barebones example:
 
 ```java
-//Print a message when the "A" button is pressed. Exit if the "B" button is pressed or the controller disconnects.
+//Print a message when the "A" button is pressed. Exit if the "B" button is pressed 
+//or the controller disconnects.
 ControllerIndex currController = controllers.getControllerIndex(0);
 
 while(true) {
   controllers.update(); //If using ControllerIndex, you should call update() to check if a new controller
                         //was plugged in or unplugged at this index.
-
   try {
     if(currController.isButtonPressed(ControllerButton.A)) {
       System.out.println("\"A\" on \"" + currController.getName() + "\" is pressed");
@@ -80,7 +81,7 @@ while(true) {
     if(currController.isButtonPressed(ControllerButton.B)) {
       break;
     }
-  } catch (JamepadRuntimeException e) {   //Deal with exceptions thrown if currController isn't connnected
+  } catch (ControllerUnpluggedException e) {   
     break;
   }
 }
