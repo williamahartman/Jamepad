@@ -9,7 +9,7 @@ Other gamepad libraries are missing stuff developers need. For most libraries, X
 
 Jamepad has:
   - One library that supports all platforms (Windows, OSX, and Linux), and is easy to port to others.
-  - XInput support on windows for full Xbox 360 controller support. If we're being honest that's the most important controller/platform combo.
+  - XInput support on Windows for full Xbox 360 controller support.
   - Support for plugging/unplugging controllers at runtime.
   - Button/Axis mappings for popular controllers.
 
@@ -74,8 +74,8 @@ When you're finished with your gamepad stuff, you should call quitSDLGamepad() t
 #### Current Limitations
 
 - Jamepad does not work on Mac OSX yet
+- The order of gamepads in Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
-- The order of gamepads in windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
 
 #### Building Jamepad
