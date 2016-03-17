@@ -133,10 +133,13 @@ public class ControllerManager {
      * @return The state of the controller at the passed index.
      */
     public ControllerState getState(int index) {
-        if(isInitialized && index < controllers.length && controllers[index].isConnected()) {
-            update();
-            return new ControllerState(controllers[index]);
-        } else {
+        try {
+            if(isInitialized && index < controllers.length && controllers[index].isConnected()) {
+                update();
+                return new ControllerState(controllers[index]);
+            }
+            return new ControllerState();
+        } catch (JamepadRuntimeException e) {
             return new ControllerState();
         }
     }
