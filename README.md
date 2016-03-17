@@ -20,7 +20,15 @@ Jamepad has:
   - libevdev
   - libudev
   
-#### Using Jamepad
+#### Current Limitations
+
+- Jamepad does not work on Mac OSX yet
+- There are some problems Jamepad just can't fix. Xbox controller support on OSX and Linux are still kind of iffy. The 360 Wireless Adapter is a mess on Linux without weird kernel modules or userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
+- The order of gamepads in Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
+- If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
+- For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
+  
+## Using Jamepad
 
 There are two main ways to use Jamepad. Both rely on a ControllerManager Object.
 
@@ -29,9 +37,14 @@ ControllerManager controllers = new ControllerManager();
 controllers.initSDLGamepad();
 ```
 
-For most applications, using the getState() method is simplest. This method returns an immutable ControllerState object that describes the state of the controller at the instant the method is called. Here's a simple example:
+For most applications, using the getState() method in ControllerManager is best. This method returns an immutable ControllerState object that describes the state of the controller at the instant the method is called. Using this method, you don't need to litter code with a bunch of exceoption handling or handle the possiblity of controller disconnections at weird times. 
+
+If a controller is disconnected, the returned ControllerState object has the isConnected field set to false. All other fields are either false (for buttons) or 0 (for axes).
+
+Here's a simple example:
 
 ```java
+//Print a message when the "A" button is pressed. Exit if the "B" button is pressed or the controller disconnects.
 while(true) {
   ControllerState currState = controllers.getState(0);
 
@@ -45,13 +58,19 @@ while(true) {
 }
 ```
 
-For some applications, getState() might not be the best decision since all the object allocations can certainly add up. If this is a problem, you can access the internal representation of the controllers. This is more complicated to use, and you might need to deal with some exceptions. Here's a pretty barebones example:
+For a select few applications, getState() might not be the best decision. Since ControllerState is immutable, a new one is instantiated on each call to getState(). This should be fine for normal desktop JVMs; both Oracle's JVM and the OpenJDK one should absolutely be able to handle this. What problems do come up could probably be solved with some GC tuning.
+
+If these allocations do end up being an actual problem, you can access the internal representation of the controllers. This is more complicated to use, and you might need to deal with some exceptions.
+
+Here's a pretty barebones example:
 
 ```java
+//Print a message when the "A" button is pressed. Exit if the "B" button is pressed or the controller disconnects.
 ControllerIndex currController = controllers.getControllerIndex(0);
 
 while(true) {
-  controllers.update();
+  controllers.update(); //If using ControllerIndex, you should call update() to check if a new controller
+                        //was plugged in or unplugged at this index.
 
   try {
     if(currController.isButtonPressed(ControllerButton.A)) {
@@ -61,24 +80,19 @@ while(true) {
     if(currController.isButtonPressed(ControllerButton.B)) {
       break;
     }
-  } catch (JamepadRuntimeException e) {
+  } catch (JamepadRuntimeException e) {   //Deal with exceptions thrown if currController isn't connnected
     break;
   }
 }
 ```
-        
+
 When you're finished with your gamepad stuff, you should call quitSDLGamepad() to free the native library.
-    
-        controllers.quitSDLGamepad();
 
-#### Current Limitations
+```java
+controllers.quitSDLGamepad();
+```
 
-- Jamepad does not work on Mac OSX yet
-- The order of gamepads in Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
-- If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
-- For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
-
-#### Building Jamepad
+## Building Jamepad
 1.  run `gradle windowsNatives`
 2.  run `gradle linuxNatives`
 2.  run `gradle dist` to generate a .jar file with all the dependencies bundled.
