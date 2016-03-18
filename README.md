@@ -23,10 +23,16 @@ Jamepad has:
 #### Current Limitations
 
 - Jamepad does not work on Mac OSX yet
-- There are some problems Jamepad just can't fix. Xbox controller support on OSX and Linux are still kind of iffy. The 360 Wireless Adapter is a mess on Linux without weird kernel modules or userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
-- The order of gamepads in Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
+- There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on OSX and Linux are still kind of iffy. The 360 Wireless Adapter is a mess on Linux without weird kernel modules or userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
+- The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
+
+#### Planned Features
+- OSX Support
+- Some kind of isButtonJustPressed() thing to avoid repeated inputs if you don't want them
+- Abstracted controller indices, for the same gamepad ordering behavior across platforms
+- Haptics on supported controllers
   
 ## Using Jamepad
 
@@ -48,13 +54,12 @@ Here's a simple example:
 //or the controller disconnects.
 while(true) {
   ControllerState currState = controllers.getState(0);
-
+  
+  if(!currState.isConnected || currState.b) {
+    break;
+  }
   if(currState.a) {
     System.out.println("\"A\" on \"" + currState.controllerType + "\" is pressed");
-  }
-  
-  if(currState.b || !currState.isConnected) {
-    break;
   }
 }
 ```
@@ -77,7 +82,6 @@ while(true) {
     if(currController.isButtonPressed(ControllerButton.A)) {
       System.out.println("\"A\" on \"" + currController.getName() + "\" is pressed");
     }
-
     if(currController.isButtonPressed(ControllerButton.B)) {
       break;
     }
