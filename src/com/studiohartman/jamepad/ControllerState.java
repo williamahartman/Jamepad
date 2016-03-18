@@ -12,7 +12,9 @@ package com.studiohartman.jamepad;
  *
  * All fields are public, but immutable.
  */
-public class ControllerState {
+public final class ControllerState {
+    private static final ControllerState DISCONNECTED_CONTROLLER = new ControllerState();
+
     /**
      * Whether or not the controller is currently connected.
      *
@@ -160,7 +162,20 @@ public class ControllerState {
      * @throws ControllerUnpluggedException if the controller at this index is not connected or is
      * unexpectedly disconnected.
      */
-    public ControllerState(ControllerIndex c) throws ControllerUnpluggedException {
+    static ControllerState getInstanceFromController(ControllerIndex c) throws ControllerUnpluggedException {
+        return new ControllerState(c);
+    }
+
+    /**
+     * Return a ControllerState that represents a disconnected controller. This object is shared.
+     *
+     * @return The ControllerState representing the disconnected controller.
+     */
+    static ControllerState getDisconnectedControllerInstance() {
+        return DISCONNECTED_CONTROLLER;
+    }
+
+    private ControllerState(ControllerIndex c) throws ControllerUnpluggedException {
         isConnected = true;
         controllerType = c.getName();
         leftStickX = c.getAxisState(ControllerAxis.LEFTX);
@@ -190,10 +205,7 @@ public class ControllerState {
         dpadRight = c.isButtonPressed(ControllerButton.DPAD_RIGHT);
     }
 
-    /**
-     * Return an empty controller state for disconnected controllers.
-     */
-    public ControllerState() {
+    private ControllerState() {
         isConnected = false;
         controllerType = "Not Connected";
         leftStickX = 0;

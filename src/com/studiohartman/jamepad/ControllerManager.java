@@ -20,8 +20,6 @@ public class ControllerManager {
     SDL_Event event;
     */
 
-    private static final ControllerState DISCONNECTED_CONTROLLER = new ControllerState();
-
     private String mappingsPath;
     private boolean isInitialized;
     private ControllerIndex[] controllers;
@@ -142,9 +140,9 @@ public class ControllerManager {
         verifyInitialized();
         try {
             update();
-            return new ControllerState(controllers[index]);
+            return ControllerState.getInstanceFromController(controllers[index]);
         } catch (ControllerUnpluggedException | ArrayIndexOutOfBoundsException e) {
-            return DISCONNECTED_CONTROLLER;
+            return ControllerState.getDisconnectedControllerInstance();
         }
     }
 
