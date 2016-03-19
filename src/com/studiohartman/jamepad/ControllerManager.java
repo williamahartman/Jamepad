@@ -138,10 +138,11 @@ public class ControllerManager {
      */
     public ControllerState getState(int index) throws IllegalStateException {
         verifyInitialized();
-        try {
+
+        if(index < controllers.length) {
             update();
             return ControllerState.getInstanceFromController(controllers[index]);
-        } catch (ControllerUnpluggedException | ArrayIndexOutOfBoundsException e) {
+        } else {
             return ControllerState.getDisconnectedControllerInstance();
         }
     }

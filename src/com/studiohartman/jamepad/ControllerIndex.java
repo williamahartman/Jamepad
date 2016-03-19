@@ -19,6 +19,9 @@ public final class ControllerIndex {
     private int index;
     private long controllerPtr;
 
+    private boolean[] heldDownButtons;
+    private boolean[] justPressedButtons;
+
     /**
      * Constructor. Builds a controller at the given index and attempts to connect to it.
      * This is only accessible in the Jamepad package, so people can't go trying to make controllers
@@ -28,6 +31,14 @@ public final class ControllerIndex {
      */
     ControllerIndex(int index) {
         this.index = index;
+
+        heldDownButtons = new boolean[ControllerButton.values().length];
+        justPressedButtons = new boolean[ControllerButton.values().length];
+        for(int i = 0; i < heldDownButtons.length; i++) {
+            heldDownButtons[i] = false;
+            justPressedButtons[i] = false;
+        }
+
         connectController();
     }
     private void connectController() {
@@ -102,8 +113,30 @@ public final class ControllerIndex {
      * @throws ControllerUnpluggedException If the controller is not connected
      */
     public boolean isButtonPressed(ControllerButton toCheck) throws ControllerUnpluggedException {
+        updateButtons();
+        return heldDownButtons[toCheck.ordinal()];
+    }
+
+    /**
+     * Returns whether or not a given button has just been pressed. If the button was not pressed
+     * the last time you checked but is now, this method will return true.
+     *
+     * @param toCheck The ControllerButton to check the state of
+     * @return Whether or not the button has just been pressed.
+     * @throws ControllerUnpluggedException If the controller is not connected
+     */
+    public boolean isButtonJustPressed(ControllerButton toCheck) throws ControllerUnpluggedException {
+        updateButtons();
+        return justPressedButtons[toCheck.ordinal()];
+    }
+
+    private void updateButtons() throws ControllerUnpluggedException {
         ensureConnected();
-        return nativeCheckButton(controllerPtr, toCheck.ordinal());
+        for(int i = 0; i < heldDownButtons.length; i++) {
+            boolean currButtonIsPressed = nativeCheckButton(controllerPtr, i);
+            justPressedButtons[i] = currButtonIsPressed && !heldDownButtons[i];
+            heldDownButtons[i] = currButtonIsPressed;
+        }
     }
     private native boolean nativeCheckButton(long controllerPtr, int buttonIndex); /*
         SDL_GameControllerUpdate();
