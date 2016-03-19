@@ -59,16 +59,16 @@ public class ControllerManager {
      * Initialize the ControllerIndex library. This loads the native library and initializes SDL
      * in the native code.
      *
-     * @throws JamepadRuntimeException If the native code fails to initialize or if SDL is already initialized
+     * @throws IllegalStateException If the native code fails to initialize or if SDL is already initialized
      */
-    public void initSDLGamepad() throws JamepadRuntimeException {
+    public void initSDLGamepad() throws IllegalStateException {
         if(isInitialized) {
-            throw new JamepadRuntimeException("SDL is already initialized!");
+            throw new IllegalStateException("SDL is already initialized!");
         }
 
         //Initialize SDL
         if (!nativeInitSDLGamepad()) {
-            throw new JamepadRuntimeException("Failed to initialize SDL in native method!");
+            throw new IllegalStateException("Failed to initialize SDL in native method!");
         } else {
             isInitialized = true;
         }
@@ -134,9 +134,9 @@ public class ControllerManager {
      *
      * @param index The index of the controller to be checked
      * @return The state of the controller at the passed index.
-     * @throws JamepadRuntimeException if Jamepad was not initialized
+     * @throws IllegalStateException if Jamepad was not initialized
      */
-    public ControllerState getState(int index) throws JamepadRuntimeException {
+    public ControllerState getState(int index) throws IllegalStateException {
         verifyInitialized();
         try {
             update();
@@ -161,7 +161,7 @@ public class ControllerManager {
      *
      * @param index the index of the ControllerIndex that will be returned
      * @return The internal ControllerIndex object for the passed index.
-     * @throws JamepadRuntimeException if Jamepad was not initialized
+     * @throws IllegalStateException if Jamepad was not initialized
      */
     public ControllerIndex getControllerIndex(int index) {
         verifyInitialized();
@@ -174,7 +174,7 @@ public class ControllerManager {
      * since update() was last called.
      *
      * @return the number of connected controllers.
-     * @throws JamepadRuntimeException if Jamepad was not initialized
+     * @throws IllegalStateException if Jamepad was not initialized
      */
     public int getNumControllers() {
         verifyInitialized();
@@ -200,7 +200,7 @@ public class ControllerManager {
      *
      * If there hasn't been a change in whether controller are connected or not, nothing will happen.
      *
-     * @throws JamepadRuntimeException if Jamepad was not initialized
+     * @throws IllegalStateException if Jamepad was not initialized
      */
     public void update() {
         verifyInitialized();
@@ -226,9 +226,9 @@ public class ControllerManager {
      *
      * @param path The path to the file containing controller mappings.
      * @throws IOException if the file cannot be read, copied to a temp folder, or deleted.
-     * @throws JamepadRuntimeException if the mappings cannot be applied to SDL
+     * @throws IllegalStateException if the mappings cannot be applied to SDL
      */
-    public void addMappingsFromFile(String path) throws IOException, JamepadRuntimeException {
+    public void addMappingsFromFile(String path) throws IOException, IllegalStateException {
         mappingsPath = path;
 
         /*
@@ -240,7 +240,7 @@ public class ControllerManager {
                 StandardCopyOption.REPLACE_EXISTING);
 
         if(!nativeAddMappingsFromFile(extractedLoc.toString())) {
-            throw new JamepadRuntimeException("Failed to set SDL controller mappings! Falling back to build in SDL mappings.");
+            throw new IllegalStateException("Failed to set SDL controller mappings! Falling back to build in SDL mappings.");
         }
 
         Files.delete(extractedLoc);
@@ -255,9 +255,9 @@ public class ControllerManager {
         return JNI_TRUE;
     */
 
-    private boolean verifyInitialized() throws JamepadRuntimeException {
+    private boolean verifyInitialized() throws IllegalStateException {
         if(!isInitialized) {
-            throw new JamepadRuntimeException("SDL_GameController is not initialized!");
+            throw new IllegalStateException("SDL_GameController is not initialized!");
         }
         return true;
     }
