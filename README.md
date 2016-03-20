@@ -1,7 +1,7 @@
 # Jamepad
 #### A better way to use gamepads in Java
 
-### This is very much a work in progress! The library currently works on Linux and Windows, but not on OSX.
+### This is very much a work in progress! The library could use a lot of testing!
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
@@ -22,14 +22,12 @@ Jamepad has:
   
 #### Current Limitations
 
-- Jamepad does not work on Mac OSX yet
 - There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on OSX and Linux are still kind of iffy. The 360 Wireless Adapter is a mess on Linux without weird kernel modules or userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
 - The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
 
 #### Planned Features
-- OSX Support
 - Abstracted controller indices, for the same gamepad ordering behavior across platforms
 - Haptics on supported controllers
   
@@ -99,7 +97,9 @@ controllers.quitSDLGamepad();
 ## Building Jamepad
 1.  run `gradle windowsNatives`
 2.  run `gradle linuxNatives`
-2.  run `gradle dist` to generate a .jar file with all the dependencies bundled.
+3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac 
+4.  On the mac, run `gradle OSXNatives`
+5.  run `gradle dist` to generate a .jar file with all the dependencies bundled
 
 #### Building Jamepad on Linux
 Right now, Jamepad needs to be built on Linux. The binaries for Windows are cross-compiled.
