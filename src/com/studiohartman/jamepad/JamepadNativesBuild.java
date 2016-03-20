@@ -49,12 +49,20 @@ class JamepadNativesBuild {
             "--disable-video-wayland --disable-video-mir --disable-video-opengl --disable-video-opengles " +
             "--disable-video-opengles1 --disable-video-opengles2";
     private static String[] MAC_SRC = {
+            "SDL2-2.0.4/src/cpuinfo/*.*",
+            "SDL2-2.0.4/src/file/cocoa/*.*",
             "SDL2-2.0.4/src/haptic/darwin/*.*",
             "SDL2-2.0.4/src/joystick/darwin/*.*",
             "SDL2-2.0.4/src/loadso/dlopen/*.*",
             "SDL2-2.0.4/src/thread/pthread/*.*",
-            "SDL2-2.0.4/src/timer/unix/*.*",
+            "SDL2-2.0.4/src/timer/unix/*.*", 
+            "SDL2-2.0.4/src/render/*.*",
+            "SDL2-2.0.4/src/video/cocoa/*.*",
     };
+    private static String OSX_CONFIG_COMMAND = "./configure";
+    private static String OSX_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
+            "--disable-cpuinfo --disable-assembly";
+
     private static String[] INCLUDES = new String[] {"include", "SDL2-2.0.4/include", "SDL2-2.0.4/src"};
     private static String[] EXCLUDES = {"SDL2-2.0.4/**/*.cpp"};
 
@@ -148,6 +156,20 @@ class JamepadNativesBuild {
         BuildTarget mac32 = BuildTarget.newDefaultTarget(TargetOs.MacOsX, false);
         BuildTarget mac64 = BuildTarget.newDefaultTarget(TargetOs.MacOsX, true);
 
+        mac32.cIncludes = merge(COMMON_SRC, MAC_SRC);
+        mac32.cppExcludes = EXCLUDES;
+        mac32.headerDirs = INCLUDES;
+        mac32.cFlags = "-c -Wall -O2 -m32 -DFIXED_POINT -fmessage-length=0 -fPIC -mmacosx-version-min=10.5 -DUSING_GENERATED_CONFIG_H";
+        mac32.linkerFlags = "-shared -m32 -mmacosx-version-min=10.5";
+        mac32.libraries = "-lm -liconv  -Wl,-framework,ForceFeedback -lobjc -Wl,-framework,CoreVideo -Wl,-framework,Cocoa -Wl,-framework,Carbon -Wl,-framework,IOKit -Wl,-framework,CoreAudio -Wl,-framework,AudioToolbox -Wl,-framework,AudioUnit";
+
+        mac64.cIncludes = merge(COMMON_SRC, MAC_SRC);
+        mac64.cppExcludes = EXCLUDES;
+        mac64.headerDirs = INCLUDES;
+        mac64.cFlags = "-c -Wall -O2 -m64 -DFIXED_POINT -fmessage-length=0 -fPIC -mmacosx-version-min=10.5 -DUSING_GENERATED_CONFIG_H";
+        mac64.linkerFlags = "-shared -m64 -mmacosx-version-min=10.5";
+        mac64.libraries = "-lm -liconv  -Wl,-framework,ForceFeedback -lobjc -Wl,-framework,CoreVideo -Wl,-framework,Cocoa -Wl,-framework,Carbon -Wl,-framework,IOKit -Wl,-framework,CoreAudio -Wl,-framework,AudioToolbox -Wl,-framework,AudioUnit";
+
         //Generate native code, build scripts
         System.out.println("##### GENERATING NATIVE CODE AND BUILD SCRIPTS #####");
         new NativeCodeGenerator().generate("src", "build/classes/main", "jni");
@@ -190,8 +212,15 @@ class JamepadNativesBuild {
         if (buildOSX) {
             System.out.println("##### COMPILING NATIVES FOR OSX #####");
 
-            BuildExecutor.executeAnt("jni/build-macosx32.xml", "-v -Dhas-compiler=true  clean postcompile");
-            BuildExecutor.executeAnt("jni/build-macosx64.xml", "-v -Dhas-compiler=true  clean postcompile");
+            //Configure for linux
+            System.out.println("Configuring SDL for OSX build...");
+            System.out.println("Running: " + OSX_CONFIG_COMMAND + OSX_CONFIG_ARGS);
+            Runtime.getRuntime()
+                    .exec(OSX_CONFIG_COMMAND + OSX_CONFIG_ARGS, null, sdlSrcDir)
+                    .waitFor();
+
+            BuildExecutor.executeAnt("jni/build-macosx32.xml", "-Dhas-compiler=true  clean postcompile");
+            BuildExecutor.executeAnt("jni/build-macosx64.xml", "-Dhas-compiler=true  clean postcompile");
             System.out.println();
         }
 
