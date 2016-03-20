@@ -30,7 +30,6 @@ Jamepad has:
 
 #### Planned Features
 - OSX Support
-- Some kind of isButtonJustPressed() thing to avoid repeated inputs if you don't want them
 - Abstracted controller indices, for the same gamepad ordering behavior across platforms
 - Haptics on supported controllers
   
