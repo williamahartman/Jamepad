@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by will on 3/10/16.
+ * A JPanel that displays information about a given ControllerIndex.
  */
 public class ControllerInfoPanel extends JPanel {
     private JPanel title;

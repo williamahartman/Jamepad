@@ -11,6 +11,8 @@ package com.studiohartman.jamepad;
  *
  * Make sure that the indices of the included buttons matches with the values in the
  * enum in native code. (i.e. that A is 0 in both, B is 1 in both, etc.).
+ *
+ * @author William Hartman
  */
 public enum ControllerButton {
     A,

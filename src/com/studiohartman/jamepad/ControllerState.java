@@ -7,10 +7,12 @@ package com.studiohartman.jamepad;
  * This is probably how most people should deal with gamepads.
  *
  * The isConnected field is pretty important. This is how you determine if the controller
- * you asked for is plugged in. If isConnected is false, all other fields will be 0 or false. For
- * some applications, you might not need to even bother checking isConnected.
+ * you asked for is plugged in. If isConnected is false, all other fields will be zero or false.
+ * For some applications, you might not need to even bother checking isConnected.
  *
  * All fields are public, but immutable.
+ *
+ * @author William Hartman
  */
 public final class ControllerState {
     private static final ControllerState DISCONNECTED_CONTROLLER = new ControllerState();

@@ -1,7 +1,5 @@
 package com.studiohartman.jamepad;
 
-import java.util.Arrays;
-
 /**
  * This class is the main thing you're gonna need to deal with if you want lots of
  * control over your gamepads or want to avoid lots of ControllerState allocations.
@@ -11,6 +9,8 @@ import java.util.Arrays;
  *
  * A ControllerIndex represents the controller at a given index. There may or may not actually
  * be a controller at that index. Exceptions are thrown if the controller is not connected.
+ *
+ * @author William Hartman
  */
 public final class ControllerIndex {
     /*JNI

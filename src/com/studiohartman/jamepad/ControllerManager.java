@@ -9,8 +9,17 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 /**
- * This class is the most important class in Jamepad. It handles initializing the native library,
- * connecting to controllers, and managing the list of controllers.
+ * This class handles initializing the native library, connecting to controllers, and managing the
+ * list of controllers.
+ *
+ * Generally, after creating a ControllerManager object and calling initSDLGamepad() on it, you
+ * would access the states of the attached gamepads by calling getState().
+ *
+ * For some applications (but probably very few), getState may have a performance impact. In this
+ * case, it may make sense to use the getControllerIndex() method to access the objects used
+ * internally by  ControllerManager.
+ *
+ * @author William Hartman
  */
 public class ControllerManager {
     /*JNI
@@ -129,8 +138,11 @@ public class ControllerManager {
      * GC is tuned well, but if this is a problem for you, you can go directly through the internal
      * ControllerIndex objects using getControllerIndex().
      *
-     * update() is called each time this method is called. This should be fine unless you are mixing
-     * and matching this method with ControllerIndex objects, which you probably shouldn't do anyway.
+     * update() is called each time this method is called. Buttons are also queried, so values
+     * returned from isButtonJustPressed() in ControllerIndex may not be what you expect. Calling
+     * this method will have side effects if you are using the ControllerIndex objects yourself.
+     * This should be fine unless you are mixing and matching this method with ControllerIndex
+     * objects, which you probably shouldn't do anyway.
      *
      * @param index The index of the controller to be checked
      * @return The state of the controller at the passed index.

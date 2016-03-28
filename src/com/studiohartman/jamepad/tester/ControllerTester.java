@@ -1,6 +1,7 @@
 package com.studiohartman.jamepad.tester;
 
-import com.studiohartman.jamepad.*;
+import com.studiohartman.jamepad.ControllerIndex;
+import com.studiohartman.jamepad.ControllerManager;
 
 import javax.swing.*;
 import java.awt.*;
