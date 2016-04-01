@@ -139,11 +139,50 @@ public class ControllerManager {
     public ControllerState getState(int index) throws IllegalStateException {
         verifyInitialized();
 
-        if(index < controllers.length) {
+        if(index < controllers.length && index < 0) {
             update();
             return ControllerState.getInstanceFromController(controllers[index]);
         } else {
             return ControllerState.getDisconnectedControllerInstance();
+        }
+    }
+
+    /**
+     * Starts vibrating the controller at this given index. If this fails for one reason or another (e.g.
+     * the controller at that index doesn't support haptics, or if there is no controller at that index),
+     * this method will return false.
+     *
+     * @param index The index of the controller that will be vibrated
+     * @param leftMagnitude The magnitude the left vibration motor will be set to
+     * @param rightMagnitude The magnitude the right vibration motor will be set to
+     * @return Whether or not vibration was successfully started
+     * @throws IllegalStateException if Jamepad was not initialized
+     */
+    public boolean startVibration(int index, float leftMagnitude, float rightMagnitude) throws IllegalStateException {
+        verifyInitialized();
+
+        if(index < controllers.length && index < 0) {
+            try {
+                return controllers[index].startVibration(leftMagnitude, rightMagnitude);
+            } catch (ControllerUnpluggedException e) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Stops any running vibration effects on the controller at the given index. If there is no
+     * controller or there is another problem, this method will do nothing.
+     *
+     * @param index The index of the controller whose vibration effects will be stopped
+     */
+    public void stopVibration(int index) {
+        verifyInitialized();
+
+        if(index < controllers.length && index < 0) {
+            controllers[index].stopVibration();
         }
     }
 

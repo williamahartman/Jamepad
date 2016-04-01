@@ -20,7 +20,7 @@ public class ControllerTester {
         JFrame testFrame = new JFrame();
         testFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         testFrame.setLocationRelativeTo(null);
-        testFrame.setMinimumSize(new Dimension(640, 300));
+        testFrame.setMinimumSize(new Dimension(640, 350));
         testFrame.setResizable(false);
         testFrame.setVisible(true);
 

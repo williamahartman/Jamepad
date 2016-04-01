@@ -7,6 +7,7 @@ import com.studiohartman.jamepad.ControllerUnpluggedException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Created by will on 3/10/16.
@@ -15,22 +16,36 @@ public class ControllerInfoPanel extends JPanel {
     private JPanel title;
     private JPanel axes;
     private JPanel buttons;
+    private JButton vibrateButton;
+    private JButton stopVibrateButton;
     private JLabel titleLabel;
 
     public ControllerInfoPanel() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
 
         title = new JPanel();
         axes = new JPanel();
         buttons = new JPanel();
+
+        JPanel vibratePanel = new JPanel();
+        vibrateButton = new JButton("Start vibrating");
+        stopVibrateButton = new JButton("Stop vibrating");
+        vibratePanel.add(vibrateButton);
+        vibratePanel.add(stopVibrateButton);
+
         title.setLayout(new BoxLayout(title, BoxLayout.Y_AXIS));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         titleLabel = new JLabel();
         title.add(titleLabel);
 
-        add(title);
-        add(axes);
-        add(buttons);
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+        middlePanel.add(title);
+        middlePanel.add(axes);
+        middlePanel.add(buttons);
+
+        add(middlePanel);
+        add(vibratePanel, BorderLayout.SOUTH);
     }
 
     public void updatePanel(ControllerIndex c) {
@@ -60,6 +75,18 @@ public class ControllerInfoPanel extends JPanel {
                 button.setEnabled(c.isButtonPressed(b));
                 buttons.add(button);
             }
+
+            Arrays.stream(vibrateButton.getActionListeners()).forEach(vibrateButton::removeActionListener);
+            vibrateButton.addActionListener(event -> {
+                try {
+                    c.startVibration(1, 1);
+                } catch (ControllerUnpluggedException e) {
+                    System.err.println("Failed to vibrate!");
+                }
+            });
+
+            Arrays.stream(stopVibrateButton.getActionListeners()).forEach(stopVibrateButton::removeActionListener);
+            stopVibrateButton.addActionListener(event -> c.stopVibration());
         } catch (ControllerUnpluggedException e) {
             e.printStackTrace();
 
