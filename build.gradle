@@ -74,3 +74,13 @@ task dist(dependsOn: classes, type: Jar) {
 
     manifest {}
 }
+
+task distTester(dependsOn: classes, type: Jar) {
+    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.output.resourcesDir)
+    from {configurations.compile.collect {zipTree(it)}}
+
+    manifest {
+        attributes 'Main-Class': 'com.studiohartman.jamepad.tester.ControllerTester'
+    }
+}

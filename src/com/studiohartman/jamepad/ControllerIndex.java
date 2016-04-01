@@ -9,6 +9,8 @@ package com.studiohartman.jamepad;
  *
  * A ControllerIndex represents the controller at a given index. There may or may not actually
  * be a controller at that index. Exceptions are thrown if the controller is not connected.
+ *
+ * @author William Hartman
  */
 public final class ControllerIndex {
     /*JNI
@@ -205,30 +207,31 @@ public final class ControllerIndex {
      * @throws ControllerUnpluggedException If the controller is not connected
      */
     public boolean isButtonPressed(ControllerButton toCheck) throws ControllerUnpluggedException {
-        updateButtons();
+        updateButton(toCheck.ordinal());
         return heldDownButtons[toCheck.ordinal()];
     }
 
     /**
-     * Returns whether or not a given button has just been pressed. If the button was not pressed
-     * the last time you checked but is now, this method will return true.
+     * Returns whether or not a given button has just been pressed since you last made a query
+     * about that button (either through this method, isButtonPressed(), or through the ControllerState
+     * side of things). If the button was not pressed the last time you checked but is now, this method
+     * will return true.
      *
      * @param toCheck The ControllerButton to check the state of
      * @return Whether or not the button has just been pressed.
      * @throws ControllerUnpluggedException If the controller is not connected
      */
     public boolean isButtonJustPressed(ControllerButton toCheck) throws ControllerUnpluggedException {
-        updateButtons();
+        updateButton(toCheck.ordinal());
         return justPressedButtons[toCheck.ordinal()];
     }
 
-    private void updateButtons() throws ControllerUnpluggedException {
+    private void updateButton(int buttonIndex) throws ControllerUnpluggedException {
         ensureConnected();
-        for(int i = 0; i < heldDownButtons.length; i++) {
-            boolean currButtonIsPressed = nativeCheckButton(controllerPtr, i);
-            justPressedButtons[i] = currButtonIsPressed && !heldDownButtons[i];
-            heldDownButtons[i] = currButtonIsPressed;
-        }
+
+        boolean currButtonIsPressed = nativeCheckButton(controllerPtr, buttonIndex);
+        justPressedButtons[buttonIndex] = (currButtonIsPressed && !heldDownButtons[buttonIndex]);
+        heldDownButtons[buttonIndex] = currButtonIsPressed;
     }
     private native boolean nativeCheckButton(long controllerPtr, int buttonIndex); /*
         SDL_GameControllerUpdate();

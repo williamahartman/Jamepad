@@ -19,6 +19,8 @@ Jamepad has:
 - On Linux, runtime dependencies are:
   - libevdev
   - libudev
+- On OS X, no special dependencies are needed
+  - If you want to use Xbox controllers, you need separate drivers for them. The ones [here](https://github.com/360Controller/360Controller) have been tested with Jamepad and work properly.
   
 #### Current Limitations
 
@@ -101,8 +103,8 @@ controllers.quitSDLGamepad();
 4.  On the mac, run `gradle OSXNatives`
 5.  run `gradle dist` to generate a .jar file with all the dependencies bundled
 
-#### Building Jamepad on Linux
-Right now, Jamepad needs to be built on Linux. The binaries for Windows are cross-compiled.
+#### Dependencies for Building Jamepad on Linux
+Right now the Windows and Linux binaries, Jamepad needs to be built on Linux. The binaries for Windows are cross-compiled.
 
 The following packages (or equivalents) are needed:
 
@@ -122,3 +124,8 @@ If you've built C stuff for different platforms and bitnesses, you probably have
 ```
 sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
 ```
+
+#### Dependencies for Building Jamepad on Linux
+The OS X binaries currently must be built on OS X. It is probably possible to build the Windows and Linux binaries here too, but I haven't tried that out.
+
+The dependencies are pretty much the same (gradle, ant, g++). These packages can be installed from homebrew.
