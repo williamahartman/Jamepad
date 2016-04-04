@@ -24,9 +24,13 @@ Jamepad has:
   - If you want to use Xbox controllers, you need separate drivers for them. The ones [here](https://github.com/360Controller/360Controller) have been tested with Jamepad and work properly.
   
 #### Current Limitations
-- Rumble stuff is iffy. It works on Linux and with XInput on windows. It doesn't work on OSX right now. DirectInput on Windows is untested, as I don't have any DirectInput controllers where the vibration works normally.
-- There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on OSX and Linux are still kind of iffy. The 360 Wireless Adapter is a mess on Linux without weird kernel modules or userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
-- The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
+- Rumble stuff is iffy. 
+  - It works on Linux
+  - It works with XInput on windows. 
+  - It seems like it doesn't work on OSX right now. I'm not totally sure though, because the same controllers don't vibrate with straight up SDL either. This could also just be that the controllers I tested (X360, Xbox One, PS3, PS4) don't have driver support for rumble on OS X)
+  - DirectInput on Windows is untested, as I don't have any DirectInput controllers where the vibration works normally.
+- There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on Linux is still kind of iffy. The 360 Wireless Adapter is a mess on Linux without the [SteamOS version of xpad](https://launchpad.net/~mdeslaur/+archive/ubuntu/steamos) or the [Xboxdrv](https://github.com/xboxdrv/xboxdrv) userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
+- The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers will always appear before DirectInput controllers, regardless of when they were plugged in. This means that the player numbers associated with each controller can change unexpectedly if XInput controllers are plugged in or disconnected while DirectInput controllers are present.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
   
