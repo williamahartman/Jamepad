@@ -1,7 +1,7 @@
 # Jamepad
 #### A better way to use gamepads in Java
 
-### This is very much a work in progress! The library could use a lot of testing!
+### This is very much a work in progress! Things might be broken and APIs might change!
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
@@ -11,6 +11,7 @@ Jamepad has:
   - One library that supports all platforms (Windows, OSX, and Linux), and is easy to port to others.
   - XInput support on Windows for full Xbox 360 controller support.
   - Support for plugging/unplugging controllers at runtime.
+  - Support for rumble
   - Button/Axis mappings for popular controllers.
 
 #### Stuff You Should Know About Jamepad
@@ -23,15 +24,11 @@ Jamepad has:
   - If you want to use Xbox controllers, you need separate drivers for them. The ones [here](https://github.com/360Controller/360Controller) have been tested with Jamepad and work properly.
   
 #### Current Limitations
-
+- Rumble stuff is iffy. It works on Linux and with XInput on windows. It doesn't work on OSX right now. DirectInput on Windows is untested, as I don't have any DirectInput controllers where the vibration works normally.
 - There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on OSX and Linux are still kind of iffy. The 360 Wireless Adapter is a mess on Linux without weird kernel modules or userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
 - The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers are always moved to the front of the list. This means that the player numbers associated with each controller can change unexpectedly if controllers are plugged in or disconnected.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
-
-#### Planned Features
-- Abstracted controller indices, for the same gamepad ordering behavior across platforms
-- Haptics on supported controllers
   
 ## Using Jamepad
 
