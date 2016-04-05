@@ -1,7 +1,7 @@
 # Jamepad
 #### A better way to use gamepads in Java
 
-### This is very much a work in progress! Things might be broken and APIs might change!
+#### This is very much a work in progress! Things might be broken and APIs might change!
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
@@ -25,9 +25,8 @@ Jamepad has:
   
 #### Current Limitations
 - Rumble stuff is iffy. 
-  - It works on Linux
-  - It works with XInput on windows. 
-  - It seems like it doesn't work on OSX right now. I'm not totally sure though, because the same controllers don't vibrate with straight up SDL either. This could also just be that the controllers I tested (X360, Xbox One, PS3, PS4) don't have driver support for rumble on OS X)
+  - It works on Linux and with XInput on windows. 
+  - It seems like it doesn't work on OSX right now. I'm not totally sure though, because the same controllers don't vibrate with straight up SDL either. This could also just be that the controllers I tested (X360, Xbox One, PS3, PS4) don't have driver support for rumble on OS X. It's also possible things are just broken.
   - DirectInput on Windows is untested, as I don't have any DirectInput controllers where the vibration works normally.
 - There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on Linux is still kind of iffy. The 360 Wireless Adapter is a mess on Linux without the [SteamOS version of xpad](https://launchpad.net/~mdeslaur/+archive/ubuntu/steamos) or the [Xboxdrv](https://github.com/xboxdrv/xboxdrv) userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
 - The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers will always appear before DirectInput controllers, regardless of when they were plugged in. This means that the player numbers associated with each controller can change unexpectedly if XInput controllers are plugged in or disconnected while DirectInput controllers are present.
