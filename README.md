@@ -8,7 +8,7 @@ Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](http
 Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform. On some, hotplugging controllers is not supported.
 
 Jamepad has:
-  - One library that supports all platforms (Windows, OSX, and Linux), and is easy to port to others.
+  - One library that supports all platforms (Windows, OSX, and Linux)
   - XInput support on Windows for full Xbox 360 controller support.
   - Support for plugging/unplugging controllers at runtime.
   - Support for rumble
@@ -17,6 +17,7 @@ Jamepad has:
 #### Stuff You Should Know About Jamepad
 
 - Jamepad is based on SDL. Since SDL is a bit overkill for just gamepad stuff, we build a smaller version that only contains the SDL_GameController subsystem and its dependencies.
+- On Windows (only 7 and up were tested), no special dependencies are needed.
 - On Linux, runtime dependencies are:
   - libevdev
   - libudev
@@ -111,7 +112,7 @@ The following packages (or equivalents) are needed:
 ```
 gradle
 ant
-build-essentials 
+build-essential 
 libc6-i386 
 libc6-dev-i386 
 g++-multilib
