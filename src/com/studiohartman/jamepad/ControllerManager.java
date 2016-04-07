@@ -151,7 +151,7 @@ public class ControllerManager {
     public ControllerState getState(int index) throws IllegalStateException {
         verifyInitialized();
 
-        if(index < controllers.length && index < 0) {
+        if(index < controllers.length && index > 0) {
             update();
             return ControllerState.getInstanceFromController(controllers[index]);
         } else {
