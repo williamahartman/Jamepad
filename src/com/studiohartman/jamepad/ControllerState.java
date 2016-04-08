@@ -269,27 +269,13 @@ public final class ControllerState {
         leftStickMagnitude = (float) Math.sqrt((leftStickX * leftStickX) + (leftStickY * leftStickY));
         rightStickAngle = (float) Math.toDegrees(Math.atan2(rightStickY, rightStickX));
         rightStickMagnitude = (float) Math.sqrt((rightStickX * rightStickX) + (rightStickY * rightStickY));
-        leftStickClick = c.isButtonPressed(ControllerButton.LEFTSTICK);
-        rightStickClick = c.isButtonPressed(ControllerButton.RIGHTSTICK);
         leftTrigger = c.getAxisState(ControllerAxis.TRIGGERLEFT);
         rightTrigger = c.getAxisState(ControllerAxis.TRIGGERRIGHT);
 
         leftStickJustClicked = c.isButtonJustPressed(ControllerButton.LEFTSTICK);
         rightStickJustClicked = c.isButtonJustPressed(ControllerButton.RIGHTSTICK);
-
-        a = c.isButtonPressed(ControllerButton.A);
-        b = c.isButtonPressed(ControllerButton.B);
-        x = c.isButtonPressed(ControllerButton.X);
-        y = c.isButtonPressed(ControllerButton.Y);
-        lb = c.isButtonPressed(ControllerButton.LEFTBUMPER);
-        rb = c.isButtonPressed(ControllerButton.RIGHTBUMPER);
-        start = c.isButtonPressed(ControllerButton.START);
-        back = c.isButtonPressed(ControllerButton.BACK);
-        guide = c.isButtonPressed(ControllerButton.GUIDE);
-        dpadUp = c.isButtonPressed(ControllerButton.DPAD_UP);
-        dpadDown = c.isButtonPressed(ControllerButton.DPAD_DOWN);
-        dpadLeft = c.isButtonPressed(ControllerButton.DPAD_LEFT);
-        dpadRight = c.isButtonPressed(ControllerButton.DPAD_RIGHT);
+        leftStickClick = c.isButtonPressed(ControllerButton.LEFTSTICK);
+        rightStickClick = c.isButtonPressed(ControllerButton.RIGHTSTICK);
 
         aJustPressed = c.isButtonJustPressed(ControllerButton.A);
         bJustPressed = c.isButtonJustPressed(ControllerButton.B);
@@ -304,6 +290,20 @@ public final class ControllerState {
         dpadDownJustPressed = c.isButtonJustPressed(ControllerButton.DPAD_DOWN);
         dpadLeftJustPressed = c.isButtonJustPressed(ControllerButton.DPAD_LEFT);
         dpadRightJustPressed = c.isButtonJustPressed(ControllerButton.DPAD_RIGHT);
+
+        a = c.isButtonPressed(ControllerButton.A);
+        b = c.isButtonPressed(ControllerButton.B);
+        x = c.isButtonPressed(ControllerButton.X);
+        y = c.isButtonPressed(ControllerButton.Y);
+        lb = c.isButtonPressed(ControllerButton.LEFTBUMPER);
+        rb = c.isButtonPressed(ControllerButton.RIGHTBUMPER);
+        start = c.isButtonPressed(ControllerButton.START);
+        back = c.isButtonPressed(ControllerButton.BACK);
+        guide = c.isButtonPressed(ControllerButton.GUIDE);
+        dpadUp = c.isButtonPressed(ControllerButton.DPAD_UP);
+        dpadDown = c.isButtonPressed(ControllerButton.DPAD_DOWN);
+        dpadLeft = c.isButtonPressed(ControllerButton.DPAD_LEFT);
+        dpadRight = c.isButtonPressed(ControllerButton.DPAD_RIGHT);
     }
 
     private ControllerState() {
@@ -317,27 +317,13 @@ public final class ControllerState {
         leftStickMagnitude = 0;
         rightStickAngle = 0;
         rightStickMagnitude = 0;
-        leftStickClick = false;
-        rightStickClick = false;
         leftTrigger = 0;
         rightTrigger = 0;
 
         leftStickJustClicked = false;
         rightStickJustClicked = false;
-
-        a = false;
-        b = false;
-        x = false;
-        y = false;
-        lb = false;
-        rb = false;
-        start = false;
-        back = false;
-        guide = false;
-        dpadUp = false;
-        dpadDown = false;
-        dpadLeft = false;
-        dpadRight = false;
+        leftStickClick = false;
+        rightStickClick = false;
 
         aJustPressed = false;
         bJustPressed = false;
@@ -352,5 +338,19 @@ public final class ControllerState {
         dpadDownJustPressed = false;
         dpadLeftJustPressed = false;
         dpadRightJustPressed = false;
+
+        a = false;
+        b = false;
+        x = false;
+        y = false;
+        lb = false;
+        rb = false;
+        start = false;
+        back = false;
+        guide = false;
+        dpadUp = false;
+        dpadDown = false;
+        dpadLeft = false;
+        dpadRight = false;
     }
 }
