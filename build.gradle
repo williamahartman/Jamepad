@@ -1,36 +1,27 @@
 apply plugin: "java"
+apply plugin: 'maven'
+
+group = 'com.github.WilliamAHartman'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = [ "res/" ]
+sourceSets.main.resources.srcDirs = [ "res/",
+                                      "libs/linux32", "libs/linux64",
+                                      "libs/macosx32", "libs/macosx64",
+                                      "libs/windows32", "libs/windows64",]
 sourceSets.test.java.srcDirs = [ ]
 sourceSets.test.resources.srcDirs = [ ]
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    }
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 }
 
-allprojects {
-    apply plugin: "java"
-
-    version = '1.0'
-    ext {
-        appName = "Jamepad"
-    }
-
-    repositories {
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-    }
-
-    dependencies {
-        compile files('libs/jamepad-natives.jar')
-        compile "com.badlogicgames.gdx:gdx-jnigen:1.9.2"
-    }
+dependencies {
+    compile "com.badlogicgames.gdx:gdx-jnigen:1.9.2"
 }
 
 task runTester(dependsOn: classes, type: JavaExec) {
@@ -82,5 +73,35 @@ task distTester(dependsOn: classes, type: Jar) {
 
     manifest {
         attributes 'Main-Class': 'com.studiohartman.jamepad.tester.ControllerTester'
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+// To specify a license in the pom:
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'zlib License'
+                    url 'http://www.zlib.net/zlib_license.html'
+                    distribution 'repo'
+                }
+            }
+        }
     }
 }
