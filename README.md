@@ -1,8 +1,6 @@
 # Jamepad
 #### A better way to use gamepads in Java
 
-#### This is very much a work in progress! Things might be broken and APIs might change!
-
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
 Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform (or are GPL encumbered). On some, hotplugging controllers is not supported.
@@ -127,7 +125,7 @@ If you've built C stuff for different platforms and bitnesses, you probably have
 sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
 ```
 
-#### Dependencies for Building Jamepad on Linux
+#### Dependencies for Building Jamepad on OS X
 The OS X binaries currently must be built on OS X. It is probably possible to build the Windows and Linux binaries here too, but I haven't tried that out.
 
 The dependencies are pretty much the same (gradle, ant, g++). These packages can be installed from homebrew.
