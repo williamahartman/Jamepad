@@ -5,7 +5,7 @@
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
-Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform. On some, hotplugging controllers is not supported.
+Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform (or are GPL encumbered). On some, hotplugging controllers is not supported.
 
 Jamepad has:
   - One library that supports all platforms (Windows, OSX, and Linux)
@@ -13,6 +13,7 @@ Jamepad has:
   - Support for plugging/unplugging controllers at runtime.
   - Support for rumble
   - Button/Axis mappings for popular controllers.
+  - A permissive license. You can include this use this library in commercial projects without sharing source.
 
 #### Stuff You Should Know About Jamepad
 
