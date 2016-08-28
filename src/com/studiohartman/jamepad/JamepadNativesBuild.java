@@ -159,7 +159,7 @@ class JamepadNativesBuild {
         mac32.cIncludes = merge(COMMON_SRC, MAC_SRC);
         mac32.cppExcludes = EXCLUDES;
         mac32.headerDirs = INCLUDES;
-        mac32.cFlags = "-c -Wall -O2 -m32 -DFIXED_POINT -fmessage-length=0 -fPIC -mmacosx-version-min=10.5 -DUSING_GENERATED_CONFIG_H";
+        mac32.cFlags = "-c -Wall -O2 -m32 -DFIXED_POINT -fmessage-length=0 -fPIC -mmacosx-version-min=10.6 -DUSING_GENERATED_CONFIG_H";
         mac32.linkerFlags = "-shared -m32 -mmacosx-version-min=10.5";
         mac32.libraries = "-lm -liconv  -Wl,-framework,ForceFeedback -lobjc -Wl,-framework,CoreVideo -Wl,-framework,Cocoa -Wl,-framework,Carbon -Wl,-framework,IOKit -Wl,-framework,CoreAudio -Wl,-framework,AudioToolbox -Wl,-framework,AudioUnit";
 
