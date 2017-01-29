@@ -65,6 +65,8 @@ public final class ControllerIndex {
 
         //Check that left/right vibration is supported
         if((SDL_HapticQuery(haptic) & SDL_HAPTIC_LEFTRIGHT) == 0) {
+            // If left/right not supported, attempt to use rumble
+            SDL_HapticRumbleInit(haptic);
             return -1;
         }
 
@@ -172,6 +174,11 @@ public final class ControllerIndex {
     }
     private native boolean nativeStartVibration(long hapticPtr, int effectID, int leftMagnitude, int rightMagnitude); /*
         SDL_Haptic* haptic = (SDL_Haptic*) hapticPtr;
+
+        // Left/right not supported, attempt rumble
+        if (effectID == -1) {
+            return SDL_HapticRumblePlay(haptic, (float)(leftMagnitude + rightMagnitude) / (32767.0 * 2.0), SDL_HAPTIC_INFINITY) == 0;
+        }
 
         //Update the effect
         SDL_HapticEffect effect;
