@@ -38,7 +38,7 @@ public class ControllerManager {
      * https://github.com/gabomdq/SDL_GameControllerDB
      */
     public ControllerManager() {
-        this(4, "gamecontrollerdb.txt");
+        this(4, "/gamecontrollerdb.txt");
     }
 
     /**
@@ -47,7 +47,7 @@ public class ControllerManager {
      * @param maxNumControllers The number of controllers this ControllerManager can deal with
      */
     public ControllerManager(int maxNumControllers) {
-        this(maxNumControllers, "gamecontrollerdb.txt");
+        this(maxNumControllers, "/gamecontrollerdb.txt");
     }
 
     /**
@@ -288,7 +288,7 @@ public class ControllerManager {
         most people would use this library.
          */
         Path extractedLoc = FileSystems.getDefault().getPath(System.getProperty("java.io.tmpdir"), path);
-        Files.copy(ClassLoader.getSystemResourceAsStream(path), extractedLoc,
+        Files.copy(getClass().getResourceAsStream(path), extractedLoc,
                 StandardCopyOption.REPLACE_EXISTING);
 
         if(!nativeAddMappingsFromFile(extractedLoc.toString())) {
