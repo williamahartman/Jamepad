@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.badlogicgames.gdx:gdx-jnigen:1.9.2"
+    compile "com.badlogicgames.gdx:gdx-jnigen:1.9.9"
 }
 
 task runTester(dependsOn: classes, type: JavaExec) {

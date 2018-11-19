@@ -189,8 +189,8 @@ class JamepadNativesBuild {
                     .exec(WINDOWS_CONFIG_COMMAND + WINDOWS_CONFIG_ARGS, null, sdlSrcDir)
                     .waitFor();
 
-            BuildExecutor.executeAnt("jni/build-windows32.xml", "-Dhas-compiler=true clean postcompile");
-            BuildExecutor.executeAnt("jni/build-windows64.xml", "-Dhas-compiler=true clean postcompile");
+            BuildExecutorFixed.executeAnt("jni/build-windows32.xml", "-Dhas-compiler=true clean postcompile");
+            BuildExecutorFixed.executeAnt("jni/build-windows64.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
         if (buildLinux) {
@@ -205,8 +205,8 @@ class JamepadNativesBuild {
                         .waitFor();
             }
 
-            BuildExecutor.executeAnt("jni/build-linux32.xml", "-Dhas-compiler=true clean postcompile");
-            BuildExecutor.executeAnt("jni/build-linux64.xml", "-Dhas-compiler=true clean postcompile");
+            BuildExecutorFixed.executeAnt("jni/build-linux32.xml", "-Dhas-compiler=true clean postcompile");
+            BuildExecutorFixed.executeAnt("jni/build-linux64.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
         if (buildOSX) {
@@ -219,12 +219,12 @@ class JamepadNativesBuild {
                     .exec(OSX_CONFIG_COMMAND + OSX_CONFIG_ARGS, null, sdlSrcDir)
                     .waitFor();
 
-            BuildExecutor.executeAnt("jni/build-macosx32.xml", "-Dhas-compiler=true  clean postcompile");
-            BuildExecutor.executeAnt("jni/build-macosx64.xml", "-Dhas-compiler=true  clean postcompile");
+            BuildExecutorFixed.executeAnt("jni/build-macosx32.xml", "-Dhas-compiler=true  clean postcompile");
+            BuildExecutorFixed.executeAnt("jni/build-macosx64.xml", "-Dhas-compiler=true  clean postcompile");
             System.out.println();
         }
 
         System.out.println("##### PACKING NATIVES INTO .JAR #####");
-        BuildExecutor.executeAnt("jni/build.xml", "pack-natives");
+        BuildExecutorFixed.executeAnt("jni/build.xml", "pack-natives");
 	}
 }
