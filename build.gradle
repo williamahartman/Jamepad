@@ -46,7 +46,7 @@ task windowsNatives(dependsOn: classes, type: JavaExec) {
 
 task OSXNatives(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-OSX']
+    args = ['build-OSX', 'system-SDL2']
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }
