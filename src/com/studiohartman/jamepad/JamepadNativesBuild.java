@@ -36,20 +36,6 @@ class JamepadNativesBuild {
     private static String WINDOWS_CONFIG_ARGS = " --disable-audio --disable-render --disable-video --disable-power" +
             " --disable-filesystem --disable-assembly";
 
-    private static String[] LINUX_SRC = {
-            "SDL2-2.0.4/src/core/linux/*.*",
-            "SDL2-2.0.4/src/haptic/linux/*.*",
-            "SDL2-2.0.4/src/joystick/linux/*.*",
-            "SDL2-2.0.4/src/loadso/dlopen/*.*",
-            "SDL2-2.0.4/src/thread/pthread/*.*",
-            "SDL2-2.0.4/src/timer/unix/*.*",
-    };
-    private static String LINUX_CONFIG_COMMAND = "./configure";
-    private static String LINUX_CONFIG_ARGS = " --disable-audio --disable-render --disable-power --disable-filesystem " +
-            "--disable-cpuinfo --disable-assembly --disable-dbus --disable-ibus --disable-video-x11 " +
-            "--disable-video-wayland --disable-video-mir --disable-video-opengl --disable-video-opengles " +
-            "--disable-video-opengles1 --disable-video-opengles2";
-
     private static String[] INCLUDES = new String[] {"include", "SDL2-2.0.4/include", "SDL2-2.0.4/src"};
     private static String[] EXCLUDES = {"SDL2-2.0.4/**/*.cpp"};
 
@@ -92,6 +78,18 @@ class JamepadNativesBuild {
 
         File sdlSrcDir = new File("jni/SDL2-2.0.4");
 
+        String sdl = "0";
+        try {
+            sdl = execCmd("sdl2-config --version").trim();
+        } catch (Exception e){
+            System.out.println("SDL must be installed and sdl2-config command must be on path.");
+            e.printStackTrace();
+        }
+        System.out.println("SDL version found: "+sdl);
+        if(compareVersions(sdl, "2.0.9")<0){
+            throw new FileNotFoundException("\n!!! SDL version must be >= 2.0.9");
+        }
+
         //Windows build configs
         BuildTarget win32 = BuildTarget.newDefaultTarget(TargetOs.Windows, false);
         BuildTarget win64 = BuildTarget.newDefaultTarget(TargetOs.Windows, true);
@@ -111,33 +109,18 @@ class JamepadNativesBuild {
         win64.libraries = "-lmingw32 -lm -ldinput8 -ldxguid -ldxerr8 -luser32 -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lshell32 -lversion -luuid -static-libgcc";
 
         //Linux build configs
-        BuildTarget lin32 = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
         BuildTarget lin64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true);
-        if(!useSystemSDL) {
-            lin32.cIncludes = merge(COMMON_SRC, LINUX_SRC);
-            lin32.cppExcludes = EXCLUDES;
-            lin32.headerDirs = INCLUDES;
-            lin32.cFlags = "-c -Wall -O2 -fmessage-length=0 -m32 -fPIC -DUSING_GENERATED_CONFIG_H";
-            lin32.linkerFlags = "-shared -m32 -Wl,-wrap,memcpy";
-            lin32.libraries = "-lm -lpthread -lrt";
 
-            lin64.cIncludes = merge(COMMON_SRC, LINUX_SRC);
-            lin64.cppExcludes = EXCLUDES;
-            lin64.headerDirs = INCLUDES;
-            lin64.cFlags = "-c -Wall -O2 -fmessage-length=0 -m64 -fPIC -DUSING_GENERATED_CONFIG_H";
-            lin64.linkerFlags = "-shared -m64 -Wl,-wrap,memcpy";
-            lin64.libraries = "-lm -lpthread -lrt";
-        } else {
-            lin32.cIncludes = new String[] {};
-            lin32.cppExcludes = EXCLUDES;
-            lin32.headerDirs = new String[] {"/usr/include/SDL2"};
-            lin32.libraries = "-lSDL2";
+        lin64.cIncludes = new String[] {};
+        lin64.cppExcludes = EXCLUDES;
+        String cflags = execCmd("sdl2-config --cflags"); // "-I/usr/local/include/SDL2"
+        lin64.cFlags = lin64.cFlags + " "  + cflags;
+        lin64.cppFlags = lin64.cFlags;
+        lin64.linkerFlags = "-shared -m64";
+        String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
+        //"-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -l:libSDL2.a -Wl,--no-undefined -lm -ldl -lsndio -lpthread -lrt";
+        lin64.libraries = libraries;
 
-            lin64.cIncludes = new String[] {};
-            lin64.cppExcludes = EXCLUDES;
-            lin64.headerDirs = new String[] {"/usr/include/SDL2"};
-            lin64.libraries = "-lSDL2";
-        }
 
         //OSX build configs
         BuildTarget mac64 = BuildTarget.newDefaultTarget(TargetOs.MacOsX, true);
@@ -145,9 +128,9 @@ class JamepadNativesBuild {
         mac64.cIncludes = new String[] {};
         mac64.cppExcludes = EXCLUDES;
         mac64.headerDirs = new String[] {"/usr/local/include/SDL2"};
-          mac64.cFlags = "-c -Wall -O2 -arch x86_64 -DFIXED_POINT -fmessage-length=0 -fPIC -mmacosx-version-min=10.6";
+        mac64.cFlags = "-c -Wall -O2 -arch x86_64 -DFIXED_POINT -fmessage-length=0 -fPIC -mmacosx-version-min=10.6";
         mac64.cppFlags = mac64.cFlags;
-        mac64.linkerFlags = "-shared -mmacosx-version-min=10.6";
+        mac64.linkerFlags = "-shared -arch x86_64 -mmacosx-version-min=10.6";
         mac64.libraries = "/usr/local/lib/libSDL2.a -lm -liconv -Wl,-framework,CoreAudio -Wl,-framework,AudioToolbox -Wl,-framework,ForceFeedback -lobjc -Wl,-framework,CoreVideo -Wl,-framework,Cocoa -Wl,-framework,Carbon -Wl,-framework,IOKit -Wl,-weak_framework,QuartzCore -Wl,-weak_framework,Metal";
 
 
@@ -155,7 +138,7 @@ class JamepadNativesBuild {
         System.out.println("##### GENERATING NATIVE CODE AND BUILD SCRIPTS #####");
         new NativeCodeGenerator().generate("src", "build/classes/main", "jni");
         new AntScriptGenerator().generate(
-                new BuildConfig("jamepad", "build/tmp", "libs", "jni"), win32, win64, lin32, lin64, mac64
+                new BuildConfig("jamepad", "build/tmp", "libs", "jni"), win32, win64, lin64, mac64
         );
         System.out.println();
 
@@ -178,15 +161,8 @@ class JamepadNativesBuild {
             System.out.println("##### COMPILING NATIVES FOR LINUX #####");
 
             if(!useSystemSDL) {
-                //Configure for linux
-                System.out.println("Configuring SDL for linux build...");
-                System.out.println("Running: " + LINUX_CONFIG_COMMAND + LINUX_CONFIG_ARGS);
-                Runtime.getRuntime()
-                        .exec(LINUX_CONFIG_COMMAND + LINUX_CONFIG_ARGS, null, sdlSrcDir)
-                        .waitFor();
+                throw new IllegalArgumentException("Linux build is only available using system SDL");
             }
-
-            BuildExecutorFixed.executeAnt("jni/build-linux32.xml", "-Dhas-compiler=true clean postcompile");
             BuildExecutorFixed.executeAnt("jni/build-linux64.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
@@ -195,17 +171,6 @@ class JamepadNativesBuild {
             if(!useSystemSDL) {
                 throw new IllegalArgumentException("Mac build is only available using system SDL");
             }
-            String sdl = "none";
-            try {
-                sdl = execCmd("sdl2-config --version");
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            if(!sdl.startsWith("2.0.9")){
-                System.out.println("SDL version found: "+sdl);
-                throw new FileNotFoundException("\n!!! SDL version 2.0.9 must be installed and sdl2-config command must be on path.");
-            }
-
             BuildExecutorFixed.executeAnt("jni/build-macosx64.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
@@ -216,6 +181,19 @@ class JamepadNativesBuild {
 
     public static String execCmd(String cmd) throws java.io.IOException {
         java.util.Scanner s = new java.util.Scanner(Runtime.getRuntime().exec(cmd).getInputStream()).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
+        return s.hasNext() ? s.next().trim() : "";
+    }
+
+    public static int compareVersions(String v1, String v2) {
+        String[] components1 = v1.split("\\.");
+        String[] components2 = v2.split("\\.");
+        int length = Math.min(components1.length, components2.length);
+        for(int i = 0; i < length; i++) {
+            int result = new Integer(components1[i]).compareTo(Integer.parseInt(components2[i]));
+            if(result != 0) {
+                return result;
+            }
+        }
+        return Integer.compare(components1.length, components2.length);
     }
 }

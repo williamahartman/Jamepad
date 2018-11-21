@@ -32,7 +32,7 @@ task runTester(dependsOn: classes, type: JavaExec) {
 
 task linuxNatives(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-linux']
+    args = ['build-linux', 'system-SDL2']
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }

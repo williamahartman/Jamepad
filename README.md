@@ -1,4 +1,14 @@
-# Jamepad
+# Jamepad fork by ElectronStudio
+
+#### New changes in this fork
+
+* SDL 2.0.9 (or greater) dev libraries must be installed on the system.
+* SDL must have been compiled with "./configure CFLAGS=-fPIC CPPFLAGS=-fPIC"
+* sdl2-config must be in the path.
+* If you want you could compile your own SDL without video and install it into a local directory, then make some minor changes to JamepadNativesBuild.java to tell it where to find your SDL.  However we no longer attempt to do this automatically for you.
+* Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux systems.
+
+
 #### A better way to use gamepads in Java
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
@@ -15,7 +25,6 @@ Jamepad has:
 
 #### Stuff You Should Know About Jamepad
 
-- Jamepad is based on SDL. Since SDL is a bit overkill for just gamepad stuff, we build a smaller version that only contains the SDL_GameController subsystem and its dependencies.
 - On Windows (only 7 and up were tested), no special dependencies are needed.
 - On Linux, runtime dependencies are:
   - libevdev
