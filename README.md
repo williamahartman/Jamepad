@@ -42,9 +42,22 @@ Jamepad has:
 
 #### Getting Jamepad
 
-No Mavern repo yet.
+If you use gradle, you can pull this package in from jitpack.  First, add jitpack to your repositories section:
+````
+repositories {
+  ...
+  maven { url "https://jitpack.io" }
+}
+````
+Next, add this line to your dependencies section. Update the version number to whatever the latest release is.
+````
+dependencies {
+  ...
+  compile 'com.github.electronstudio:Jamepad:1.3'
+}
+````
 
-Ddownload the .jar file from the releases section and add it to your project as usual.
+If you aren't using gradle, just download the .jar file from the releases section and add it to your project as usual.
 
 #### Using Jamepad
 There are two main ways to use Jamepad. Both rely on a ControllerManager Object.
