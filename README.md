@@ -33,11 +33,6 @@ Jamepad has:
   - If you want to use Xbox controllers, you need separate drivers for them. The ones [here](https://github.com/360Controller/360Controller) have been tested with Jamepad and work properly.
   
 #### Current Limitations
-- Rumble stuff is iffy. 
-  - It works on Linux and with XInput on windows. 
-  - It seems like it doesn't work on OSX right now. I'm not totally sure though, because the same controllers don't vibrate with straight up SDL either. This could also just be that the controllers I tested (X360, Xbox One, PS3, PS4) don't have driver support for rumble on OS X. It's also possible things are just broken.
-  - DirectInput on Windows is untested, as I don't have any DirectInput controllers where the vibration works normally.
-- There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on Linux is still kind of iffy. The 360 Wireless Adapter is a mess on Linux without the [SteamOS version of xpad](https://launchpad.net/~mdeslaur/+archive/ubuntu/steamos) or the [Xboxdrv](https://github.com/xboxdrv/xboxdrv) userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
 - The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers will always appear before DirectInput controllers, regardless of when they were plugged in. This means that the player numbers associated with each controller can change unexpectedly if XInput controllers are plugged in or disconnected while DirectInput controllers are present.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
@@ -141,18 +136,22 @@ The following packages (or equivalents) are needed:
 gradle
 ant
 build-essential 
-libc6-i386 
-libc6-dev-i386 
-g++-multilib
-g++-mingw-w64-i686 
-g++-mingw-w64-x86-64
+mingw-w64
 ```
 
 If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. It should be something like this if you're on Ubuntu or Debian or whatever: 
 
 ```
-sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
+sudo apt-get install ant gradle build-essential mingw-w64
 ```
+
+You also need to install cross compiled 32 and 64 bit versions of SDL, e.g.
+
+```
+./configure --host=i686-w64-mingw32 ; make ; sudo make install
+./configure --host=x86_64-w64-mingw32 ; make ; sudo make install
+```
+
 
 #### Dependencies for Building Jamepad on OS X
 The OS X binaries currently must be built on OS X. It is probably possible to build the Windows and Linux binaries here too, but I haven't tried that out.

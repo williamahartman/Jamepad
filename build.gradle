@@ -39,7 +39,7 @@ task linuxNatives(dependsOn: classes, type: JavaExec) {
 
 task windowsNatives(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-windows']
+    args = ['build-windows',  'system-SDL2']
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }
