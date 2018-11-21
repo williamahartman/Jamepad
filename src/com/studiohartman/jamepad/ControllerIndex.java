@@ -20,8 +20,6 @@ public final class ControllerIndex {
     private static final float AXIS_MAX_VAL = 32767;
     private int index;
     private long controllerPtr;
-    private long hapticPtr;
-    private int hapticEffectID;
 
     private boolean[] heldDownButtons;
     private boolean[] justPressedButtons;
@@ -42,38 +40,14 @@ public final class ControllerIndex {
             heldDownButtons[i] = false;
             justPressedButtons[i] = false;
         }
-        hapticEffectID = -1;
 
         connectController();
     }
     private void connectController() {
         controllerPtr = nativeConnectController(index);
-        hapticPtr = nativeConnectHaptic(controllerPtr);
-        if(hapticPtr != 0) {
-            hapticEffectID = nativeBuildHapticEffect(hapticPtr);
-        }
     }
     private native long nativeConnectController(int index); /*
         return (jlong) SDL_GameControllerOpen(index);
-    */
-    private native long nativeConnectHaptic(long controllerPtr); /*
-        SDL_GameController* pad = (SDL_GameController*) controllerPtr;
-        return (jlong) SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(pad));
-    */
-    private native int nativeBuildHapticEffect(long hapticPtr); /*
-        SDL_Haptic* haptic = (SDL_Haptic*) hapticPtr;
-
-        //Check that left/right vibration is supported
-        if((SDL_HapticQuery(haptic) & SDL_HAPTIC_LEFTRIGHT) == 0) {
-            return -1;
-        }
-
-        SDL_HapticEffect effect;
-        memset(&effect, 0, sizeof(SDL_HapticEffect));
-        effect.type = SDL_HAPTIC_LEFTRIGHT;
-        effect.leftright.length = SDL_HAPTIC_INFINITY;
-
-        return SDL_HapticNewEffect(haptic, &effect);
     */
 
     /**
@@ -133,16 +107,28 @@ public final class ControllerIndex {
         return index;
     }
 
-    /**
-     * Returns whether or not the controller is currently vibrating.
-     * @return whether or not the controller is currently vibrating.
-     */
-    public boolean isVibrating() {
-        return hapticPtr != 0;
-    }
 
     /**
      * Start vibrating the controller.
+     *
+     * @deprecated use doVibration instead
+     * @param leftMagnitude The speed for the left motor to vibrate (this should be between 0 and 1)
+     * @param rightMagnitude The speed for the right motor to vibrate (this should be between 0 and 1)
+     * @return Whether or not the controller was able to be vibrated (i.e. if haptics are supported)
+     * @throws ControllerUnpluggedException If the controller is not connected
+     */
+    @Deprecated
+    public boolean startVibration(float leftMagnitude, float rightMagnitude) throws ControllerUnpluggedException {
+        return doVibration(leftMagnitude,rightMagnitude , 1000);
+    }
+
+    private native boolean nativeDoVibration(long controllerPtr, int leftMagnitude, int rightMagnitude, int duration_ms); /*
+        SDL_Joystick* joystick = SDL_GameControllerGetJoystick((SDL_GameController*) controllerPtr);
+        return SDL_JoystickRumble(joystick, leftMagnitude, rightMagnitude,  duration_ms) == 0;
+    */
+
+    /**
+     * Vibrate the controller using the new rumble API
      * This will return false if the controller doesn't support vibration or if SDL was unable to start
      * vibration (maybe the controller doesn't support left/right vibration, maybe it was unplugged in the
      * middle of trying, etc...)
@@ -152,7 +138,7 @@ public final class ControllerIndex {
      * @return Whether or not the controller was able to be vibrated (i.e. if haptics are supported)
      * @throws ControllerUnpluggedException If the controller is not connected
      */
-    public boolean startVibration(float leftMagnitude, float rightMagnitude) throws ControllerUnpluggedException {
+    public boolean doVibration(float leftMagnitude, float rightMagnitude, int duration_ms) throws ControllerUnpluggedException {
         ensureConnected();
 
         //Check the values are appropriate
@@ -162,42 +148,16 @@ public final class ControllerIndex {
             throw new IllegalArgumentException("The passed values are not in the range 0 to 1!");
         }
 
-        //Don't bother calling native code if the controller doesn't support vibration
-        if(hapticPtr == 0) {
-            return false;
-        }
-
-        return nativeStartVibration(hapticPtr, hapticEffectID,
-                (int) (32767 * leftMagnitude), (int) (32767 * rightMagnitude));
+        return nativeDoVibration(controllerPtr, (int) (32767 * leftMagnitude), (int) (32767 * rightMagnitude), duration_ms);
     }
-    private native boolean nativeStartVibration(long hapticPtr, int effectID, int leftMagnitude, int rightMagnitude); /*
-        SDL_Haptic* haptic = (SDL_Haptic*) hapticPtr;
-
-        //Update the effect
-        SDL_HapticEffect effect;
-        memset(&effect, 0, sizeof(SDL_HapticEffect));
-        effect.type = SDL_HAPTIC_LEFTRIGHT;
-        effect.leftright.length = SDL_HAPTIC_INFINITY;
-        effect.leftright.large_magnitude = leftMagnitude;
-        effect.leftright.small_magnitude = rightMagnitude;
-        SDL_HapticUpdateEffect(haptic, effectID, &effect);
-
-        //Stop any previously running effects before starting a new one
-        SDL_HapticStopAll(haptic);
-
-        return SDL_HapticRunEffect(haptic, effectID, 1) == 0;
-    */
 
     /**
-     * Stops any currently running vibration effects.
+     * Does nothing
+     * @deprecated not needed by new rumble API
      */
+    @Deprecated
     public void stopVibration() {
-        nativeStopVibration(hapticPtr);
     }
-    private native void nativeStopVibration(long hapticPtr); /*
-        SDL_Haptic* haptic = (SDL_Haptic*) hapticPtr;
-        SDL_HapticStopAll(haptic);
-    */
 
     /**
      * Returns whether or not a given button has been pressed.
