@@ -2,18 +2,19 @@
 
 #### New changes in this fork
 
+* Uses new rumble API and depreciates the old haptics API.
 * SDL 2.0.9 (or greater) dev libraries must be installed on the system.
-* SDL must have been compiled with "./configure CFLAGS=-fPIC CPPFLAGS=-fPIC"
+* SDL must have been compiled with "./configure CFLAGS=-fPIC CPPFLAGS=-fPIC" (on Linux at least)
 * sdl2-config must be in the path.
 * If you want you could compile your own SDL without video and install it into a local directory, then make some minor changes to JamepadNativesBuild.java to tell it where to find your SDL.  However we no longer attempt to do this automatically for you.
-* Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux systems.
+* Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux distros to make sure they work.
 
 
 #### A better way to use gamepads in Java
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
-Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform (or are GPL encumbered). On some, hotplugging controllers is not supported.
+Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform. On some, hotplugging controllers is not supported.
 
 Jamepad has:
   - One library that supports all platforms (Windows, OSX, and Linux)
@@ -21,7 +22,7 @@ Jamepad has:
   - Support for plugging/unplugging controllers at runtime.
   - Support for rumble
   - Button/Axis mappings for popular controllers.
-  - A permissive license. You can include this use this library in commercial projects without sharing source.
+  - A permissive license. You can include this use this library in proprietary projects without sharing source.
 
 #### Stuff You Should Know About Jamepad
 
@@ -41,22 +42,9 @@ Jamepad has:
 
 #### Getting Jamepad
 
-If you use gradle, you can pull this package in from jitpack.  First, add jitpack to your repositories section:
-````
-repositories {
-  ...
-  maven { url "https://jitpack.io" }
-}
-````
-Next, add this line to your dependencies section. Update the version number to whatever the latest release is.
-````
-dependencies {
-  ...
-  compile 'com.github.WilliamAHartman:Jamepad:1.1'
-}
-````
+No Mavern repo yet.
 
-If you aren't using gradle, just download the .jar file from the releases section and add it to your project as usual.
+Ddownload the .jar file from the releases section and add it to your project as usual.
 
 #### Using Jamepad
 There are two main ways to use Jamepad. Both rely on a ControllerManager Object.
@@ -121,11 +109,11 @@ controllers.quitSDLGamepad();
 ```
 
 ## Building Jamepad
-1.  run `gradle windowsNatives`
-2.  run `gradle linuxNatives`
+1.  run `./gradlew windowsNatives`
+2.  run `./gradlew linuxNatives`
 3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac 
-4.  On the mac, run `gradle OSXNatives`
-5.  run `gradle dist` to generate a .jar file with all the dependencies bundled
+4.  On the mac, run `./gradlew OSXNatives`
+5.  run `./gradle dist` to generate a .jar file with all the dependencies bundled
 
 #### Dependencies for Building Jamepad on Linux
 Right now the Windows and Linux binaries, Jamepad needs to be built on Linux. The binaries for Windows are cross-compiled.
@@ -133,7 +121,6 @@ Right now the Windows and Linux binaries, Jamepad needs to be built on Linux. Th
 The following packages (or equivalents) are needed:
 
 ```
-gradle
 ant
 build-essential 
 mingw-w64
@@ -142,7 +129,7 @@ mingw-w64
 If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. It should be something like this if you're on Ubuntu or Debian or whatever: 
 
 ```
-sudo apt-get install ant gradle build-essential mingw-w64
+sudo apt-get install ant build-essential mingw-w64
 ```
 
 You also need to install cross compiled 32 and 64 bit versions of SDL, e.g.
