@@ -1,14 +1,4 @@
-# Jamepad fork by ElectronStudio
-
-#### New changes in this fork
-
-* Uses new rumble API and depreciates the old haptics API.
-* SDL 2.0.9 (or greater) dev libraries must be installed on the system.
-* SDL must have been compiled with "./configure CFLAGS=-fPIC CPPFLAGS=-fPIC" (on Linux at least)
-* sdl2-config must be in the path.
-* If you want you could compile your own SDL without video and install it into a local directory, then make some minor changes to JamepadNativesBuild.java to tell it where to find your SDL.  However we no longer attempt to do this automatically for you.
-* Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux distros to make sure they work.
-
+# Jamepad
 
 #### A better way to use gamepads in Java
 
@@ -37,7 +27,17 @@ Jamepad has:
 - The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers will always appear before DirectInput controllers, regardless of when they were plugged in. This means that the player numbers associated with each controller can change unexpectedly if XInput controllers are plugged in or disconnected while DirectInput controllers are present.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
-  
+
+#### Latest changes in 1.3
+
+* Uses new rumble API and depreciates the old haptics API.
+* Based on SDL 2.0.9
+* Changes to build system.
+* Remove Mac32 and Lin32 builds.
+* Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux distros to make sure they work.
+
+
+
 ## Using Jamepad
 
 #### Getting Jamepad
@@ -53,7 +53,7 @@ Next, add this line to your dependencies section. Update the version number to w
 ````
 dependencies {
   ...
-  compile 'com.github.electronstudio:Jamepad:1.3'
+  compile 'com.github.WilliamAHartman:Jamepad:1.3'
 }
 ````
 
@@ -122,38 +122,54 @@ controllers.quitSDLGamepad();
 ```
 
 ## Building Jamepad
-1.  run `./gradlew windowsNatives`
-2.  run `./gradlew linuxNatives`
-3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac 
+1.  Clone the repo on Linux.  Run `./gradlew linuxNatives`
+2.  The binaries for Windows are cross-compiled and so also need to be built on Linux.  Run `./gradlew windowsNatives`
+3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac .
 4.  On the mac, run `./gradlew OSXNatives`
-5.  run `./gradle dist` to generate a .jar file with all the dependencies bundled
+5.  Run `./gradlew dist` to generate a .jar file with all the dependencies bundled.
 
-#### Dependencies for Building Jamepad on Linux
-Right now the Windows and Linux binaries, Jamepad needs to be built on Linux. The binaries for Windows are cross-compiled.
+####  Linux build dependencies
 
 The following packages (or equivalents) are needed:
 
 ```
 ant
-build-essential 
-mingw-w64
+build-essential
+sdl2-dev
 ```
 
 If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. It should be something like this if you're on Ubuntu or Debian or whatever: 
 
 ```
-sudo apt-get install ant build-essential mingw-w64
+sudo apt-get install ant build-essential sdl2-dev
 ```
 
-You also need to install cross compiled 32 and 64 bit versions of SDL, e.g.
+sdl2-config must be in the path.
+
+If your distro doesn't have an up to date version of SDL or you get errors, you can build it yourself from source:
+
+```
+./configure CFLAGS=-fPIC CPPFLAGS=-fPIC ; make ; sudo make install
+```
+
+If you want to make the binaries smaller you can disable parts of SDL you don't need with configure flags.  (We only make use of Joystick, GameController and Events systems).  However this is not tested.
+
+#### Windows (cross compiled on Linux) build dependencies
+
+```
+sudo apt-get install mingw-w64
+```
+
+You  need to install cross compiled Windows 32 and 64 bit versions of SDL, e.g.
 
 ```
 ./configure --host=i686-w64-mingw32 ; make ; sudo make install
 ./configure --host=x86_64-w64-mingw32 ; make ; sudo make install
 ```
 
+sdl2-config is assumed to be in /usr/local/cross-tools/ if it is not found there you will need to edit JamepadNativesBuild.java with the correct path.
 
-#### Dependencies for Building Jamepad on OS X
+#### MacOS build dependencies
 The OS X binaries currently must be built on OS X. It is probably possible to build the Windows and Linux binaries here too, but I haven't tried that out.
 
-The dependencies are pretty much the same (gradle, ant, g++). These packages can be installed from homebrew.
+The dependencies are pretty much the same (ant, g++). These packages can be installed from homebrew.
