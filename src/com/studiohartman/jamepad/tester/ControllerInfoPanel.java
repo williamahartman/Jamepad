@@ -16,8 +16,8 @@ public class ControllerInfoPanel extends JPanel {
     private JPanel title;
     private JPanel axes;
     private JPanel buttons;
+    private JSlider leftRumble, rightRumble;
     private JButton vibrateButton;
-    private JButton stopVibrateButton;
     private JLabel titleLabel;
 
     public ControllerInfoPanel() {
@@ -28,10 +28,14 @@ public class ControllerInfoPanel extends JPanel {
         buttons = new JPanel();
 
         JPanel vibratePanel = new JPanel();
-        vibrateButton = new JButton("Start vibrating");
-        stopVibrateButton = new JButton("Stop vibrating");
+        vibrateButton = new JButton("Rumble");
+        leftRumble = new JSlider(0, 100, 100);
+        rightRumble = new JSlider(0, 100, 100);
+
+        vibratePanel.add(leftRumble);
+        vibratePanel.add(rightRumble);
         vibratePanel.add(vibrateButton);
-        vibratePanel.add(stopVibrateButton);
+
 
         title.setLayout(new BoxLayout(title, BoxLayout.Y_AXIS));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -79,14 +83,12 @@ public class ControllerInfoPanel extends JPanel {
             Arrays.stream(vibrateButton.getActionListeners()).forEach(vibrateButton::removeActionListener);
             vibrateButton.addActionListener(event -> {
                 try {
-                    c.startVibration(1, 1);
+                    c.doVibration(leftRumble.getValue()/100f, rightRumble.getValue()/100f, 1000);
                 } catch (ControllerUnpluggedException e) {
                     System.err.println("Failed to vibrate!");
                 }
             });
 
-            Arrays.stream(stopVibrateButton.getActionListeners()).forEach(stopVibrateButton::removeActionListener);
-            stopVibrateButton.addActionListener(event -> c.stopVibration());
         } catch (ControllerUnpluggedException e) {
             e.printStackTrace();
 

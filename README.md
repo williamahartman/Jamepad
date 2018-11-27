@@ -1,9 +1,10 @@
 # Jamepad
+
 #### A better way to use gamepads in Java
 
 Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
 
-Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform (or are GPL encumbered). On some, hotplugging controllers is not supported.
+Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform. On some, hotplugging controllers is not supported.
 
 Jamepad has:
   - One library that supports all platforms (Windows, OSX, and Linux)
@@ -11,11 +12,10 @@ Jamepad has:
   - Support for plugging/unplugging controllers at runtime.
   - Support for rumble
   - Button/Axis mappings for popular controllers.
-  - A permissive license. You can include this use this library in commercial projects without sharing source.
+  - A permissive license. You can include this use this library in proprietary projects without sharing source.
 
 #### Stuff You Should Know About Jamepad
 
-- Jamepad is based on SDL. Since SDL is a bit overkill for just gamepad stuff, we build a smaller version that only contains the SDL_GameController subsystem and its dependencies.
 - On Windows (only 7 and up were tested), no special dependencies are needed.
 - On Linux, runtime dependencies are:
   - libevdev
@@ -24,15 +24,20 @@ Jamepad has:
   - If you want to use Xbox controllers, you need separate drivers for them. The ones [here](https://github.com/360Controller/360Controller) have been tested with Jamepad and work properly.
   
 #### Current Limitations
-- Rumble stuff is iffy. 
-  - It works on Linux and with XInput on windows. 
-  - It seems like it doesn't work on OSX right now. I'm not totally sure though, because the same controllers don't vibrate with straight up SDL either. This could also just be that the controllers I tested (X360, Xbox One, PS3, PS4) don't have driver support for rumble on OS X. It's also possible things are just broken.
-  - DirectInput on Windows is untested, as I don't have any DirectInput controllers where the vibration works normally.
-- There are some (driver-y) problems Jamepad just can't fix. Xbox controller support on Linux is still kind of iffy. The 360 Wireless Adapter is a mess on Linux without the [SteamOS version of xpad](https://launchpad.net/~mdeslaur/+archive/ubuntu/steamos) or the [Xboxdrv](https://github.com/xboxdrv/xboxdrv) userspace drivers. The Xbox One Wireless adapter isn't currently supported at all on Linux and OSX. 
 - The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers will always appear before DirectInput controllers, regardless of when they were plugged in. This means that the player numbers associated with each controller can change unexpectedly if XInput controllers are plugged in or disconnected while DirectInput controllers are present.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
 - For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
-  
+
+#### Latest changes in 1.3
+
+* Uses new rumble API and depreciates the old haptics API.
+* Based on SDL 2.0.9
+* Changes to build system.
+* Remove Mac32 and Lin32 builds.
+* Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux distros to make sure they work.
+
+
+
 ## Using Jamepad
 
 #### Getting Jamepad
@@ -48,7 +53,7 @@ Next, add this line to your dependencies section. Update the version number to w
 ````
 dependencies {
   ...
-  compile 'com.github.WilliamAHartman:Jamepad:1.1'
+  compile 'com.github.WilliamAHartman:Jamepad:1.3'
 }
 ````
 
@@ -117,35 +122,54 @@ controllers.quitSDLGamepad();
 ```
 
 ## Building Jamepad
-1.  run `gradle windowsNatives`
-2.  run `gradle linuxNatives`
-3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac 
-4.  On the mac, run `gradle OSXNatives`
-5.  run `gradle dist` to generate a .jar file with all the dependencies bundled
+1.  Clone the repo on Linux.  Run `./gradlew linuxNatives`
+2.  The binaries for Windows are cross-compiled and so also need to be built on Linux.  Run `./gradlew windowsNatives`
+3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac .
+4.  On the mac, run `./gradlew OSXNatives`
+5.  Run `./gradlew dist` to generate a .jar file with all the dependencies bundled.
 
-#### Dependencies for Building Jamepad on Linux
-Right now the Windows and Linux binaries, Jamepad needs to be built on Linux. The binaries for Windows are cross-compiled.
+####  Linux build dependencies
 
 The following packages (or equivalents) are needed:
 
 ```
-gradle
 ant
-build-essential 
-libc6-i386 
-libc6-dev-i386 
-g++-multilib
-g++-mingw-w64-i686 
-g++-mingw-w64-x86-64
+build-essential
+sdl2-dev
 ```
 
 If you've built C stuff for different platforms and bitnesses, you probably have all this stuff. If not, use your package manager to get them all. It should be something like this if you're on Ubuntu or Debian or whatever: 
 
 ```
-sudo apt-get install ant gradle build-essential libc6-i386 libc6-dev-i386 g++-multilib g++-mingw-w64-i686 g++-mingw-w64-x86-64
+sudo apt-get install ant build-essential sdl2-dev
 ```
 
-#### Dependencies for Building Jamepad on OS X
+sdl2-config must be in the path.
+
+If your distro doesn't have an up to date version of SDL or you get errors, you can build it yourself from source:
+
+```
+./configure CFLAGS=-fPIC CPPFLAGS=-fPIC ; make ; sudo make install
+```
+
+If you want to make the binaries smaller you can disable parts of SDL you don't need with configure flags.  (We only make use of Joystick, GameController and Events systems).  However this is not tested.
+
+#### Windows (cross compiled on Linux) build dependencies
+
+```
+sudo apt-get install mingw-w64
+```
+
+You  need to install cross compiled Windows 32 and 64 bit versions of SDL, e.g.
+
+```
+./configure --host=i686-w64-mingw32 ; make ; sudo make install
+./configure --host=x86_64-w64-mingw32 ; make ; sudo make install
+```
+
+sdl2-config is assumed to be in /usr/local/cross-tools/ if it is not found there you will need to edit JamepadNativesBuild.java with the correct path.
+
+#### MacOS build dependencies
 The OS X binaries currently must be built on OS X. It is probably possible to build the Windows and Linux binaries here too, but I haven't tried that out.
 
-The dependencies are pretty much the same (gradle, ant, g++). These packages can be installed from homebrew.
+The dependencies are pretty much the same (ant, g++). These packages can be installed from homebrew.

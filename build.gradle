@@ -21,8 +21,14 @@ repositories {
 }
 
 dependencies {
-    compile "com.badlogicgames.gdx:gdx-jnigen:1.9.2"
+    compile "com.badlogicgames.gdx:gdx-jnigen:1.9.9"
 }
+
+task deleteJniFolder(type: Delete) {
+    delete "jni"
+}
+
+clean.dependsOn(deleteJniFolder)
 
 task runTester(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.tester.ControllerTester'
@@ -32,21 +38,21 @@ task runTester(dependsOn: classes, type: JavaExec) {
 
 task linuxNatives(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-linux']
+    args = ['build-linux', 'system-SDL2']
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }
 
 task windowsNatives(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-windows']
+    args = ['build-windows',  'system-SDL2']
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }
 
 task OSXNatives(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-OSX']
+    args = ['build-OSX', 'system-SDL2']
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }

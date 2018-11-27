@@ -98,7 +98,7 @@ public class ControllerManager {
         }
     }
     private native boolean nativeInitSDLGamepad(); /*
-        if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) != 0) {
+        if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0) {
             printf("NATIVE METHOD: SDL_Init failed: %s\n", SDL_GetError());
             return JNI_FALSE;
         }
@@ -170,12 +170,12 @@ public class ControllerManager {
      * @return Whether or not vibration was successfully started
      * @throws IllegalStateException if Jamepad was not initialized
      */
-    public boolean startVibration(int index, float leftMagnitude, float rightMagnitude) throws IllegalStateException {
+    public boolean doVibration(int index, float leftMagnitude, float rightMagnitude, int duration_ms) throws IllegalStateException {
         verifyInitialized();
 
         if(index < controllers.length && index < 0) {
             try {
-                return controllers[index].startVibration(leftMagnitude, rightMagnitude);
+                return controllers[index].doVibration(leftMagnitude, rightMagnitude, duration_ms);
             } catch (ControllerUnpluggedException e) {
                 return false;
             }
@@ -185,11 +185,27 @@ public class ControllerManager {
     }
 
     /**
-     * Stops any running vibration effects on the controller at the given index. If there is no
-     * controller or there is another problem, this method will do nothing.
+     * Use doVibration instead
      *
+     * @deprecated Hatpics replaced by new rumble API, use doVibrarion instead
+     * @param index The index of the controller that will be vibrated
+     * @param leftMagnitude The magnitude the left vibration motor will be set to
+     * @param rightMagnitude The magnitude the right vibration motor will be set to
+     * @return Whether or not vibration was successfully started
+     * @throws IllegalStateException if Jamepad was not initialized
+     */
+    @Deprecated
+    public boolean startVibration(int index, float leftMagnitude, float rightMagnitude) throws IllegalStateException {
+        return doVibration(index, leftMagnitude, rightMagnitude, 1000);
+    }
+
+    /**
+     * Does nothing
+     *
+     * @deprecated  new rumble API does not need this
      * @param index The index of the controller whose vibration effects will be stopped
      */
+    @Deprecated
     public void stopVibration(int index) {
         verifyInitialized();
 
