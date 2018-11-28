@@ -148,7 +148,7 @@ public final class ControllerIndex {
             throw new IllegalArgumentException("The passed values are not in the range 0 to 1!");
         }
 
-        return nativeDoVibration(controllerPtr, (int) (32767 * leftMagnitude), (int) (32767 * rightMagnitude), duration_ms);
+        return nativeDoVibration(controllerPtr, (int) (65535 * leftMagnitude), (int) (65535 * rightMagnitude), duration_ms);
     }
 
     /**
