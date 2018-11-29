@@ -123,8 +123,8 @@ controllers.quitSDLGamepad();
 
 ## Building Jamepad
 1.  Clone the repo on Linux.  Run `./gradlew linuxNatives`
-2.  The binaries for Windows are cross-compiled and so also need to be built on Linux.  Run `./gradlew windowsNatives`
-3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac .
+2.  The binaries for Windows are cross-compiled and so also need to be built on Linux (or MacOS).  Run `./gradlew windowsNatives`
+3.  Clone the repo on a mac. Copy the files you just built (from the `libs` folder) to the mac.
 4.  On the mac, run `./gradlew OSXNatives`
 5.  Run `./gradlew dist` to generate a .jar file with all the dependencies bundled.
 
@@ -154,10 +154,15 @@ If your distro doesn't have an up to date version of SDL or you get errors, you 
 
 If you want to make the binaries smaller you can disable parts of SDL you don't need with configure flags.  (We only make use of Joystick, GameController and Events systems).  However this is not tested.
 
-#### Windows (cross compiled on Linux) build dependencies
+#### Windows (cross compiled on Linux on MacOS) build dependencies
 
+Linux:
 ```
 sudo apt-get install mingw-w64
+```
+MacOS:
+```
+brew install mingw-w64  
 ```
 
 You  need to install cross compiled Windows 32 and 64 bit versions of SDL, e.g.
@@ -170,6 +175,6 @@ You  need to install cross compiled Windows 32 and 64 bit versions of SDL, e.g.
 sdl2-config is assumed to be in /usr/local/cross-tools/ if it is not found there you will need to edit JamepadNativesBuild.java with the correct path.
 
 #### MacOS build dependencies
-The OS X binaries currently must be built on OS X. It is probably possible to build the Windows and Linux binaries here too, but I haven't tried that out.
+The OS X binaries currently must be built on OS X. You can build the Windows ones too with cross compiler.  It is probably possible to build the Linux binaries here too, but I haven't tried that out.
 
 The dependencies are pretty much the same (ant, g++). These packages can be installed from homebrew.
