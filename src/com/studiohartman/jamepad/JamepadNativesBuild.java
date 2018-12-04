@@ -131,7 +131,7 @@ class JamepadNativesBuild {
             BuildExecutorFixed.executeAnt("jni/build-linux64.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
-        if (buildLinux) {
+        if (buildLinux32) {
             System.out.println("##### COMPILING NATIVES FOR LINUX32 #####");
             BuildExecutorFixed.executeAnt("jni/build-linux32.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
