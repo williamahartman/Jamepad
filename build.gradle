@@ -64,15 +64,8 @@ task allNatives(dependsOn: classes, type: JavaExec) {
     standardInput = System.in
 }
 
+
 task dist(dependsOn: classes, type: Jar) {
-    from files(sourceSets.main.output.classesDir)
-    from files(sourceSets.main.output.resourcesDir)
-    from {configurations.compile.collect {zipTree(it)}}
-
-    manifest {}
-}
-
-task distTester(dependsOn: classes, type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}

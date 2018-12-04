@@ -13,11 +13,10 @@ public class ControllerTester {
     public static int NUM_CONTROLLERS = 4;
 
     public static void run() {
-        JTabbedPane tabbedPane = new JTabbedPane();
-
         ControllerManager controllers = new ControllerManager(NUM_CONTROLLERS);
         controllers.initSDLGamepad();
 
+        JTabbedPane tabbedPane = new JTabbedPane();
         JFrame testFrame = new JFrame();
         testFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         testFrame.setLocationRelativeTo(null);
@@ -56,7 +55,8 @@ public class ControllerTester {
     public static void main (String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            System.out.println("Error setting lookandfeel");
             e.printStackTrace();
         }
         run();
