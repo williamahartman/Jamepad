@@ -19,6 +19,7 @@ class JamepadNativesBuild {
         boolean buildLinux = false;
         boolean buildOSX = false;
         boolean buildLinux32 = false;
+        boolean buildLinuxARM = false;
 
         for(String s: args) {
             switch (s) {
@@ -33,6 +34,9 @@ class JamepadNativesBuild {
                     break;
                 case "build-linux32":
                     buildLinux32 = true;
+                    break;
+                case "build-linuxARM":
+                    buildLinuxARM = true;
                     break;
                 case "build-OSX":
                     buildOSX = true;
@@ -49,6 +53,7 @@ class JamepadNativesBuild {
 
         BuildTarget lin32 = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
         BuildTarget lin64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true);
+        BuildTarget linARM = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
         BuildTarget win32 = BuildTarget.newDefaultTarget(TargetOs.Windows, false);
         BuildTarget win64 = BuildTarget.newDefaultTarget(TargetOs.Windows, true);
         BuildTarget mac64 = BuildTarget.newDefaultTarget(TargetOs.MacOsX, true);
@@ -66,6 +71,19 @@ class JamepadNativesBuild {
             lin64.libraries = libraries;
         }
 
+        if(buildLinuxARM) {
+            linARM.compilerPrefix="arm-linux-gnueabihf-";
+            linARM.buildFileName="build-linuxARM.xml";
+            checkSDLVersion("sdl2-config", minSDLversion);
+            linARM.cIncludes = new String[] {};
+            String cflags = execCmd("sdl2-config --cflags");
+            linARM.cFlags = linARM.cFlags + " "  + cflags;
+            linARM.cppFlags = linARM.cFlags;
+            linARM.linkerFlags = "-shared -m32";
+            String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
+            linARM.libraries = libraries;
+        }
+
         if(buildLinux32){
             checkSDLVersion("sdl2-config", minSDLversion);
             lin32.cIncludes = new String[] {};
@@ -74,7 +92,6 @@ class JamepadNativesBuild {
             lin32.cppFlags = lin32.cFlags;
             lin32.linkerFlags = "-shared -m32";
             String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
-            //"-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -l:libSDL2.a -Wl,--no-undefined -lm -ldl -lsndio -lpthread -lrt";
             lin32.libraries = libraries;
         }
 
@@ -111,7 +128,7 @@ class JamepadNativesBuild {
         System.out.println("##### GENERATING NATIVE CODE AND BUILD SCRIPTS #####");
         new NativeCodeGenerator().generate("src", "build/classes/main", "jni");
         new AntScriptGenerator().generate(
-                new BuildConfig("jamepad", "build/tmp", "libs", "jni"), win32, win64, lin64, mac64
+                new BuildConfig("jamepad", "build/tmp", "libs", "jni"), win32, win64, lin64, lin32, linARM, mac64
         );
         System.out.println();
 
@@ -131,9 +148,14 @@ class JamepadNativesBuild {
             BuildExecutorFixed.executeAnt("jni/build-linux64.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
-        if (buildLinux) {
+        if (buildLinux32) {
             System.out.println("##### COMPILING NATIVES FOR LINUX32 #####");
             BuildExecutorFixed.executeAnt("jni/build-linux32.xml", "-Dhas-compiler=true clean postcompile");
+            System.out.println();
+        }
+        if (buildLinuxARM) {
+            System.out.println("##### COMPILING NATIVES FOR LINUXARM #####");
+            BuildExecutorFixed.executeAnt("jni/build-linuxARM.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
         if (buildOSX) {
