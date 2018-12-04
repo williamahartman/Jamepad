@@ -56,9 +56,9 @@ class JamepadNativesBuild {
         if(buildLinux) {
             checkSDLVersion("sdl2-config", minSDLversion);
 
-            lin64.cIncludes = new String[] {};
+            lin64.cIncludes = new String[]{};
             String cflags = execCmd("sdl2-config --cflags"); // "-I/usr/local/include/SDL2"
-            lin64.cFlags = lin64.cFlags + " "  + cflags;
+            lin64.cFlags = lin64.cFlags + " "  + cflags ;//+ " -include ../src/force_link_glibc_2.5.h";
             lin64.cppFlags = lin64.cFlags;
             lin64.linkerFlags = "-shared -m64";
             String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
