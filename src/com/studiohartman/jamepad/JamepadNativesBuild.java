@@ -18,6 +18,7 @@ class JamepadNativesBuild {
         boolean buildWindows = false;
         boolean buildLinux = false;
         boolean buildOSX = false;
+        boolean buildLinux32 = false;
 
         for(String s: args) {
             switch (s) {
@@ -30,18 +31,23 @@ class JamepadNativesBuild {
                 case "build-linux":
                     buildLinux = true;
                     break;
+                case "build-linux32":
+                    buildLinux32 = true;
+                    break;
                 case "build-OSX":
                     buildOSX = true;
                     break;
             }
         }
 
-        System.out.println("Using system SDL     (arg: system-SDL2)   " + (useSystemSDL ? "ON" : "OFF"));
-        System.out.println("Building for Windows (arg: build-windows) " + (buildWindows ? "ON" : "OFF"));
-        System.out.println("Building for Linux   (arg: build-linux)   " + (buildLinux ? "ON" : "OFF"));
-        System.out.println("Building for OSX     (arg: build-OSX)     " + (buildOSX ? "ON" : "OFF"));
+        System.out.println("Using system SDL          (arg: system-SDL2)   " + (useSystemSDL ? "ON" : "OFF"));
+        System.out.println("Building for Windows64/32 (arg: build-windows) " + (buildWindows ? "ON" : "OFF"));
+        System.out.println("Building for Linux64      (arg: build-linux)   " + (buildLinux ? "ON" : "OFF"));
+        System.out.println("Building for Linux32      (arg: build-linux)   " + (buildLinux32 ? "ON" : "OFF"));
+        System.out.println("Building for OSX64        (arg: build-OSX)     " + (buildOSX ? "ON" : "OFF"));
         System.out.println();
 
+        BuildTarget lin32 = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
         BuildTarget lin64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true);
         BuildTarget win32 = BuildTarget.newDefaultTarget(TargetOs.Windows, false);
         BuildTarget win64 = BuildTarget.newDefaultTarget(TargetOs.Windows, true);
@@ -58,6 +64,18 @@ class JamepadNativesBuild {
             String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
             //"-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -l:libSDL2.a -Wl,--no-undefined -lm -ldl -lsndio -lpthread -lrt";
             lin64.libraries = libraries;
+        }
+
+        if(buildLinux32){
+            checkSDLVersion("sdl2-config", minSDLversion);
+            lin32.cIncludes = new String[] {};
+            String cflags = execCmd("sdl2-config --cflags");
+            lin32.cFlags = lin32.cFlags + " "  + cflags;
+            lin32.cppFlags = lin32.cFlags;
+            lin32.linkerFlags = "-shared -m32";
+            String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
+            //"-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -l:libSDL2.a -Wl,--no-undefined -lm -ldl -lsndio -lpthread -lrt";
+            lin32.libraries = libraries;
         }
 
         if(buildOSX){
@@ -109,8 +127,13 @@ class JamepadNativesBuild {
             System.out.println();
         }
         if (buildLinux) {
-            System.out.println("##### COMPILING NATIVES FOR LINUX #####");
+            System.out.println("##### COMPILING NATIVES FOR LINUX64 #####");
             BuildExecutorFixed.executeAnt("jni/build-linux64.xml", "-Dhas-compiler=true clean postcompile");
+            System.out.println();
+        }
+        if (buildLinux) {
+            System.out.println("##### COMPILING NATIVES FOR LINUX32 #####");
+            BuildExecutorFixed.executeAnt("jni/build-linux32.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
         if (buildOSX) {
