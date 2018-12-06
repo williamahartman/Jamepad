@@ -73,7 +73,8 @@ class JamepadNativesBuild {
         }
 
         if(buildLinuxARM) {
-            linARM.compilerPrefix="arm-linux-gnueabihf-";
+            // Can't get cross compiling go to work due to GLIBC problem, forcing old GLIBC header doesnt work.
+            //linARM.compilerPrefix="arm-linux-gnueabihf-";
             linARM.buildFileName="build-linuxARM.xml";
             checkSDLVersion("sdl2-config", minSDLversion);
             linARM.cIncludes = new String[] {};
