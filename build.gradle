@@ -43,6 +43,13 @@ task linuxNatives(dependsOn: classes, type: JavaExec) {
     standardInput = System.in
 }
 
+task linuxNativesARM(dependsOn: classes, type: JavaExec) {
+    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
+    args = ['build-linuxARM', 'system-SDL2']
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
+
 task linuxNatives32(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.JamepadNativesBuild'
     args = ['build-linux32', 'system-SDL2']

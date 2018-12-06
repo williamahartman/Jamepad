@@ -47,7 +47,8 @@ class JamepadNativesBuild {
         System.out.println("Using system SDL          (arg: system-SDL2)   " + (useSystemSDL ? "ON" : "OFF"));
         System.out.println("Building for Windows64/32 (arg: build-windows) " + (buildWindows ? "ON" : "OFF"));
         System.out.println("Building for Linux64      (arg: build-linux)   " + (buildLinux ? "ON" : "OFF"));
-        System.out.println("Building for Linux32      (arg: build-linux)   " + (buildLinux32 ? "ON" : "OFF"));
+        System.out.println("Building for Linux32      (arg: build-linux32)   " + (buildLinux32 ? "ON" : "OFF"));
+        System.out.println("Building for LinuxARM      (arg: build-linuxARM)   " + (buildLinuxARM ? "ON" : "OFF"));
         System.out.println("Building for OSX64        (arg: build-OSX)     " + (buildOSX ? "ON" : "OFF"));
         System.out.println();
 
@@ -77,9 +78,9 @@ class JamepadNativesBuild {
             checkSDLVersion("sdl2-config", minSDLversion);
             linARM.cIncludes = new String[] {};
             String cflags = execCmd("sdl2-config --cflags");
-            linARM.cFlags = linARM.cFlags + " "  + cflags;
+            linARM.cFlags = "-c -Wall -O2 "  + cflags;
             linARM.cppFlags = linARM.cFlags;
-            linARM.linkerFlags = "-shared -m32";
+            linARM.linkerFlags = "-shared";
             String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
             linARM.libraries = libraries;
             linARM.osFileName = "libjamepadArm.so";
