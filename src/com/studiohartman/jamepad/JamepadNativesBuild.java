@@ -82,6 +82,7 @@ class JamepadNativesBuild {
             linARM.linkerFlags = "-shared -m32";
             String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
             linARM.libraries = libraries;
+            linARM.osFileName = "libjamepadArm.so";
         }
 
         if(buildLinux32){
