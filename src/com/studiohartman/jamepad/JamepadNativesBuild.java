@@ -18,6 +18,8 @@ class JamepadNativesBuild {
         boolean buildWindows = false;
         boolean buildLinux = false;
         boolean buildOSX = false;
+        boolean buildLinux32 = false;
+        boolean buildLinuxARM = false;
 
         for(String s: args) {
             switch (s) {
@@ -30,19 +32,29 @@ class JamepadNativesBuild {
                 case "build-linux":
                     buildLinux = true;
                     break;
+                case "build-linux32":
+                    buildLinux32 = true;
+                    break;
+                case "build-linuxARM":
+                    buildLinuxARM = true;
+                    break;
                 case "build-OSX":
                     buildOSX = true;
                     break;
             }
         }
 
-        System.out.println("Using system SDL     (arg: system-SDL2)   " + (useSystemSDL ? "ON" : "OFF"));
-        System.out.println("Building for Windows (arg: build-windows) " + (buildWindows ? "ON" : "OFF"));
-        System.out.println("Building for Linux   (arg: build-linux)   " + (buildLinux ? "ON" : "OFF"));
-        System.out.println("Building for OSX     (arg: build-OSX)     " + (buildOSX ? "ON" : "OFF"));
+        System.out.println("Using system SDL          (arg: system-SDL2)   " + (useSystemSDL ? "ON" : "OFF"));
+        System.out.println("Building for Windows64/32 (arg: build-windows) " + (buildWindows ? "ON" : "OFF"));
+        System.out.println("Building for Linux64      (arg: build-linux)   " + (buildLinux ? "ON" : "OFF"));
+        System.out.println("Building for Linux32      (arg: build-linux32)   " + (buildLinux32 ? "ON" : "OFF"));
+        System.out.println("Building for LinuxARM      (arg: build-linuxARM)   " + (buildLinuxARM ? "ON" : "OFF"));
+        System.out.println("Building for OSX64        (arg: build-OSX)     " + (buildOSX ? "ON" : "OFF"));
         System.out.println();
 
+        BuildTarget lin32 = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
         BuildTarget lin64 = BuildTarget.newDefaultTarget(TargetOs.Linux, true);
+        BuildTarget linARM = BuildTarget.newDefaultTarget(TargetOs.Linux, false);
         BuildTarget win32 = BuildTarget.newDefaultTarget(TargetOs.Windows, false);
         BuildTarget win64 = BuildTarget.newDefaultTarget(TargetOs.Windows, true);
         BuildTarget mac64 = BuildTarget.newDefaultTarget(TargetOs.MacOsX, true);
@@ -50,14 +62,41 @@ class JamepadNativesBuild {
         if(buildLinux) {
             checkSDLVersion("sdl2-config", minSDLversion);
 
-            lin64.cIncludes = new String[] {};
+            lin64.cIncludes = new String[]{};
             String cflags = execCmd("sdl2-config --cflags"); // "-I/usr/local/include/SDL2"
-            lin64.cFlags = lin64.cFlags + " "  + cflags;
+            lin64.cFlags = lin64.cFlags + " "  + cflags ;//+ " -include ../src/force_link_glibc_2.5.h";
             lin64.cppFlags = lin64.cFlags;
             lin64.linkerFlags = "-shared -m64";
             String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
             //"-L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -l:libSDL2.a -Wl,--no-undefined -lm -ldl -lsndio -lpthread -lrt";
             lin64.libraries = libraries;
+        }
+
+        if(buildLinuxARM) {
+            // Can't get cross compiling go to work due to GLIBC problem, forcing old GLIBC header doesnt work.
+            //linARM.compilerPrefix="arm-linux-gnueabihf-";
+            linARM.buildFileName="build-linuxARM.xml";
+            checkSDLVersion("sdl2-config", minSDLversion);
+            linARM.cIncludes = new String[] {};
+            String cflags = execCmd("sdl2-config --cflags");
+            linARM.cFlags = "-c -Wall -O2 "  + cflags;
+            linARM.cppFlags = linARM.cFlags;
+            linARM.linkerFlags = "-shared";
+            String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
+            linARM.libraries = libraries;
+            linARM.osFileName = "linuxArm";
+            linARM.libName = "libjamepadArm.so";
+        }
+
+        if(buildLinux32){
+            checkSDLVersion("sdl2-config", minSDLversion);
+            lin32.cIncludes = new String[] {};
+            String cflags = execCmd("sdl2-config --cflags");
+            lin32.cFlags = lin32.cFlags + " "  + cflags;
+            lin32.cppFlags = lin32.cFlags;
+            lin32.linkerFlags = "-shared -m32";
+            String libraries = execCmd("sdl2-config --static-libs").replace("-lSDL2","-l:libSDL2.a" );
+            lin32.libraries = libraries;
         }
 
         if(buildOSX){
@@ -93,7 +132,7 @@ class JamepadNativesBuild {
         System.out.println("##### GENERATING NATIVE CODE AND BUILD SCRIPTS #####");
         new NativeCodeGenerator().generate("src", "build/classes/main", "jni");
         new AntScriptGenerator().generate(
-                new BuildConfig("jamepad", "build/tmp", "libs", "jni"), win32, win64, lin64, mac64
+                new BuildConfig("jamepad", "build/tmp", "libs", "jni"), win32, win64, lin64, lin32, linARM, mac64
         );
         System.out.println();
 
@@ -109,8 +148,18 @@ class JamepadNativesBuild {
             System.out.println();
         }
         if (buildLinux) {
-            System.out.println("##### COMPILING NATIVES FOR LINUX #####");
+            System.out.println("##### COMPILING NATIVES FOR LINUX64 #####");
             BuildExecutorFixed.executeAnt("jni/build-linux64.xml", "-Dhas-compiler=true clean postcompile");
+            System.out.println();
+        }
+        if (buildLinux32) {
+            System.out.println("##### COMPILING NATIVES FOR LINUX32 #####");
+            BuildExecutorFixed.executeAnt("jni/build-linux32.xml", "-Dhas-compiler=true clean postcompile");
+            System.out.println();
+        }
+        if (buildLinuxARM) {
+            System.out.println("##### COMPILING NATIVES FOR LINUXARM #####");
+            BuildExecutorFixed.executeAnt("jni/build-linuxARM.xml", "-Dhas-compiler=true clean postcompile");
             System.out.println();
         }
         if (buildOSX) {
