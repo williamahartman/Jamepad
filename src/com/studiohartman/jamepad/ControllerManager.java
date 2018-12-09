@@ -3,6 +3,7 @@ package com.studiohartman.jamepad;
 import com.badlogic.gdx.jnigen.JniGenSharedLibraryLoader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -86,7 +87,7 @@ public class ControllerManager {
         //for most people if mapping aren't set.
         try {
             addMappingsFromFile(mappingsPath);
-        } catch (IOException e) {
+        } catch (IOException | IllegalStateException e) {
             System.err.println("Failed to load mapping with original location \"" + mappingsPath + "\", " +
                     "Falling back of SDL's built in mappings");
             e.printStackTrace();
@@ -297,15 +298,16 @@ public class ControllerManager {
      * @throws IllegalStateException if the mappings cannot be applied to SDL
      */
     public void addMappingsFromFile(String path) throws IOException, IllegalStateException {
-        mappingsPath = path;
-
         /*
         Copy the file to a temp folder. SDL can't read files held in .jars, and that's probably how
         most people would use this library.
          */
-        Path extractedLoc = FileSystems.getDefault().getPath(System.getProperty("java.io.tmpdir"), path);
-        Files.copy(ClassLoader.getSystemResourceAsStream(path), extractedLoc,
-                StandardCopyOption.REPLACE_EXISTING);
+        Path extractedLoc =  Files.createTempFile(null, null).toAbsolutePath();
+        InputStream source = getClass().getResourceAsStream(path);
+        if(source==null) source = ClassLoader.getSystemResourceAsStream(path);
+        if(source==null) throw new IOException("Cannot open resource from classpath "+path);
+
+        Files.copy(source, extractedLoc, StandardCopyOption.REPLACE_EXISTING);
 
         if(!nativeAddMappingsFromFile(extractedLoc.toString())) {
             throw new IllegalStateException("Failed to set SDL controller mappings! Falling back to build in SDL mappings.");
