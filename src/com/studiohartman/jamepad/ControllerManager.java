@@ -174,7 +174,7 @@ public class ControllerManager {
     public boolean doVibration(int index, float leftMagnitude, float rightMagnitude, int duration_ms) throws IllegalStateException {
         verifyInitialized();
 
-        if(index < controllers.length && index < 0) {
+        if(index < controllers.length && index >= 0) {
             try {
                 return controllers[index].doVibration(leftMagnitude, rightMagnitude, duration_ms);
             } catch (ControllerUnpluggedException e) {
@@ -210,7 +210,7 @@ public class ControllerManager {
     public void stopVibration(int index) {
         verifyInitialized();
 
-        if(index < controllers.length && index < 0) {
+        if(index < controllers.length && index >= 0) {
             controllers[index].stopVibration();
         }
     }
