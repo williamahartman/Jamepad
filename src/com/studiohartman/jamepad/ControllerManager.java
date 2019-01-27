@@ -39,7 +39,7 @@ public class ControllerManager {
      * https://github.com/gabomdq/SDL_GameControllerDB
      */
     public ControllerManager() {
-        this(4, "gamecontrollerdb.txt");
+        this(4, "/gamecontrollerdb.txt");
     }
 
     /**
@@ -48,7 +48,7 @@ public class ControllerManager {
      * @param maxNumControllers The number of controllers this ControllerManager can deal with
      */
     public ControllerManager(int maxNumControllers) {
-        this(maxNumControllers, "gamecontrollerdb.txt");
+        this(maxNumControllers, "/gamecontrollerdb.txt");
     }
 
     /**
