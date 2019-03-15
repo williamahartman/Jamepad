@@ -56,7 +56,7 @@ Next, add this line to your dependencies section. Update the version number to w
 ````
 dependencies {
   ...
-  compile 'com.github.WilliamAHartman:Jamepad:1.3'
+  compile 'com.github.WilliamAHartman:Jamepad:1.3.2'
 }
 ````
 
