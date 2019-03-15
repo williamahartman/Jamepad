@@ -27,10 +27,10 @@ sdl2-config must be in the path.
 If your distro doesn't have an up to date version of SDL or you get errors, you can build it yourself from source:
 
 ```
-./configure CFLAGS=-fPIC CPPFLAGS=-fPIC ; make ; sudo make install
+./configure CFLAGS=-fPIC CPPFLAGS=-fPIC --disable-audio --disable-render --disable-power --disable-filesystem  ; make ; sudo make install
 ```
 
-If you want to make the binaries smaller you can disable parts of SDL you don't need with configure flags.  (We only make use of Joystick, GameController and Events systems).  However this is not tested.
+If you want to make the binaries smaller you can disable parts of SDL you don't need with configure flags.  (We only make use of Joystick, GameController and Events systems).  However this is not well tested.
 
 #### Windows (cross compiled on Linux on MacOS) build dependencies
 
@@ -43,11 +43,11 @@ MacOS:
 brew install mingw-w64  
 ```
 
-You  need to install cross compiled Windows 32 and 64 bit versions of SDL, e.g.
+You need to install cross compiled Windows 32 and 64 bit versions of SDL, e.g.
 
 ```
-./configure --host=i686-w64-mingw32 ; make ; sudo make install
-./configure --host=x86_64-w64-mingw32 ; make ; sudo make install
+./configure --host=i686-w64-mingw32 --disable-audio --disable-render --disable-power --disable-filesystem ; make ; sudo make install
+./configure --host=x86_64-w64-mingw32 --disable-audio --disable-render --disable-power --disable-filesystem ; make ; sudo make install
 ```
 
 sdl2-config is assumed to be in /usr/local/cross-tools/ if it is not found there you will need to edit JamepadNativesBuild.java with the correct path.
