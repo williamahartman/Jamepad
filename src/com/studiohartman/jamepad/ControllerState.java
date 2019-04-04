@@ -1,5 +1,7 @@
 package com.studiohartman.jamepad;
 
+import java.io.Serializable;
+
 /**
  * This class represents the state of a gamepad at a given moment. This includes
  * the state of the axes and the buttons.
@@ -14,8 +16,9 @@ package com.studiohartman.jamepad;
  *
  * @author William Hartman
  */
-public final class ControllerState {
+public final class ControllerState implements Serializable {
     private static final ControllerState DISCONNECTED_CONTROLLER = new ControllerState();
+    private static final long serialVersionUID = -3068755590868647792L;
 
     /**
      * Whether or not the controller is currently connected.
