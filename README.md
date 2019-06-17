@@ -48,6 +48,7 @@ Jamepad has:
 
 #### Getting Jamepad
 
+#####gradle
 If you use gradle, you can pull this package in from jitpack.  First, add jitpack to your repositories section:
 ````
 repositories {
@@ -62,7 +63,29 @@ dependencies {
   compile 'com.github.WilliamAHartman:Jamepad:1.3.2'
 }
 ````
-
+#####maven
+If you use maven, you can pull this package in from jitpack.  First, add jitpack to your repositories section:
+````
+<repositories>
+    ...
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+````
+Next, add this line to your dependencies section. Update the version number to whatever the latest release is.
+````
+<dependencies>
+    ...
+    <dependency>
+        <groupId>com.github.WilliamAHartman</groupId>
+        <artifactId>Jamepad</artifactId>
+        <version>1.3.2</version>
+    </dependency>
+</dependencies>
+````
+#####jar
 If you aren't using gradle, just download the .jar file from the releases section and add it to your project as usual.
 
 #### Using Jamepad
