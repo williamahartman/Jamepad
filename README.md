@@ -1,5 +1,5 @@
 An advert from the maintainer:
-[RetroWar: 8-bit Party Battle](https://retrowar.net) is out now.  Defeat up to 15 of your friends in a tournament of 80s-inspired retro mini games.
+[RetroWar: 8-bit Party Battle](https://store.steampowered.com/app/664240/RetroWar_8bit_Party_Battle/?git) is out now.  Defeat up to 15 of your friends in a tournament of 80s-inspired retro mini games.
 
 # Jamepad
 
@@ -46,9 +46,9 @@ Jamepad has:
 
 ## Using Jamepad
 
-#### Getting Jamepad
+### Getting Jamepad
 
-#####gradle
+##### gradle
 If you use gradle, you can pull this package in from jitpack.  First, add jitpack to your repositories section:
 ````
 repositories {
@@ -63,7 +63,7 @@ dependencies {
   compile 'com.github.WilliamAHartman:Jamepad:1.3.2'
 }
 ````
-#####maven
+##### maven
 If you use maven, you can pull this package in from jitpack.  First, add jitpack to your repositories section:
 ````
 <repositories>
@@ -85,7 +85,7 @@ Next, add this line to your dependencies section. Update the version number to w
     </dependency>
 </dependencies>
 ````
-#####jar
+##### jar
 If you aren't using gradle, just download the .jar file from the releases section and add it to your project as usual.
 
 #### Using Jamepad
