@@ -1,5 +1,4 @@
-An advert from the maintainer:
-[RetroWar: 8-bit Party Battle](https://store.steampowered.com/app/664240/RetroWar_8bit_Party_Battle/?git) is out now.  Defeat up to 15 of your friends in a tournament of 80s-inspired retro mini games.
+Note: I'm still maintaining Jamepad and try to keep it working but any new features will go into [sdl2gdx](https://github.com/electronstudio/sdl2gdx)
 
 # Jamepad
 
@@ -38,9 +37,6 @@ Jamepad has:
 * Changes to build system.
 * Remove Mac32 and Lin32 builds.
 * Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux distros to make sure they work.
-
-#### Related projects
-*  [sdl2gdx](https://github.com/electronstudio/sdl2gdx) - SDL and GDX game controller APIs
 
 
 
