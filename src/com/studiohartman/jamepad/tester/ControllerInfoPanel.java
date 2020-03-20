@@ -72,7 +72,6 @@ public class ControllerInfoPanel extends JPanel {
                 axisPanel.add(progressBar);
                 axes.add(axisPanel);
             }
-
             buttons.removeAll();
             for (ControllerButton b : ControllerButton.values()) {
                 JButton button = new JButton(b.name());

@@ -16,65 +16,18 @@ sourceSets.test.java.srcDirs = [ ]
 sourceSets.test.resources.srcDirs = [ ]
 
 repositories {
-    mavenCentral()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    jcenter()
 }
 
 dependencies {
-    compile "com.badlogicgames.gdx:gdx-jnigen:1.9.9"
+    //implementation files('/Users/richard/IdeaProjects/sdl2gdx/build/libs/sdl2gdx.jar')
+    implementation "uk.co.electronstudio.sdl2gdx:sdl2gdx:1.0.+"
 }
 
-task deleteJniFolder(type: Delete) {
-    delete "jni"
-}
 
-clean.dependsOn(deleteJniFolder)
 
 task runTester(dependsOn: classes, type: JavaExec) {
     main = 'com.studiohartman.jamepad.tester.ControllerTester'
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-}
-
-task linuxNatives(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-linux', 'system-SDL2']
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-}
-
-task linuxNativesARM(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-linuxARM', 'system-SDL2']
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-}
-
-task linuxNatives32(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-linux32', 'system-SDL2']
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-}
-
-task windowsNatives(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-windows',  'system-SDL2']
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-}
-
-task OSXNatives(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-OSX', 'system-SDL2']
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-}
-
-task allNatives(dependsOn: classes, type: JavaExec) {
-    main = 'com.studiohartman.jamepad.JamepadNativesBuild'
-    args = ['build-linux', 'build-windows', 'build-OSX']
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }

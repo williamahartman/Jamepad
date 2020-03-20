@@ -1,13 +1,14 @@
 package com.studiohartman.jamepad;
 
-import com.badlogic.gdx.jnigen.JniGenSharedLibraryLoader;
+import org.libsdl.SDL;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
+import static org.libsdl.SDL.SDL_IsGameController;
 
 /**
  * This class handles initializing the native library, connecting to controllers, and managing the
@@ -23,12 +24,6 @@ import java.nio.file.StandardCopyOption;
  * @author William Hartman
  */
 public class ControllerManager {
-    /*JNI
-
-    #include "SDL.h"
-
-    SDL_Event event;
-    */
 
     private String mappingsPath;
     private boolean isInitialized;
@@ -61,8 +56,6 @@ public class ControllerManager {
         this.mappingsPath = mappingsPath;
         isInitialized = false;
         controllers = new ControllerIndex[maxNumControllers];
-
-        new JniGenSharedLibraryLoader().load("jamepad");
     }
 
     /**
@@ -93,12 +86,17 @@ public class ControllerManager {
             e.printStackTrace();
         }
 
+
+
         //Connect and keep track of the controllers
         for(int i = 0; i < controllers.length; i++) {
             controllers[i] = new ControllerIndex(i);
         }
     }
-    private native boolean nativeInitSDLGamepad(); /*
+    private boolean nativeInitSDLGamepad(){
+        return (SDL.SDL_Init(SDL.SDL_INIT_EVENTS | SDL.SDL_INIT_JOYSTICK | SDL.SDL_INIT_GAMECONTROLLER) == 0);
+    }
+    /*
         if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0) {
             printf("NATIVE METHOD: SDL_Init failed: %s\n", SDL_GetError());
             return JNI_FALSE;
@@ -122,9 +120,10 @@ public class ControllerManager {
         controllers = new ControllerIndex[0];
         isInitialized = false;
     }
-    private native void nativeCloseSDLGamepad(); /*
-        SDL_Quit();
-    */
+    private void nativeCloseSDLGamepad(){
+        SDL.SDL_Quit();
+    }
+
 
     /**
      * Return the state of a controller at the passed index. This is probably the way most people
@@ -249,19 +248,19 @@ public class ControllerManager {
         verifyInitialized();
         return nativeGetNumRollers();
     }
-    private native int nativeGetNumRollers(); /*
-        int numJoysticks = SDL_NumJoysticks();
+    private int nativeGetNumRollers() {
+        int numJoysticks = SDL.SDL_NumJoysticks();
 
         int numGamepads = 0;
 
-        for(int i = 0; i < numJoysticks; i++) {
-            if(SDL_IsGameController(i)) {
+        for (int i = 0; i < numJoysticks; i++) {
+            if (SDL_IsGameController(i)) {
                 numGamepads++;
             }
         }
 
         return numGamepads;
-    */
+    }
 
     /**
      * Refresh the connected controllers in the controller list if something has been connected or
@@ -279,7 +278,16 @@ public class ControllerManager {
             }
         }
     }
-    private native boolean nativeControllerConnectedOrDisconnected(); /*
+    private boolean nativeControllerConnectedOrDisconnected(){
+        SDL.SDL_GameControllerUpdate();
+        int t;
+        while ((t = SDL.SDL_PollEvent()) != 0) {
+            if (t == 0x605 || t == 0x606) {
+                return true;
+            }
+        }
+        return false;
+    }; /*
         SDL_JoystickUpdate();
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_JOYDEVICEADDED || event.type == SDL_JOYDEVICEREMOVED) {
@@ -315,15 +323,9 @@ public class ControllerManager {
 
         Files.delete(extractedLoc);
     }
-    private native boolean nativeAddMappingsFromFile(String path); /*
-        if(SDL_GameControllerAddMappingsFromFile(path) < 0) {
-            printf("NATIVE METHOD: Failed to load mappings from \"%s\"\n", path);
-            printf("               %s\n", SDL_GetError());
-            return JNI_FALSE;
-        }
-
-        return JNI_TRUE;
-    */
+    private boolean nativeAddMappingsFromFile(String path) {
+        return (SDL.SDL_GameControllerAddMappingsFromFile(path) > 0) ;
+    }
 
     private boolean verifyInitialized() throws IllegalStateException {
         if(!isInitialized) {
@@ -331,4 +333,6 @@ public class ControllerManager {
         }
         return true;
     }
+
+
 }

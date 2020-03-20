@@ -1,5 +1,7 @@
 package com.studiohartman.jamepad;
 
+import org.libsdl.SDL;
+
 /**
  * This class is the main thing you're gonna need to deal with if you want lots of
  * control over your gamepads or want to avoid lots of ControllerState allocations.
@@ -13,9 +15,6 @@ package com.studiohartman.jamepad;
  * @author William Hartman
  */
 public final class ControllerIndex {
-    /*JNI
-    #include "SDL.h"
-    */
 
     private static final float AXIS_MAX_VAL = 32767;
     private int index;
@@ -46,9 +45,9 @@ public final class ControllerIndex {
     private void connectController() {
         controllerPtr = nativeConnectController(index);
     }
-    private native long nativeConnectController(int index); /*
-        return (jlong) SDL_GameControllerOpen(index);
-    */
+    private long nativeConnectController(int index){
+        return SDL.SDL_GameControllerOpen(index);
+    }
 
     /**
      * Close the connection to this controller.
@@ -59,7 +58,11 @@ public final class ControllerIndex {
             controllerPtr = 0;
         }
     }
-    private native void nativeClose(long controllerPtr); /*
+    private void nativeClose(long controllerPtr){
+        if(controllerPtr != 0 && SDL.SDL_GameControllerGetAttached(controllerPtr)) {
+            SDL.SDL_GameControllerClose(controllerPtr);
+        }
+    } /*
         SDL_GameController* pad = (SDL_GameController*) controllerPtr;
         if(pad && SDL_GameControllerGetAttached(pad)) {
             SDL_GameControllerClose(pad);
@@ -91,7 +94,9 @@ public final class ControllerIndex {
     public boolean isConnected() {
         return controllerPtr != 0 && nativeIsConnected(controllerPtr);
     }
-    private native boolean nativeIsConnected(long controllerPtr); /*
+    private boolean nativeIsConnected(long controllerPtr){
+        return (controllerPtr != 0 && SDL.SDL_GameControllerGetAttached(controllerPtr));
+    }; /*
         SDL_GameController* pad = (SDL_GameController*) controllerPtr;
         if (pad && SDL_GameControllerGetAttached(pad)) {
             return JNI_TRUE;
@@ -122,7 +127,10 @@ public final class ControllerIndex {
         return doVibration(leftMagnitude,rightMagnitude , 1000);
     }
 
-    private native boolean nativeDoVibration(long controllerPtr, int leftMagnitude, int rightMagnitude, int duration_ms); /*
+    private boolean nativeDoVibration(long controllerPtr, int leftMagnitude, int rightMagnitude, int duration_ms){
+        long joystick = SDL.SDL_GameControllerGetJoystick(controllerPtr);
+        return SDL.SDL_JoystickRumble(joystick, leftMagnitude, rightMagnitude, duration_ms);
+    }; /*
         SDL_Joystick* joystick = SDL_GameControllerGetJoystick((SDL_GameController*) controllerPtr);
         return SDL_JoystickRumble(joystick, leftMagnitude, rightMagnitude,  duration_ms) == 0;
     */
@@ -193,7 +201,10 @@ public final class ControllerIndex {
         justPressedButtons[buttonIndex] = (currButtonIsPressed && !heldDownButtons[buttonIndex]);
         heldDownButtons[buttonIndex] = currButtonIsPressed;
     }
-    private native boolean nativeCheckButton(long controllerPtr, int buttonIndex); /*
+    private boolean nativeCheckButton(long controllerPtr, int buttonIndex) {
+        SDL.SDL_GameControllerUpdate();
+        return SDL.SDL_GameControllerGetButton(controllerPtr, buttonIndex)==1;
+    }/*
         SDL_GameControllerUpdate();
         SDL_GameController* pad = (SDL_GameController*) controllerPtr;
         return SDL_GameControllerGetButton(pad, (SDL_GameControllerButton) buttonIndex);
@@ -220,7 +231,10 @@ public final class ControllerIndex {
 
         return toReturn;
     }
-    private native int nativeCheckAxis(long controllerPtr, int axisIndex); /*
+    private int nativeCheckAxis(long controllerPtr, int axisIndex){
+        SDL.SDL_GameControllerUpdate();
+        return SDL.SDL_GameControllerGetAxis(controllerPtr, axisIndex);
+    } /*
         SDL_GameControllerUpdate();
         SDL_GameController* pad = (SDL_GameController*) controllerPtr;
         return SDL_GameControllerGetAxis(pad, (SDL_GameControllerAxis) axisIndex);
@@ -234,7 +248,6 @@ public final class ControllerIndex {
      */
     public String getName() throws ControllerUnpluggedException {
         ensureConnected();
-
         String controllerName = nativeGetName(controllerPtr);
 
         //Return a descriptive string instead of null if the attached controller does not have a name
@@ -243,7 +256,9 @@ public final class ControllerIndex {
         }
         return controllerName;
     }
-    private native String nativeGetName(long controllerPtr); /*
+    private  String nativeGetName(long controllerPtr){
+        return SDL.SDL_GameControllerName(controllerPtr);
+    }; /*
         SDL_GameController* pad = (SDL_GameController*) controllerPtr;
         return env->NewStringUTF(SDL_GameControllerName(pad));
     */

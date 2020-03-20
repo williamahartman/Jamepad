@@ -32,13 +32,14 @@ public class ControllerTester {
         }
         testFrame.setContentPane(tabbedPane);
 
+
+
         while (true) {
             try {
                 Thread.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             controllers.update();
             for(int i = 0;  i < controllerTabs.length; i++) {
                 ControllerIndex controllerAtIndex = controllers.getControllerIndex(i);
