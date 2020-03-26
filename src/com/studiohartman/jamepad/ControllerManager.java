@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+import static org.libsdl.SDL.Event.SDL_JOYDEVICEADDED;
+import static org.libsdl.SDL.Event.SDL_JOYDEVICEREMOVED;
 import static org.libsdl.SDL.SDL_IsGameController;
 
 /**
@@ -94,7 +96,12 @@ public class ControllerManager {
         }
     }
     private boolean nativeInitSDLGamepad(){
-        return (SDL.SDL_Init(SDL.SDL_INIT_EVENTS | SDL.SDL_INIT_JOYSTICK | SDL.SDL_INIT_GAMECONTROLLER) == 0);
+        if (SDL.SDL_Init(SDL.SDL_INIT_EVENTS | SDL.SDL_INIT_JOYSTICK | SDL.SDL_INIT_GAMECONTROLLER) != 0){
+            return false;
+        }
+        SDL.Event event = new SDL.Event();
+        while(SDL.SDL_PollEvent(event)){}
+        return true;
     }
     /*
         if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0) {
@@ -280,14 +287,14 @@ public class ControllerManager {
     }
     private boolean nativeControllerConnectedOrDisconnected(){
         SDL.SDL_GameControllerUpdate();
-        int t;
-        while ((t = SDL.SDL_PollEvent()) != 0) {
-            if (t == 0x605 || t == 0x606) {
+        SDL.Event event = new SDL.Event();
+        while(SDL.SDL_PollEvent(event)){
+            if(event.type == SDL_JOYDEVICEADDED || event.type == SDL_JOYDEVICEREMOVED){
                 return true;
             }
         }
         return false;
-    }; /*
+    } /*
         SDL_JoystickUpdate();
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_JOYDEVICEADDED || event.type == SDL_JOYDEVICEREMOVED) {
