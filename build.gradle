@@ -20,9 +20,9 @@ repositories {
 }
 
 dependencies {
-    implementation files('/Users/richard/IdeaProjects/sdl2gdx/build/libs/sdl2gdx.jar')
-    //implementation "uk.co.electronstudio.sdl2gdx:sdl2gdx:1.0.+"
-    implementation "com.badlogicgames.gdx:gdx-jnigen:1.9.10"
+    //implementation files('/Users/richard/IdeaProjects/sdl2gdx/build/libs/sdl2gdx.jar')
+    implementation "uk.co.electronstudio.sdl2gdx:sdl2gdx:1.0.4-beta1"
+    //implementation "com.badlogicgames.gdx:gdx-jnigen:1.9.10"
 }
 
 
@@ -71,5 +71,9 @@ install {
                 }
             }
         }
+        pom.whenConfigured {
+            p -> p.dependencies = []
+        }
     }
 }
+
