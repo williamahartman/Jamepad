@@ -1,10 +1,16 @@
-Note: I'm still maintaining Jamepad and try to keep it working but any new features will go into [sdl2gdx](https://github.com/electronstudio/sdl2gdx)
-
 # Jamepad
+
+## News
+
+[sdl2gdx](https://github.com/electronstudio/sdl2gdx) is a successor project by the maintainer of Jamepad.
+
+Jamepad still exists as an API but it now depends on [sdl2gdx](https://github.com/electronstudio/sdl2gdx).  The downside of this is that you have
+to add one additional dependency.  The upside is that you can upgrade to the latest version of SDL without waiting
+for a new release of Jamepad just by updating the dependency.
 
 #### A better way to use gamepads in Java
 
-Jamepad is a library for using gamepads in Java. It's based on SDL2 ([here](https://www.libsdl.org/)) and uses jnigen ([more info here](https://github.com/libgdx/libgdx/wiki/jnigen)). We also use [this](https://github.com/gabomdq/SDL_GameControllerDB) really nice database of gamepad mappings.
+Jamepad is a library for using gamepads in Java. It's based on SDL via [sdl2gdx](https://github.com/electronstudio/sdl2gdx).
 
 Other gamepad libraries are missing stuff developers need. For most libraries, Xbox 360 controllers on windows are not properly supported. The libraries that do support Xbox 360 controllers are not cross platform. On some, hotplugging controllers is not supported.
 
@@ -14,7 +20,7 @@ Jamepad has:
   - Support for plugging/unplugging controllers at runtime.
   - Support for rumble
   - Button/Axis mappings for popular controllers.
-  - A permissive license. You can include this use this library in proprietary projects without sharing source.
+  - A permissive license. You can use this library in proprietary projects without sharing source.
 
 #### Stuff You Should Know About Jamepad
 
@@ -28,16 +34,9 @@ Jamepad has:
 #### Current Limitations
 - The order of gamepads on Windows is not necessarily the order they were plugged in. XInput controllers will always appear before DirectInput controllers, regardless of when they were plugged in. This means that the player numbers associated with each controller can change unexpectedly if XInput controllers are plugged in or disconnected while DirectInput controllers are present.
 - If using getState() in ControllerManager, a new ControllerState is instantiated on each call. For some games, this could pose a problem.
-- For now, when we build SDL, the  dynamic API stuff is disabled. This seems bad and should probably change. I just don't know how to get it to work through JNI with that stuff enabled.
-
-#### Latest changes in 1.3
-
-* Uses new rumble API and depreciates the old haptics API.
-* Based on SDL 2.0.9
-* Changes to build system.
-* Remove Mac32 and Lin32 builds.
-* Creating portable binaries for Linux is a minefield at the best of times so we need to do some testing on different Linux distros to make sure they work.
-
+- If using ControllerIndex have to check for exceptions when controllers disconnected.
+- Joysticks that are not controllers not supported.
+- Note: you can use [sdl2gdx](https://github.com/electronstudio/sdl2gdx) directly without Jamepad to overcome these limitations.
 
 
 ## Using Jamepad
@@ -45,18 +44,20 @@ Jamepad has:
 ### Getting Jamepad
 
 ##### gradle
-If you use gradle, you can pull this package in from jitpack.  First, add jitpack to your repositories section:
+If you use gradle, you can pull this package in from jitpack.  First, add to your repositories section:
 ````
 repositories {
   ...
+  jcenter()
   maven { url "https://jitpack.io" }
 }
 ````
-Next, add this line to your dependencies section. Update the version number to whatever the latest release is.
+Next, add to your dependencies section. Update the version number to whatever the latest release is.
 ````
 dependencies {
   ...
-  compile 'com.github.WilliamAHartman:Jamepad:1.3.2'
+  compile 'com.github.WilliamAHartman:Jamepad:1.4.0'
+  compile 'uk.co.electronstudio.sdl2gdx:sdl2gdx:1.0.4-beta3'
 }
 ````
 ##### maven
@@ -64,6 +65,14 @@ If you use maven, you can pull this package in from jitpack.  First, add jitpack
 ````
 <repositories>
     ...
+    <repository>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+        <id>central</id>
+        <name>bintray</name>
+        <url>http://jcenter.bintray.com</url>
+    </repository>
     <repository>
         <id>jitpack.io</id>
         <url>https://jitpack.io</url>
@@ -77,7 +86,12 @@ Next, add this line to your dependencies section. Update the version number to w
     <dependency>
         <groupId>com.github.WilliamAHartman</groupId>
         <artifactId>Jamepad</artifactId>
-        <version>1.3.2</version>
+        <version>1.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>uk.co.electronstudio.sdl2gdx/groupId>
+        <artifactId>sdl2gdx</artifactId>
+        <version>1.0.4-beta3/version>
     </dependency>
 </dependencies>
 ````
