@@ -1,12 +1,12 @@
-# Jamepad
-
-## News
+# News
 
 [sdl2gdx](https://github.com/electronstudio/sdl2gdx) is a successor project by the maintainer of Jamepad.
 
 Jamepad still exists as an API but it now depends on [sdl2gdx](https://github.com/electronstudio/sdl2gdx).  The downside of this is that you have
 to add one additional dependency.  The upside is that you can upgrade to the latest version of SDL without waiting
 for a new release of Jamepad just by updating the dependency.
+
+# Jamepad
 
 #### A better way to use gamepads in Java
 
