@@ -57,7 +57,7 @@ Next, add to your dependencies section. Update the version number to whatever th
 dependencies {
   ...
   compile 'com.github.WilliamAHartman:Jamepad:1.4.0'
-  compile 'uk.co.electronstudio.sdl2gdx:sdl2gdx:1.0.4-beta3'
+  compile 'uk.co.electronstudio.sdl2gdx:sdl2gdx:1.0.4'
 }
 ````
 ##### maven
@@ -91,7 +91,7 @@ Next, add this line to your dependencies section. Update the version number to w
     <dependency>
         <groupId>uk.co.electronstudio.sdl2gdx</groupId>
         <artifactId>sdl2gdx</artifactId>
-        <version>1.0.4-beta3</version>
+        <version>1.0.4</version>
     </dependency>
 </dependencies>
 ````
