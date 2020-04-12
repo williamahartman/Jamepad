@@ -71,7 +71,7 @@ If you use maven, you can pull this package in from jitpack.  First, add jitpack
         </snapshots>
         <id>central</id>
         <name>bintray</name>
-        <url>http://jcenter.bintray.com</url>
+        <url>https://jcenter.bintray.com</url>
     </repository>
     <repository>
         <id>jitpack.io</id>
@@ -89,9 +89,9 @@ Next, add this line to your dependencies section. Update the version number to w
         <version>1.4.0</version>
     </dependency>
     <dependency>
-        <groupId>uk.co.electronstudio.sdl2gdx/groupId>
+        <groupId>uk.co.electronstudio.sdl2gdx</groupId>
         <artifactId>sdl2gdx</artifactId>
-        <version>1.0.4-beta3/version>
+        <version>1.0.4-beta3</version>
     </dependency>
 </dependencies>
 ````
